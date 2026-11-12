@@ -1,0 +1,466 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Module 5 | Software Testing</title>
+<style>
+/* All module rules are deliberately scoped. Layout is fluid and does not use
+   viewport-dependent transforms, JS zoom, or Mermaid rendering. */
+#module-content{
+  --m5-line:var(--rule,#394253);
+  --m5-muted:var(--muted,#a5adbd);
+  --m5-accent:var(--accent,#8fb0ee);
+  width:100%;max-width:100%;min-width:0;
+  color:var(--ink,#e8eaf0);line-height:1.68;
+  overflow-wrap:normal;word-break:normal;
+}
+#module-content,#module-content *{box-sizing:border-box}
+#module-content h1,#module-content h2,#module-content h3,#module-content h4{line-height:1.25;max-width:100%;word-break:normal;overflow-wrap:break-word}
+#module-content h1{font-size:clamp(1.8rem,3vw,2.5rem);margin:.2rem 0 .5rem}
+#module-content h2{font-size:clamp(1.35rem,2.2vw,1.8rem);margin:2.5rem 0 .8rem;padding-bottom:.45rem;border-bottom:1px solid var(--m5-line)}
+#module-content h3{font-size:1.12rem;margin:1.35rem 0 .45rem}
+#module-content p{display:block;width:auto;max-width:100%;margin:.45rem 0 .85rem;white-space:normal;overflow-wrap:break-word;word-break:normal}
+#module-content ul,#module-content ol{display:block;width:auto;max-width:100%;margin:.55rem 0 1rem;padding-left:1.5rem;list-style-position:outside}
+#module-content li{display:list-item;width:auto;max-width:100%;min-width:0;margin:.3rem 0;white-space:normal;overflow-wrap:break-word;word-break:normal}
+#module-content strong,#module-content b{overflow-wrap:normal;word-break:normal}
+#module-content .eyebrow{font:700 .76rem/1.4 var(--sans,system-ui);letter-spacing:.12em;text-transform:uppercase;color:var(--m5-accent)}
+#module-content .lead{color:var(--m5-muted);max-width:85ch}
+#module-content .index{display:block;width:100%;max-width:100%;min-width:0;border:1px solid var(--m5-line);padding:1rem 1.2rem;margin:1.5rem 0 2rem;border-radius:8px}
+#module-content .index h2{margin:.1rem 0 .7rem;border:0;padding:0;font-size:1.15rem}
+#module-content .index nav{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:.15rem 1.2rem;width:100%;min-width:0}
+#module-content .index a{display:block;min-width:0;color:var(--m5-accent);text-decoration:none;font:.92rem/1.55 var(--sans,system-ui);padding:.2rem 0;overflow-wrap:break-word}
+#module-content .index a:hover{text-decoration:underline}
+#module-content .callout,#module-content .definition,#module-content .example{display:block;width:100%;max-width:100%;min-width:0;border:1px solid var(--m5-line);padding:.85rem 1rem;margin:1rem 0;border-radius:8px}
+#module-content .callout{border-left:3px solid var(--m5-accent);background:color-mix(in srgb,var(--m5-accent) 7%,transparent)}
+#module-content .definition strong{color:var(--m5-accent)}
+#module-content .grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:1rem;width:100%;max-width:100%;min-width:0}
+#module-content .card{display:block;min-width:0;width:100%;max-width:100%;border:1px solid var(--m5-line);border-radius:8px;padding:.9rem 1rem;overflow-wrap:break-word}
+#module-content .card h3{margin:.1rem 0 .4rem}
+#module-content .card p,#module-content .card ul,#module-content .card ol,#module-content .card li{display:block;width:auto;min-width:0;max-width:100%;word-break:normal;overflow-wrap:break-word}
+#module-content .card li{display:list-item}
+#module-content .table-wrap{display:block;width:100%;max-width:100%;min-width:0;overflow-x:auto;margin:1rem 0 1.5rem;overscroll-behavior-x:contain}
+#module-content table{width:100%;min-width:650px;border-collapse:collapse;font-size:.94rem}
+#module-content th,#module-content td{border:1px solid var(--m5-line);padding:.65rem .75rem;text-align:left;vertical-align:top;white-space:normal;overflow-wrap:break-word;word-break:normal}
+#module-content th{background:color-mix(in srgb,var(--m5-accent) 12%,transparent)}
+#module-content .diagram-wrap{display:block;width:100%;max-width:100%;min-width:0;overflow-x:auto;overflow-y:hidden;border:1px solid var(--m5-line);border-radius:8px;padding:1rem;margin:1rem 0 1.5rem;overscroll-behavior-x:contain}
+#module-content .m5-svg{display:block;width:900px;height:auto;max-width:none}
+#module-content .m5-svg text{fill:var(--ink,#e8eaf0);font-family:Arial,sans-serif;font-size:15px}
+#module-content .m5-svg .node{fill:var(--paper,#202633);stroke:var(--accent,#8fb0ee);stroke-width:2}
+#module-content .m5-svg .edge{stroke:var(--ink,#e8eaf0);stroke-width:1.8;fill:none}
+#module-content .m5-svg .label{font-size:13px;fill:var(--m5-accent)}
+#module-content .formula{display:block;max-width:100%;min-width:0;font-family:ui-monospace,Consolas,monospace;border:1px solid var(--m5-line);padding:.8rem 1rem;border-radius:8px;overflow-x:auto;white-space:pre-wrap}
+#module-content .caption{font-size:.86rem;color:var(--m5-muted);margin:-.8rem 0 1.2rem}
+#module-content .step{border-left:2px solid var(--m5-accent);padding:.15rem 0 .15rem 1rem;margin:.8rem 0}
+#module-content .tag{font:700 .75rem/1.4 var(--sans,system-ui);color:var(--m5-accent);text-transform:uppercase;letter-spacing:.06em}
+@media(max-width:680px){
+ #module-content .index nav,#module-content .grid{grid-template-columns:minmax(0,1fr)}
+ #module-content .index{padding:.85rem}
+ #module-content .card{padding:.85rem}
+}
+</style>
+</head>
+<body>
+<section id="module-content">
+<header>
+ <div class="eyebrow">Software Engineering · Module 05</div>
+ <h1>Software Testing</h1>
+ <p class="lead">Software testing checks whether actual software behaviour agrees with expected results and whether the developed product satisfies its requirements. This module follows the supplied Unit 5 notes and question-bank coverage: testing levels and strategies, white-box testing, black-box testing, basis paths, cyclomatic complexity, equivalence partitioning and boundary value analysis.</p>
+</header>
+
+<div class="index">
+ <h2>Module Contents</h2>
+ <nav>
+  <a href="#m5-1">05.1 Software Testing Fundamentals</a>
+  <a href="#m5-2">05.2 Testing Life Cycle (STLC)</a>
+  <a href="#m5-3">05.3 Unit Testing</a>
+  <a href="#m5-4">05.4 Integration Testing</a>
+  <a href="#m5-5">05.5 Integration Approaches</a>
+  <a href="#m5-6">05.6 Validation and System Testing</a>
+  <a href="#m5-7">05.7 Alpha and Beta Testing</a>
+  <a href="#m5-8">05.8 Black-Box and White-Box Testing</a>
+  <a href="#m5-9">05.9 Basis Path Testing</a>
+  <a href="#m5-10">05.10 Cyclomatic Complexity</a>
+  <a href="#m5-11">05.11 Control Structure Testing</a>
+  <a href="#m5-12">05.12 Equivalence Class Partitioning</a>
+  <a href="#m5-13">05.13 Boundary Value Analysis</a>
+  <a href="#m5-14">05.14 Graph-Based Testing</a>
+  <a href="#m5-15">05.15 Exam Question Checklist</a>
+ </nav>
+</div>
+
+<h2 id="m5-1">05.1 Software Testing Fundamentals</h2>
+<div class="definition"><strong>Software Testing:</strong> A procedure used to verify whether the actual results of a software product are the same as the expected results. Testing provides assurance that the software does not contain defects and checks whether the required features are present.</div>
+<p>To perform software testing, test cases and test data are prepared and executed against the software.</p>
+<div class="grid">
+ <div class="card"><h3>Test Case</h3><p>A collection of actions or steps applied to a software product to check a specific feature or functionality. A test case normally specifies the input, execution conditions and expected result.</p></div>
+ <div class="card"><h3>Test Data</h3><p>The input values supplied to a module or software under test so that its behaviour can be checked.</p></div>
+</div>
+<h3>Advantages of software testing</h3>
+<ol>
+ <li>Reduces the possibility of software failure by helping detect and remove errors.</li>
+ <li>Helps deliver a qualitative software product to the customer.</li>
+ <li>Checks the correctness and completeness of the software product.</li>
+ <li>Checks whether the software satisfies user requirements.</li>
+ <li>Helps ensure that the software produces the expected outcome.</li>
+</ol>
+<div class="callout"><b>Important distinction:</b> Testing can reveal the presence of defects; passing tests do not mathematically prove that a program is completely defect-free.</div>
+
+<h2 id="m5-2">05.2 Software Testing Life Cycle (STLC)</h2>
+<p>The supplied notes describe six main phases of the Software Testing Life Cycle.</p>
+<div class="diagram-wrap">
+<svg class="m5-svg" viewBox="0 0 900 190" role="img" aria-label="Six sequential phases of the software testing life cycle">
+ <defs><marker id="m5stlcArrow" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0 0L8 4L0 8Z" fill="currentColor"/></marker></defs>
+ <g class="edge" marker-end="url(#m5stlcArrow)">
+  <path d="M145 82H165M285 82H305M425 82H445M565 82H585M705 82H725"/>
+ </g>
+ <g>
+  <rect class="node" x="10" y="42" width="135" height="80" rx="8"/><text x="77" y="74" text-anchor="middle">Requirement</text><text x="77" y="96" text-anchor="middle">Analysis</text>
+  <rect class="node" x="165" y="42" width="120" height="80" rx="8"/><text x="225" y="74" text-anchor="middle">Test</text><text x="225" y="96" text-anchor="middle">Planning</text>
+  <rect class="node" x="305" y="42" width="120" height="80" rx="8"/><text x="365" y="74" text-anchor="middle">Test Case</text><text x="365" y="96" text-anchor="middle">Development</text>
+  <rect class="node" x="445" y="42" width="120" height="80" rx="8"/><text x="505" y="74" text-anchor="middle">Test Environment</text><text x="505" y="96" text-anchor="middle">Setup</text>
+  <rect class="node" x="585" y="42" width="120" height="80" rx="8"/><text x="645" y="74" text-anchor="middle">Test</text><text x="645" y="96" text-anchor="middle">Execution</text>
+  <rect class="node" x="725" y="42" width="165" height="80" rx="8"/><text x="807" y="74" text-anchor="middle">Test</text><text x="807" y="96" text-anchor="middle">Closure</text>
+ </g>
+ <text class="label" x="450" y="160" text-anchor="middle">STLC phases shown in the order described in the supplied notes</text>
+</svg>
+</div>
+<div class="table-wrap"><table><thead><tr><th>Phase</th><th>Activities</th></tr></thead><tbody>
+<tr><td><b>1. Requirement Analysis</b></td><td>Study project documents and requirements to identify what needs to be tested.</td></tr>
+<tr><td><b>2. Test Planning</b></td><td>Determine testing costs, tools, staff, resources and time required.</td></tr>
+<tr><td><b>3. Test Case Development</b></td><td>Prepare clear test steps and select suitable test data.</td></tr>
+<tr><td><b>4. Test Environment Setup</b></td><td>Prepare the hardware and software environment in which tests will run.</td></tr>
+<tr><td><b>5. Test Execution</b></td><td>Execute test cases, compare actual results with expected results and record defects.</td></tr>
+<tr><td><b>6. Test Closure</b></td><td>Prepare the final test report and check whether the testing objectives have been met.</td></tr>
+</tbody></table></div>
+
+<h2 id="m5-3">05.3 Unit Testing</h2>
+<div class="definition"><strong>Unit Testing:</strong> A testing technique in which individual software modules are tested independently to identify issues. It checks the functional correctness of standalone modules.</div>
+<p>The main aim is to isolate each unit of the system so that defects can be identified, analysed and fixed. The supplied notes state that unit testing is generally performed by the developer.</p>
+<h3>Unit testing techniques mentioned in the notes</h3>
+<div class="grid">
+ <div class="card"><h3>Black-Box Testing</h3><p>Checks the module through its inputs and outputs without relying on knowledge of its internal code.</p></div>
+ <div class="card"><h3>White-Box Testing</h3><p>Examines internal program structure and logic, including statements, branches and paths.</p></div>
+ <div class="card"><h3>Gray-Box Testing</h3><p>Uses partial knowledge of internal design or implementation while testing the software behaviour.</p></div>
+</div>
+<h3>Example</h3>
+<div class="example"><b>Login validation unit:</b> Test the login-validation function separately. Supply a valid username and password, an incorrect password, an empty username and an empty password. Compare each actual result with the expected result.</div>
+
+<h2 id="m5-4">05.4 Integration Testing</h2>
+<div class="definition"><strong>Integration Testing:</strong> Testing performed after individual modules have been unit-tested, to check whether the combined modules and their interfaces work correctly together.</div>
+<p>Integration testing is necessary because individually working modules may still fail when connected. The supplied notes identify these reasons:</p>
+<ul>
+ <li>Requirements may change during module development, and new requirements may not have been covered by unit testing.</li>
+ <li>Interfaces between software modules and the database may contain errors.</li>
+ <li>External hardware interfaces, if present, may be erroneous.</li>
+ <li>Inadequate exception handling may cause problems when modules interact.</li>
+</ul>
+<div class="callout"><b>Focus of integration testing:</b> Interfaces, communication, data transfer and interaction between combined modules.</div>
+
+<h2 id="m5-5">05.5 Integration Testing Approaches</h2>
+<p>The notes divide integration testing into Big Bang and Incremental approaches. Incremental integration includes Top-Down, Bottom-Up and Sandwich approaches.</p>
+<h3>A. Big Bang Integration Testing</h3>
+<div class="definition"><strong>Big Bang Testing:</strong> All completed components or modules are integrated at once and then tested as one combined entity. Integration cannot proceed until all required modules are ready.</div>
+<h4>Advantages</h4>
+<ul><li>Convenient for small systems.</li></ul>
+<h4>Disadvantages</h4>
+<ul>
+ <li>Fault localization is difficult because many modules are combined at once.</li>
+ <li>Some interfaces may be missed during testing.</li>
+ <li>Testing starts late because all modules must be ready first, leaving less execution time.</li>
+ <li>High-risk modules are not isolated and tested on priority.</li>
+</ul>
+<h3>B. Top-Down Integration Testing</h3>
+<div class="definition"><strong>Top-Down Testing:</strong> Integration starts with higher-level modules and proceeds downwards, following the system's control flow. Lower-level modules that are not yet available are represented by <b>stubs</b>.</div>
+<div class="diagram-wrap">
+<svg class="m5-svg" viewBox="0 0 900 240" role="img" aria-label="Top-down integration: top module is integrated before lower-level modules, with stubs temporarily representing unavailable modules">
+ <defs><marker id="m5tdArrow" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0 0L8 4L0 8Z" fill="currentColor"/></marker></defs>
+ <rect class="node" x="360" y="15" width="180" height="55" rx="8"/><text x="450" y="48" text-anchor="middle">Top-level module</text>
+ <g class="edge" marker-end="url(#m5tdArrow)"><path d="M405 70L260 125M495 70L640 125M260 180V200M640 180V200"/></g>
+ <rect class="node" x="160" y="125" width="200" height="55" rx="8"/><text x="260" y="158" text-anchor="middle">Stub (temporary)</text>
+ <rect class="node" x="540" y="125" width="200" height="55" rx="8"/><text x="640" y="158" text-anchor="middle">Stub (temporary)</text>
+ <text class="label" x="450" y="226" text-anchor="middle">Replace stubs with actual lower-level modules as they become available</text>
+</svg>
+</div>
+<p class="caption">Conceptual top-down structure: stubs stand in for lower-level modules that have not yet been integrated.</p>
+<h4>Advantages</h4>
+<ul>
+ <li>Fault localization is comparatively easier.</li>
+ <li>An early working prototype can be obtained.</li>
+ <li>Critical high-level modules are tested first, so major design flaws may be found early.</li>
+</ul>
+<h4>Disadvantages</h4>
+<ul><li>Many stubs may be required.</li><li>Lower-level modules may receive inadequate testing early in the process.</li></ul>
+
+<h3>C. Bottom-Up Integration Testing</h3>
+<div class="definition"><strong>Bottom-Up Testing:</strong> Integration begins with lower-level modules. Tested lower-level modules are combined to form higher-level groups, and the process continues until the top-level modules have been integrated.</div>
+<div class="diagram-wrap">
+<svg class="m5-svg" viewBox="0 0 900 240" role="img" aria-label="Bottom-up integration begins with lower modules and combines them into higher-level modules">
+ <defs><marker id="m5buArrow" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0 0L8 4L0 8Z" fill="currentColor"/></marker></defs>
+ <rect class="node" x="120" y="145" width="170" height="55" rx="8"/><text x="205" y="178" text-anchor="middle">Lower module A</text>
+ <rect class="node" x="365" y="145" width="170" height="55" rx="8"/><text x="450" y="178" text-anchor="middle">Lower module B</text>
+ <rect class="node" x="610" y="145" width="170" height="55" rx="8"/><text x="695" y="178" text-anchor="middle">Lower module C</text>
+ <g class="edge" marker-end="url(#m5buArrow)"><path d="M205 145V95H450V75M450 145V75M695 145V95H450"/></g>
+ <rect class="node" x="350" y="20" width="200" height="55" rx="8"/><text x="450" y="53" text-anchor="middle">Higher-level module</text>
+ <text class="label" x="450" y="226" text-anchor="middle">Drivers may be used to call and test lower-level modules</text>
+</svg>
+</div>
+<p class="caption">Conceptual bottom-up structure: lower-level modules are combined and tested before higher-level integration.</p>
+<p>Bottom-up testing commonly uses <b>drivers</b> to call lower-level modules when the higher-level calling modules are not yet available. The provided notes explain the order of integration but do not list a separate advantages/disadvantages table for this approach.</p>
+
+<h3>D. Sandwich (Hybrid) Integration Testing</h3>
+<div class="definition"><strong>Sandwich Testing:</strong> A hybrid strategy combining Top-Down and Bottom-Up integration. Top-level modules are integrated downwards while lower-level modules are integrated upwards. It uses both stubs and drivers.</div>
+<div class="diagram-wrap">
+<svg class="m5-svg" viewBox="0 0 900 225" role="img" aria-label="Sandwich integration combines top-down and bottom-up integration toward middle-level modules">
+ <defs><marker id="m5sandArrow" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0 0L8 4L0 8Z" fill="currentColor"/></marker></defs>
+ <rect class="node" x="350" y="12" width="200" height="48" rx="8"/><text x="450" y="42" text-anchor="middle">Top-level modules</text>
+ <rect class="node" x="350" y="88" width="200" height="48" rx="8"/><text x="450" y="118" text-anchor="middle">Middle-level modules</text>
+ <rect class="node" x="350" y="164" width="200" height="48" rx="8"/><text x="450" y="194" text-anchor="middle">Bottom-level modules</text>
+ <g class="edge" marker-end="url(#m5sandArrow)"><path d="M450 60V88M450 164V136"/></g>
+ <text class="label" x="235" y="108" text-anchor="middle">Top-down</text><text class="label" x="665" y="108" text-anchor="middle">Bottom-up</text>
+</svg>
+</div>
+<p class="caption">The two integration directions meet around the middle layer; the strategy uses stubs and drivers.</p>
+
+<h3>Comparison of integration approaches</h3>
+<div class="table-wrap"><table><thead><tr><th>Approach</th><th>Integration order</th><th>Temporary support</th><th>Key point</th></tr></thead><tbody>
+<tr><td>Big Bang</td><td>All modules together</td><td>No incremental substitute structure is implied</td><td>Simple for small systems; fault localization is difficult.</td></tr>
+<tr><td>Top-Down</td><td>Top-level to lower-level</td><td>Stubs</td><td>Early high-level prototype and early testing of critical modules.</td></tr>
+<tr><td>Bottom-Up</td><td>Lower-level to top-level</td><td>Drivers</td><td>Low-level modules are tested first.</td></tr>
+<tr><td>Sandwich</td><td>Top-down and bottom-up concurrently</td><td>Stubs and drivers</td><td>Hybrid approach combining both directions.</td></tr>
+</tbody></table></div>
+
+<h2 id="m5-6">05.6 Validation Testing and System Testing</h2>
+<h3>Validation Testing</h3>
+<div class="definition"><strong>Validation Testing:</strong> Testing performed to evaluate whether the developed software satisfies the specified requirements and meets the user's needs.</div>
+<p>Validation focuses on whether the right product has been built. It checks the software against the requirements and expected use.</p>
+<h3>System Testing</h3>
+<div class="definition"><strong>System Testing:</strong> Testing of the entire, completely integrated software product. It is end-to-end testing of the system as a whole.</div>
+<p>Example from the supplied notes: a college admission system may be tested through the complete sequence of Login → Enquiry → Admission → Logout.</p>
+<div class="diagram-wrap">
+<svg class="m5-svg" viewBox="0 0 900 155" role="img" aria-label="End-to-end system test through login, enquiry, admission and logout">
+ <defs><marker id="m5sysArrow" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0 0L8 4L0 8Z" fill="currentColor"/></marker></defs>
+ <g class="edge" marker-end="url(#m5sysArrow)"><path d="M195 70H235M405 70H445M615 70H655"/></g>
+ <rect class="node" x="25" y="35" width="170" height="70" rx="8"/><text x="110" y="77" text-anchor="middle">Login</text>
+ <rect class="node" x="235" y="35" width="170" height="70" rx="8"/><text x="320" y="77" text-anchor="middle">Enquiry</text>
+ <rect class="node" x="445" y="35" width="170" height="70" rx="8"/><text x="530" y="77" text-anchor="middle">Admission</text>
+ <rect class="node" x="655" y="35" width="170" height="70" rx="8"/><text x="740" y="77" text-anchor="middle">Logout</text>
+</svg>
+</div>
+<p class="caption">Example end-to-end flow for system testing, based on the college admission example in the notes.</p>
+<p>System testing includes both functional and non-functional testing.</p>
+<h3>Types of system testing listed in the notes</h3>
+<div class="table-wrap"><table><thead><tr><th>Type</th><th>Purpose</th><th>Category / note</th></tr></thead><tbody>
+<tr><td><b>Usability Testing</b></td><td>Checks user-friendliness and ease of use.</td><td>Non-functional.</td></tr>
+<tr><td><b>Load Testing</b></td><td>Checks system performance under a specified workload.</td><td>Non-functional.</td></tr>
+<tr><td><b>Regression Testing</b></td><td>Checks whether changes or fixes have introduced errors into previously working functionality.</td><td>Repeat tests after changes.</td></tr>
+<tr><td><b>Recovery Testing</b></td><td>Checks whether the system can recover after a crash or failure; rollback is an example of a recovery-related mechanism.</td><td>Recovery behaviour.</td></tr>
+<tr><td><b>Migration Testing</b></td><td>Checks whether software can be moved from an older infrastructure to a current infrastructure and verifies compatibility.</td><td>Compatibility during migration.</td></tr>
+<tr><td><b>Functional Testing</b></td><td>Checks the functions provided by the system.</td><td>Functional.</td></tr>
+<tr><td><b>Hardware and Software Testing</b></td><td>Checks communication and interaction between hardware and software.</td><td>Interface / integration concern.</td></tr>
+</tbody></table></div>
+
+<h2 id="m5-7">05.7 Alpha Testing and Beta Testing</h2>
+<p>Alpha and Beta testing are commonly discussed as forms of acceptance-oriented testing. The supplied IA-2 question bank explicitly asks for their difference, but the extracted Unit 5 chapter notes available here do not provide their detailed definitions. The concise comparison below is supplementary standard terminology, not a verbatim statement from those notes.</p>
+<div class="table-wrap"><table><thead><tr><th>Alpha Testing</th><th>Beta Testing</th></tr></thead><tbody>
+<tr><td>Conducted at the developer's site or in a controlled environment.</td><td>Conducted by selected external users in their real or intended environment.</td></tr>
+<tr><td>Usually performed before beta testing.</td><td>Usually performed after alpha testing.</td></tr>
+<tr><td>Developers or internal testers can observe and support the test directly.</td><td>Feedback is collected from users using the product in realistic conditions.</td></tr>
+<tr><td>Helps identify defects before release to external users.</td><td>Helps identify issues that appear during real-world use and gather user feedback.</td></tr>
+</tbody></table></div>
+
+<h2 id="m5-8">05.8 Black-Box and White-Box Testing</h2>
+<div class="grid">
+ <div class="card"><h3>Black-Box Testing</h3><p>Tests software functionality by supplying inputs and checking outputs without examining the internal program structure. It focuses on externally observable behaviour.</p><p><b>Techniques in the notes:</b> Graph-Based Testing, Equivalence Class Partitioning and Boundary Value Analysis.</p></div>
+ <div class="card"><h3>White-Box Testing</h3><p>Tests the internal structure and logic of the program. Test cases are designed with knowledge of statements, decisions, conditions, paths, loops and data flow.</p><p><b>Techniques in the notes:</b> Basis Path Testing and Control Structure Testing.</p></div>
+</div>
+<h3>Difference between Black-Box and White-Box Testing</h3>
+<div class="table-wrap"><table><thead><tr><th>Black-Box Testing</th><th>White-Box Testing</th></tr></thead><tbody>
+<tr><td>Tests externally visible functionality.</td><td>Tests internal code structure and logic.</td></tr>
+<tr><td>Does not require knowledge of source code.</td><td>Requires knowledge of internal implementation or design.</td></tr>
+<tr><td>Test cases are derived from requirements, input domains and expected outputs.</td><td>Test cases are derived from statements, branches, paths, conditions and data flow.</td></tr>
+<tr><td>Examples: equivalence partitioning, boundary value analysis and graph-based testing.</td><td>Examples: basis path, condition, loop and data-flow testing.</td></tr>
+</tbody></table></div>
+
+<h2 id="m5-9">05.9 Basis Path Testing</h2>
+<div class="definition"><strong>Basis Path Testing:</strong> A white-box testing technique proposed by Tom McCabe. It uses a program's control-flow graph to identify a set of linearly independent execution paths and design test cases that exercise those paths.</div>
+<p>The supplied notes describe a basis path as a set of execution paths of a procedure. The goal is to derive test cases that force execution of the basis set and check that each path reaches the procedure's endpoint as expected.</p>
+<h3>Flow graph terminology</h3>
+<ul>
+ <li><b>Node:</b> Represents one or more procedural statements. A node containing a condition is called a predicate node.</li>
+ <li><b>Edge:</b> Represents the flow of control from one node to another.</li>
+ <li><b>Region:</b> An area bounded by nodes and edges in the flow graph; the outside area is also counted as a region.</li>
+ <li><b>Predicate node:</b> A decision node that contains a condition and has alternative outgoing paths.</li>
+ <li><b>Independent path:</b> A path that introduces at least one new edge not included in the previously selected paths.</li>
+</ul>
+<h3>Example control-flow graph</h3>
+<div class="diagram-wrap">
+<svg class="m5-svg" viewBox="0 0 900 300" role="img" aria-label="Control flow graph with two decisions and four independent execution paths">
+ <defs><marker id="m5cfgArrow" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0 0L8 4L0 8Z" fill="currentColor"/></marker></defs>
+ <g class="edge" marker-end="url(#m5cfgArrow)">
+  <path d="M450 35V75M450 115L285 160M450 115L615 160M285 200L450 245M615 200L450 245"/>
+ </g>
+ <rect class="node" x="385" y="10" width="130" height="45" rx="8"/><text x="450" y="38" text-anchor="middle">Start</text>
+ <rect class="node" x="385" y="75" width="130" height="45" rx="8"/><text x="450" y="103" text-anchor="middle">Decision A</text>
+ <rect class="node" x="195" y="160" width="180" height="45" rx="8"/><text x="285" y="188" text-anchor="middle">Decision B</text>
+ <rect class="node" x="525" y="160" width="180" height="45" rx="8"/><text x="615" y="188" text-anchor="middle">Process</text>
+ <rect class="node" x="385" y="245" width="130" height="45" rx="8"/><text x="450" y="273" text-anchor="middle">End</text>
+ <text class="label" x="325" y="135" text-anchor="middle">True</text><text class="label" x="575" y="135" text-anchor="middle">False</text>
+</svg>
+</div>
+<p class="caption">Illustrative flow graph for understanding nodes, edges and independent routes. It is not the same numerical graph as the 13-node, 17-edge worked example reported in the notes.</p>
+<h3>Steps in Basis Path Testing</h3>
+<ol>
+ <li>Derive a control-flow graph from the program design or source code.</li>
+ <li>Calculate the cyclomatic complexity V(G) of the flow graph using any valid formula.</li>
+ <li>Identify a basis set containing V(G) linearly independent paths.</li>
+ <li>Prepare test cases that force execution of each selected path.</li>
+ <li>Execute each test case and compare actual results with expected results.</li>
+</ol>
+
+<h2 id="m5-10">05.10 Cyclomatic Complexity</h2>
+<div class="definition"><strong>Cyclomatic Complexity:</strong> A software metric introduced by Thomas McCabe that measures the number of linearly independent paths in a program's control-flow graph. It indicates the minimum number of independent path tests needed for basis path testing.</div>
+<h3>Three ways to calculate cyclomatic complexity</h3>
+<div class="formula">V(G) = E − N + 2P
+
+For a single connected component:
+V(G) = E − N + 2
+
+V(G) = Pn + 1
+
+V(G) = Number of regions</div>
+<ul>
+ <li><b>E</b> = number of edges in the flow graph.</li>
+ <li><b>N</b> = number of nodes in the flow graph.</li>
+ <li><b>P</b> = number of connected components (for a single program flow graph, P = 1).</li>
+ <li><b>Pn</b> = number of predicate/decision nodes in the flow graph.</li>
+</ul>
+<h3>Worked example from the supplied notes</h3>
+<p>The notes provide a flow graph with E = 17 edges, N = 13 nodes and 5 predicate nodes.</p>
+<div class="formula">Method 1: V(G) = E − N + 2
+               = 17 − 13 + 2
+               = 6
+
+Method 2: V(G) = Pn + 1
+               = 5 + 1
+               = 6
+
+Method 3: Number of regions = 6
+
+Therefore, Cyclomatic Complexity V(G) = 6.</div>
+<p>Thus, six linearly independent paths are required in the basis set for that example. The notes list these four path sequences from the flow graph:</p>
+<div class="formula">1. 1 – 2 – 3 – 5 – 8 – 11 – 13
+2. 1 – 2 – 4 – 5 – 7 – 11 – 13
+3. 1 – 2 – 4 – 6 – 10 – 12 – 13
+4. 1 – 2 – 4 – 6 – 9 – 12 – 13</div>
+<div class="callout"><b>Source limitation:</b> The extracted notes show four path sequences but state that V(G) = 6. The remaining two path sequences are not visible in the available text, so they are not invented here.</div>
+
+<h2 id="m5-11">05.11 Control Structure Testing</h2>
+<p>The supplied notes identify three white-box control-structure techniques: Condition Testing, Loop Testing and Data Flow Testing.</p>
+<h3>A. Condition Testing</h3>
+<div class="definition"><strong>Condition Testing:</strong> A white-box testing technique that checks Boolean conditions in a program. Condition coverage (also called predicate coverage in the notes) requires each Boolean condition to evaluate to both TRUE and FALSE at least once.</div>
+<p>Example condition from the notes:</p>
+<div class="formula">if ((A || B) && C) {
+    // statements
+} else {
+    // other statements
+}</div>
+<p>For the individual conditions A, B and C, the notes give these test assignments to exercise TRUE and FALSE outcomes, taking short-circuit evaluation into account:</p>
+<div class="table-wrap"><table><thead><tr><th>Test</th><th>A</th><th>B</th><th>C</th><th>Purpose / evaluation note</th></tr></thead><tbody>
+<tr><td>1</td><td>TRUE</td><td>Not evaluated</td><td>FALSE</td><td>A is TRUE; C is FALSE.</td></tr>
+<tr><td>2</td><td>FALSE</td><td>TRUE</td><td>TRUE</td><td>A is FALSE; B and C are TRUE.</td></tr>
+<tr><td>3</td><td>FALSE</td><td>FALSE</td><td>Not evaluated</td><td>A and B are FALSE; short-circuit evaluation means C is not evaluated.</td></tr>
+</tbody></table></div>
+<p><b>Exam caution:</b> “Not evaluated” is not the same as evaluating a condition to FALSE. Explain the chosen coverage criterion and short-circuit behaviour when solving such questions.</p>
+
+<h3>B. Loop Testing</h3>
+<div class="definition"><strong>Loop Testing:</strong> A white-box testing technique that focuses on the validity of loop construction and the behaviour of loops under different iteration conditions.</div>
+<p>The notes list these loop structures:</p>
+<ul>
+ <li><b>Simple loop:</b> A single loop with no other loop nested inside it.</li>
+ <li><b>Concatenated loops:</b> Two or more loops placed one after another.</li>
+ <li><b>Unstructured loops:</b> Complex loop arrangements that do not follow a simple structured pattern.</li>
+</ul>
+<div class="example"><b>Example:</b> For a loop that processes a list, test the case where the list is empty, contains one item, contains several items and reaches the maximum supported size. Also test termination and off-by-one behaviour.</div>
+
+<h3>C. Data Flow Testing</h3>
+<div class="definition"><strong>Data Flow Testing:</strong> A white-box technique that selects test paths based on where variables are defined, used and potentially left without a valid definition.</div>
+<p>It examines the lifecycle of data through the program, such as variable definition, computation, use and the paths connecting those operations. The supplied notes list Data Flow Testing as a control-structure technique but do not provide a worked example or detailed criteria.</p>
+
+<h2 id="m5-12">05.12 Black-Box Testing: Equivalence Class Partitioning</h2>
+<div class="definition"><strong>Equivalence Class Partitioning (ECP):</strong> A black-box testing technique in which the input domain is divided into groups (equivalence classes) whose values are expected to be processed similarly. One or more representative values are selected from each class to reduce the number of test cases.</div>
+<p>The technique is useful when an input field accepts a defined range of values. Both valid and invalid input classes should be considered.</p>
+<h3>Worked example: Password length</h3>
+<p>Suppose a password field accepts a minimum of 6 characters and a maximum of 10 characters. The notes divide the input into these classes:</p>
+<div class="table-wrap"><table><thead><tr><th>Equivalence class</th><th>Input range</th><th>Class status</th><th>Representative test value</th><th>Expected result</th></tr></thead><tbody>
+<tr><td>EC1</td><td>0–5 characters</td><td>Invalid</td><td>4 characters</td><td>Reject password.</td></tr>
+<tr><td>EC2</td><td>6–10 characters</td><td>Valid</td><td>8 characters</td><td>Accept password, subject to other rules.</td></tr>
+<tr><td>EC3</td><td>11–14 characters (as shown in notes)</td><td>Invalid</td><td>12 characters</td><td>Reject password.</td></tr>
+</tbody></table></div>
+<p class="caption">The upper invalid range is shown as 11–14 in the supplied example. In a real specification, the invalid class should cover all values greater than 10, not stop at 14.</p>
+<h3>Steps</h3>
+<ol><li>Identify the input condition and its valid range.</li><li>Divide the domain into valid and invalid equivalence classes.</li><li>Select representative values from each class.</li><li>Prepare test cases and compare actual outcomes with expected outcomes.</li></ol>
+
+<h2 id="m5-13">05.13 Black-Box Testing: Boundary Value Analysis</h2>
+<div class="definition"><strong>Boundary Value Analysis (BVA):</strong> A black-box testing technique that selects test inputs at the boundaries of an input range because defects frequently occur at minimum and maximum limits or immediately around them.</div>
+<p>The normal boundary value selection described in the notes uses five values for an input variable:</p>
+<ol>
+ <li>Minimum value.</li>
+ <li>Just above the minimum.</li>
+ <li>A nominal (typical) value.</li>
+ <li>Just below the maximum.</li>
+ <li>Maximum value.</li>
+</ol>
+<h3>Worked example: Pizza order quantity</h3>
+<p>Suppose a pizza-order text box accepts values from 1 to 10. Values from 1 through 10 are valid; values above 10 are invalid and should display the message: “Only 10 Pizza can be ordered”.</p>
+<div class="table-wrap"><table><thead><tr><th>Test position</th><th>Input</th><th>Expected result</th></tr></thead><tbody>
+<tr><td>Minimum</td><td>1</td><td>Valid order.</td></tr>
+<tr><td>Just above minimum</td><td>2</td><td>Valid order.</td></tr>
+<tr><td>Nominal value</td><td>5</td><td>Valid order.</td></tr>
+<tr><td>Just below maximum</td><td>9</td><td>Valid order.</td></tr>
+<tr><td>Maximum</td><td>10</td><td>Valid order.</td></tr>
+</tbody></table></div>
+<p>For robust boundary checking, also test values immediately outside the valid range:</p>
+<div class="table-wrap"><table><thead><tr><th>Outside boundary</th><th>Input</th><th>Expected result</th></tr></thead><tbody>
+<tr><td>Just below minimum</td><td>0</td><td>Reject input.</td></tr>
+<tr><td>Just above maximum</td><td>11</td><td>Reject input and show the specified error message.</td></tr>
+</tbody></table></div>
+<div class="callout"><b>Difference to remember:</b> ECP selects representative values from input classes; BVA deliberately selects values at and around the limits of those classes.</div>
+
+<h2 id="m5-14">05.14 Black-Box Testing: Graph-Based Testing</h2>
+<div class="definition"><strong>Graph-Based Testing:</strong> A black-box testing technique, also called State-Based Testing in the supplied notes, that represents relationships between system behaviour and the factors that affect its output using a graph.</div>
+<p>The notes emphasize that this technique explains the relationship between system outputs and the factors affecting them, and tests the behaviour of the system.</p>
+<div class="example"><b>Simple state-based example — order status:</b> An order may move from <i>Placed</i> to <i>Paid</i>, then to <i>Dispatched</i> and finally to <i>Delivered</i>. A graph can represent these states and valid transitions. Tests can check that valid transitions occur and invalid transitions are rejected.</div>
+<div class="diagram-wrap">
+<svg class="m5-svg" viewBox="0 0 900 170" role="img" aria-label="Example state graph for order lifecycle: Placed to Paid to Dispatched to Delivered">
+ <defs><marker id="m5stateArrow" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0 0L8 4L0 8Z" fill="currentColor"/></marker></defs>
+ <g class="edge" marker-end="url(#m5stateArrow)"><path d="M190 75H245M405 75H460M620 75H675"/></g>
+ <rect class="node" x="25" y="42" width="165" height="65" rx="8"/><text x="107" y="81" text-anchor="middle">Placed</text>
+ <rect class="node" x="245" y="42" width="160" height="65" rx="8"/><text x="325" y="81" text-anchor="middle">Paid</text>
+ <rect class="node" x="460" y="42" width="160" height="65" rx="8"/><text x="540" y="81" text-anchor="middle">Dispatched</text>
+ <rect class="node" x="675" y="42" width="190" height="65" rx="8"/><text x="770" y="81" text-anchor="middle">Delivered</text>
+</svg>
+</div>
+<p class="caption">Illustrative state graph created to explain the technique; the order example is supplementary, not an example printed in the supplied notes.</p>
+
+<h2 id="m5-15">05.15 Exam Question Checklist</h2>
+<p>The following questions are present in the supplied IA-2 question-bank material or follow directly from the Unit 5 chapter-note headings.</p>
+<div class="table-wrap"><table><thead><tr><th>Question-bank / syllabus topic</th><th>Preparation focus</th></tr></thead><tbody>
+<tr><td>Differentiate Black-Box Testing and White-Box Testing.</td><td>Definition, internal visibility, test basis, techniques and examples.</td></tr>
+<tr><td>Differentiate Alpha Testing and Beta Testing.</td><td>Location, participants, environment, timing and purpose.</td></tr>
+<tr><td>Explain Unit Testing and Integration Testing.</td><td>Definition, objective, scope and differences.</td></tr>
+<tr><td>Explain Basis Path Testing with examples.</td><td>Flow graph, nodes, edges, regions, independent paths and test-case steps.</td></tr>
+<tr><td>Explain Boundary Value Analysis and Equivalence Class Partitioning.</td><td>Definitions, steps and worked input-range examples.</td></tr>
+<tr><td>List and explain software testing strategies / types.</td><td>Unit, integration, validation and system testing.</td></tr>
+<tr><td>Explain the different techniques in White-Box Testing.</td><td>Basis path, condition, loop and data-flow testing.</td></tr>
+<tr><td>What is software testing? Explain different types of testing.</td><td>Fundamentals, testing levels and black-/white-box techniques.</td></tr>
+<tr><td>Analyze code and find Cyclomatic Complexity.</td><td>V(G) = E − N + 2, V(G) = predicate nodes + 1, and region count.</td></tr>
+</tbody></table></div>
+<div class="callout"><b>Revision chain:</b> Testing Fundamentals → STLC → Unit Testing → Integration Testing (Big Bang / Top-Down / Bottom-Up / Sandwich) → Validation and System Testing → Black-Box / White-Box → Basis Path and Cyclomatic Complexity → Control Structure Testing → ECP / BVA / Graph-Based Testing.</div>
+
+<h2>Source Coverage and Notes</h2>
+<p>This module is organized primarily from the supplied <b>SE all chapter notes, Unit 5: Software Testing</b>, and cross-checked against the supplied <b>SE Exam Preparation checklist</b> and IA-2 question-bank extracts. Alpha/Beta testing definitions and the order-state graph example are explicitly identified as supplementary explanations because the available Unit 5 notes/question-bank text names or asks for these topics but does not provide their full explanations.</p>
+<p>The source notes do not provide a detailed worked data-flow testing example, a complete flow graph for the six-path cyclomatic-complexity example, or a full test-case table for every technique. Those missing source details have not been fabricated.</p>
+</section>
+</body>
+</html>

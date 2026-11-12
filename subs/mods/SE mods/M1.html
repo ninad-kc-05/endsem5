@@ -1,0 +1,1376 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Module 1 | Introduction to Software Engineering</title>
+
+<style>
+#module-content {
+    --m1-line: var(--rule, #394355);
+    --m1-ink: var(--ink, #e6e9f0);
+    --m1-muted: var(--muted, #98a2b5);
+    --m1-accent: var(--accent, #8fb0ee);
+    width: 100%;
+    max-width: none;
+    color: var(--m1-ink);
+    line-height: 1.7;
+}
+#module-content * { box-sizing: border-box; }
+#module-content h1 { font-size: clamp(1.8rem, 3vw, 2.5rem); line-height: 1.2; }
+#module-content h2 {
+    margin-top: 2.7rem;
+    padding-bottom: .5rem;
+    border-bottom: 1px solid var(--m1-line);
+    font-size: clamp(1.35rem, 2.2vw, 1.8rem);
+}
+#module-content h3 { margin-top: 1.5rem; font-size: 1.12rem; }
+#module-content p { margin: .55rem 0 1rem; }
+#module-content li { margin: .35rem 0; }
+#module-content strong { color: var(--m1-accent); }
+#module-content .lead { color: var(--m1-muted); max-width: 80ch; }
+#module-content .priority {
+    color: var(--m1-accent);
+    font: 700 .78rem system-ui, sans-serif;
+    letter-spacing: .08em;
+}
+#module-content .callout {
+    padding: 1rem;
+    margin: 1rem 0;
+    border-left: 3px solid var(--m1-accent);
+    background: color-mix(in srgb, var(--m1-accent) 9%, transparent);
+}
+#module-content .diagram {
+    border: 1px dashed var(--m1-line);
+    border-radius: 8px;
+    padding: 1.2rem;
+    margin: 1.2rem 0;
+    overflow-x: auto;
+    text-align: center;
+}
+#module-content .flow {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: .55rem;
+}
+#module-content .flow span,
+#module-content .vertical span {
+    display: inline-block;
+    border: 1px solid var(--m1-accent);
+    border-radius: 6px;
+    padding: .65rem .8rem;
+    background: color-mix(in srgb, var(--m1-accent) 9%, transparent);
+    font: 600 .9rem system-ui, sans-serif;
+}
+#module-content .flow b,
+#module-content .vertical b { color: var(--m1-accent); }
+#module-content .vertical {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: .35rem;
+}
+#module-content .caption {
+    color: var(--m1-muted);
+    font-size: .85rem;
+    margin-top: .8rem;
+}
+#module-content table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 1rem 0 1.5rem;
+    font-size: .94rem;
+}
+#module-content th,
+#module-content td {
+    border: 1px solid var(--m1-line);
+    padding: .7rem;
+    text-align: left;
+    vertical-align: top;
+}
+#module-content th {
+    background: color-mix(in srgb, var(--m1-accent) 12%, transparent);
+}
+#module-content .levels {
+    max-width: 440px;
+    margin: auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 5px;
+}
+#module-content .levels div {
+    padding: .6rem;
+    border: 1px solid var(--m1-accent);
+    background: color-mix(in srgb, var(--m1-accent) 9%, transparent);
+    font-weight: 600;
+}
+#module-content .levels div:nth-child(1) { width: 55%; }
+#module-content .levels div:nth-child(2) { width: 65%; }
+#module-content .levels div:nth-child(3) { width: 75%; }
+#module-content .levels div:nth-child(4) { width: 85%; }
+#module-content .levels div:nth-child(5) { width: 95%; }
+
+@media(max-width:650px) {
+    #module-content .index nav { grid-template-columns: 1fr; }
+    #module-content table { display: block; overflow-x: auto; }
+    #module-content .flow { justify-content: flex-start; }
+}
+@media print {
+    #module-content .index { display: none; }
+    #module-content h2 { break-after: avoid; }
+    #module-content table,
+    #module-content .diagram { break-inside: avoid; }
+}
+/* MODULE CONTENTS */
+#module-content .module-index {
+    display: block;
+    margin: 2.5rem 0 3rem;
+    padding: 1.5rem;
+    border: 1px solid var(--rule, #394355);
+    border-radius: 12px;
+    background: var(--paper, transparent);
+}
+
+#module-content .module-index-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+}
+
+#module-content .module-index-header h2 {
+    margin: .35rem 0;
+    padding: 0;
+    border: none;
+    font-size: 1.5rem;
+}
+
+#module-content .module-index-header p {
+    margin: 0;
+    color: var(--muted, #98a2b5);
+    font-size: .9rem;
+}
+
+#module-content .section-label {
+    display: block;
+    color: var(--accent, #8fb0ee);
+    font-family: system-ui, sans-serif;
+    font-size: .7rem;
+    font-weight: 800;
+    letter-spacing: .15em;
+}
+
+#module-content .topic-count {
+    flex-shrink: 0;
+    padding: .4rem .7rem;
+    border: 1px solid var(--rule, #394355);
+    border-radius: 30px;
+    color: var(--muted, #98a2b5);
+    font: 700 .7rem system-ui, sans-serif;
+    letter-spacing: .08em;
+}
+
+#module-content .module-index-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: .65rem;
+}
+
+#module-content .module-index-grid a {
+    display: flex;
+    align-items: center;
+    gap: .85rem;
+    min-width: 0;
+    padding: .8rem .9rem;
+    border: 1px solid var(--rule, #394355);
+    border-radius: 7px;
+    color: var(--ink, inherit);
+    text-decoration: none;
+    font-size: .88rem;
+    line-height: 1.4;
+    transition: border-color .2s ease,
+                background .2s ease,
+                transform .2s ease;
+}
+
+#module-content .module-index-grid a span {
+    flex-shrink: 0;
+    color: var(--accent, #8fb0ee);
+    font: 700 .75rem system-ui, sans-serif;
+}
+
+#module-content .module-index-grid a:hover {
+    border-color: var(--accent, #8fb0ee);
+    background: color-mix(in srgb, var(--accent, #8fb0ee) 8%, transparent);
+    transform: translateY(-2px);
+}
+
+#module-content .module-index-grid a:focus-visible {
+    outline: 2px solid var(--accent, #8fb0ee);
+    outline-offset: 3px;
+}
+
+@media (max-width: 650px) {
+    #module-content .module-index {
+        padding: 1rem;
+    }
+
+    #module-content .module-index-grid {
+        grid-template-columns: 1fr;
+    }
+
+    #module-content .module-index-header {
+        align-items: flex-start;
+    }
+}
+</style>
+</head>
+
+<body>
+<section id="module-content" class="content-area">
+
+<header>
+<p class="priority">MODULE 1 · SOFTWARE ENGINEERING</p>
+<h1>Introduction to Software Engineering and Process Models</h1>
+<p class="lead">
+Complete Module 1 notes covering software fundamentals, software processes,
+process models, Agile methodologies and the relevant question bank.
+</p>
+</header>
+
+<div class="callout">
+<strong>7–8 Mark Answer Strategy:</strong>
+Start with a definition, explain the concept or phases using numbered points,
+draw a labelled diagram wherever applicable, include advantages and
+disadvantages, and conclude with suitable applications.
+</div>
+
+<div class="module-index" id="module-index">
+    <div class="module-index-header">
+        <div>
+            <span class="section-label">ON THIS PAGE</span>
+            <h2>Module Contents</h2>
+            <p>Explore the topics covered in this module.</p>
+        </div>
+        <span class="topic-count">25 TOPICS</span>
+    </div>
+
+    <nav class="module-index-grid" aria-label="Module contents">
+
+        <a href="#nature"><span>01</span>Nature & Characteristics of Software</a>
+        <a href="#domains"><span>02</span>Software Application Domains</a>
+        <a href="#engineering"><span>03</span>Software Engineering</a>
+        <a href="#layers"><span>04</span>Layered Approach</a>
+        <a href="#process"><span>05</span>Software Process</a>
+        <a href="#framework"><span>06</span>Generic Process Framework</a>
+        <a href="#umbrella"><span>07</span>Umbrella Activities</a>
+        <a href="#cmm"><span>08</span>Capability Maturity Model (CMM)</a>
+        <a href="#cmmi"><span>09</span>CMM Integration (CMMI)</a>
+        <a href="#prescriptive"><span>10</span>Prescriptive Process Models</a>
+        <a href="#waterfall"><span>11</span>Waterfall Model</a>
+        <a href="#vmodel"><span>12</span>V-Model</a>
+        <a href="#incremental"><span>13</span>Incremental Model</a>
+        <a href="#evolutionary"><span>14</span>Evolutionary Models</a>
+        <a href="#spiral"><span>15</span>Spiral Model</a>
+        <a href="#prototype"><span>16</span>Prototyping Model</a>
+        <a href="#rad"><span>17</span>RAD Model</a>
+        <a href="#concurrent"><span>18</span>Concurrent Model</a>
+        <a href="#agile"><span>19</span>Agile Process Model</a>
+        <a href="#xp"><span>20</span>Extreme Programming (XP)</a>
+        <a href="#scrum"><span>21</span>Scrum</a>
+        <a href="#kanban"><span>22</span>Kanban</a>
+        <a href="#comparison"><span>23</span>Model Comparisons</a>
+        <a href="#trends"><span>24</span>Advanced Trends</a>
+        <a href="#questionbank"><span>25</span>Question Bank</a>
+
+    </nav>
+</div>
+
+<!-- 01 -->
+<h2 id="nature">1. Nature and Characteristics of Software</h2>
+
+<h3>Definition</h3>
+<p>
+Software is a collection of computer programs, procedures, data structures
+and associated documentation that instructs a computer system to perform
+specific tasks.
+</p>
+
+<h3>Nature of Software</h3>
+<ul>
+<li>Software is an intangible product consisting of logical instructions.</li>
+<li>It is developed through engineering activities rather than manufactured like hardware.</li>
+<li>Its major cost is associated with development and maintenance.</li>
+<li>It can be modified to satisfy changing requirements.</li>
+<li>It may be custom-built or assembled using reusable components.</li>
+</ul>
+
+<h3>Characteristics of Software</h3>
+<ol>
+<li><strong>Intangible:</strong> Software cannot be physically touched like hardware.</li>
+<li><strong>Developed, not manufactured:</strong> Most cost is incurred during analysis, design, coding and testing. Copying software costs very little.</li>
+<li><strong>Does not physically wear out:</strong> Software does not deteriorate through physical use, although changes and environmental conditions can introduce defects.</li>
+<li><strong>Complexity:</strong> Large software systems contain many interacting components.</li>
+<li><strong>Changeability:</strong> Software can be modified to meet new requirements.</li>
+<li><strong>Reusability:</strong> Existing software components may be reused in other applications.</li>
+<li><strong>Maintenance-intensive:</strong> Software requires continuous correction, adaptation and improvement.</li>
+</ol>
+
+<!-- 02 -->
+<h2 id="domains">2. Software Application Domains</h2>
+
+<p>
+Software is used in different areas of computing and business. Major
+application domains include:
+</p>
+
+<ol>
+<li><strong>System Software:</strong> Provides services and control for computer hardware. Examples include operating systems, compilers and device drivers.</li>
+<li><strong>Application Software:</strong> Performs specific user-oriented tasks such as accounting, word processing and inventory management.</li>
+<li><strong>Engineering and Scientific Software:</strong> Performs calculations, simulations, modelling and scientific analysis.</li>
+<li><strong>Embedded Software:</strong> Controls devices and machines such as automobiles, washing machines and medical equipment.</li>
+<li><strong>Product-Line Software:</strong> Provides a set of related capabilities for a particular market or group of users.</li>
+<li><strong>Web Applications:</strong> Applications accessed through web browsers, such as e-commerce platforms and online banking.</li>
+<li><strong>Artificial Intelligence Software:</strong> Uses intelligent techniques such as machine learning, expert systems and natural language processing.</li>
+</ol>
+
+<!-- 03 -->
+<h2 id="engineering">3. Software Engineering</h2>
+
+<h3>Definition</h3>
+<p>
+Software Engineering is a systematic, disciplined and measurable approach
+to the development, operation, maintenance and evolution of software.
+</p>
+
+<h3>Need for Software Engineering</h3>
+<ol>
+<li><strong>Managing complexity:</strong> Large software systems contain many components and dependencies.</li>
+<li><strong>Quality improvement:</strong> Defined processes, reviews and testing help improve reliability.</li>
+<li><strong>Cost control:</strong> Estimation and planning help control development expenses.</li>
+<li><strong>Time management:</strong> Scheduling helps teams complete work within deadlines.</li>
+<li><strong>Requirement management:</strong> A systematic process helps handle changing customer needs.</li>
+<li><strong>Team coordination:</strong> Defined responsibilities improve collaboration.</li>
+<li><strong>Maintenance:</strong> Engineering practices make software easier to correct and enhance.</li>
+<li><strong>Risk reduction:</strong> Potential problems can be identified and managed early.</li>
+</ol>
+
+<h3>Major Software Engineering Activities</h3>
+<ol>
+<li><strong>Communication:</strong> Understand customer requirements.</li>
+<li><strong>Planning:</strong> Estimate effort, cost, resources and schedule.</li>
+<li><strong>Modelling:</strong> Prepare analysis and design representations.</li>
+<li><strong>Construction:</strong> Perform coding and testing.</li>
+<li><strong>Deployment:</strong> Deliver the software and collect feedback.</li>
+</ol>
+
+<!-- 04 -->
+<h2 id="layers">4. Layered Approach of Software Engineering</h2>
+
+<p>
+Software Engineering is a layered technology consisting of four layers.
+Each layer supports the layer above it.
+</p>
+
+<div class="diagram">
+<div class="levels">
+<div>TOOLS</div>
+<div>METHODS</div>
+<div>PROCESS</div>
+<div>QUALITY FOCUS</div>
+</div>
+<p class="caption">Layered technology of Software Engineering — Quality Focus is the foundation.</p>
+</div>
+
+<ol>
+<li><strong>Quality Focus:</strong> The foundation of Software Engineering. It emphasizes continuous improvement and the development of high-quality software.</li>
+<li><strong>Process:</strong> Provides the framework that organizes software development activities and tasks.</li>
+<li><strong>Methods:</strong> Provide technical procedures for requirement analysis, design, coding, testing and maintenance.</li>
+<li><strong>Tools:</strong> Provide automated or semi-automated support for processes and methods.</li>
+</ol>
+
+<p><strong>Conclusion:</strong> The layered approach provides a systematic foundation for developing quality software using defined processes, methods and tools.</p>
+
+<!-- 05 -->
+<h2 id="process">5. Software Process</h2>
+
+<h3>Definition</h3>
+<p>
+A software process is a structured set of activities, actions and tasks
+required to develop and maintain a software product.
+</p>
+
+<h3>Major Activities</h3>
+<ol>
+<li><strong>Requirement Analysis:</strong> Understand customer needs and document the requirements.</li>
+<li><strong>Design:</strong> Define architecture, modules, interfaces and data structures.</li>
+<li><strong>Implementation:</strong> Convert the design into executable program code.</li>
+<li><strong>Testing:</strong> Detect defects and verify that requirements are satisfied.</li>
+<li><strong>Deployment:</strong> Deliver the software to the customer or operating environment.</li>
+<li><strong>Maintenance:</strong> Correct defects, adapt the system and introduce improvements.</li>
+</ol>
+
+<h3>Elements of a Software Process</h3>
+<ul>
+<li>Activities and tasks</li>
+<li>Work products and deliverables</li>
+<li>Milestones</li>
+<li>Quality assurance points</li>
+<li>Roles and responsibilities</li>
+</ul>
+
+<!-- 06 -->
+<h2 id="framework">6. Generic Process Framework</h2>
+
+<p>
+The generic process framework provides a common structure for software
+development projects. It consists of five framework activities.
+</p>
+
+<div class="diagram">
+<div class="flow">
+<span>Communication</span><b>→</b>
+<span>Planning</span><b>→</b>
+<span>Modeling</span><b>→</b>
+<span>Construction</span><b>→</b>
+<span>Deployment</span>
+</div>
+<p class="caption">Feedback from deployment helps improve the next iteration.</p>
+</div>
+
+<ol>
+<li><strong>Communication:</strong> Communicate with stakeholders and gather requirements.</li>
+<li><strong>Planning:</strong> Identify tasks, resources, responsibilities, risks and schedules.</li>
+<li><strong>Modeling:</strong> Prepare analysis and design models of the proposed system.</li>
+<li><strong>Construction:</strong> Generate program code and perform testing.</li>
+<li><strong>Deployment:</strong> Deliver the software, obtain feedback and make improvements.</li>
+</ol>
+
+<div class="callout">
+<strong>Important distinction:</strong> The five activities form the generic
+process framework. Umbrella activities operate across all these activities;
+they are not a separate final development phase.
+</div>
+
+<!-- 07 -->
+<h2 id="umbrella">7. Umbrella Activities</h2>
+
+<h3>Definition</h3>
+<p>
+Umbrella activities are supporting activities performed throughout the
+software development process to manage quality, progress, risks, changes
+and project work products.
+</p>
+
+<h3>Eight Umbrella Activities</h3>
+<ol>
+<li><strong>Software Project Tracking and Control:</strong> Monitors project progress against the plan, identifies deviations and takes corrective action.</li>
+<li><strong>Formal Technical Reviews (FTR):</strong> Reviews software work products to detect errors early and improve quality.</li>
+<li><strong>Software Quality Assurance (SQA):</strong> Ensures that processes and products follow defined quality standards.</li>
+<li><strong>Software Configuration Management (SCM):</strong> Controls changes, versions and configuration items throughout development.</li>
+<li><strong>Document Preparation and Production:</strong> Prepares and maintains technical documents and project records.</li>
+<li><strong>Reusability Management:</strong> Identifies and manages reusable software components.</li>
+<li><strong>Measurement and Metrics:</strong> Collects measurements about products, processes and projects to support evaluation and improvement.</li>
+<li><strong>Risk Management:</strong> Identifies, analyzes and manages uncertainties that may affect the project.</li>
+</ol>
+
+<!-- 08 -->
+<h2 id="cmm">8. Capability Maturity Model (CMM)</h2>
+
+<h3>Definition</h3>
+<p>
+Capability Maturity Model (CMM) is a framework used to assess and improve
+the maturity of an organization's software development process.
+It defines five maturity levels.
+</p>
+
+<div class="diagram">
+<div class="levels">
+<div>Level 5 — Optimizing</div>
+<div>Level 4 — Managed</div>
+<div>Level 3 — Defined</div>
+<div>Level 2 — Repeatable</div>
+<div>Level 1 — Initial</div>
+</div>
+<p class="caption">CMM maturity levels from lowest to highest.</p>
+</div>
+
+<h3>Five Maturity Levels</h3>
+
+<p><strong>Level 1 — Initial</strong></p>
+<ul>
+<li>Process is ad hoc and sometimes chaotic.</li>
+<li>Success depends heavily on individual effort.</li>
+<li>Cost, schedule and quality are unpredictable.</li>
+</ul>
+
+<p><strong>Level 2 — Repeatable</strong></p>
+<ul>
+<li>Basic project management practices are established.</li>
+<li>Earlier successful practices can be repeated on similar projects.</li>
+<li>Cost, schedule and requirements are tracked.</li>
+</ul>
+
+<p><strong>Level 3 — Defined</strong></p>
+<ul>
+<li>Processes are documented and standardized across the organization.</li>
+<li>Projects follow approved organizational processes.</li>
+<li>Roles and procedures are clearly defined.</li>
+</ul>
+
+<p><strong>Level 4 — Managed</strong></p>
+<ul>
+<li>Process and product quality are measured quantitatively.</li>
+<li>Performance is controlled using measurements.</li>
+<li>Results become more predictable.</li>
+</ul>
+
+<p><strong>Level 5 — Optimizing</strong></p>
+<ul>
+<li>Focus is on continuous process improvement.</li>
+<li>Quantitative feedback is used to improve processes.</li>
+<li>Preventive actions and new technologies may improve performance.</li>
+</ul>
+
+<p><strong>Memory keyword:</strong> I–R–D–M–O = Initial, Repeatable, Defined, Managed, Optimizing.</p>
+
+<!-- 09 -->
+<h2 id="cmmi">9. Capability Maturity Model Integration (CMMI)</h2>
+
+<p>
+CMMI is an integrated process-improvement framework developed to provide
+organizations with a more integrated approach to process improvement
+across different disciplines.
+</p>
+
+<h3>Features of CMMI</h3>
+<ul>
+<li>Integrates process-improvement guidance across relevant disciplines.</li>
+<li>Helps organizations assess and improve their processes.</li>
+<li>Encourages defined and managed processes.</li>
+<li>Supports measurement and continuous improvement.</li>
+<li>Builds on the process-maturity improvement approach associated with CMM.</li>
+</ul>
+
+<h3>CMM vs CMMI</h3>
+<table>
+<tr><th>CMM</th><th>CMMI</th></tr>
+<tr><td>Earlier capability maturity model.</td><td>Integrated process-improvement framework.</td></tr>
+<tr><td>Focuses on assessing process maturity in its original domain.</td><td>Integrates process-improvement guidance across disciplines.</td></tr>
+<tr><td>Multiple separate models could create duplication.</td><td>Developed to reduce difficulties caused by separate models.</td></tr>
+<tr><td>Provides a maturity-level improvement approach.</td><td>Provides an integrated approach to process improvement.</td></tr>
+</table>
+
+<!-- 10 -->
+<h2 id="prescriptive">10. Prescriptive Process Models</h2>
+
+<p>
+Prescriptive process models define an organized sequence of software
+engineering activities and tasks. They prescribe how development work
+should be structured and managed.
+</p>
+
+<h3>Major Prescriptive Models</h3>
+<ul>
+<li>Waterfall Model</li>
+<li>V-Model</li>
+<li>Incremental Model</li>
+<li>Evolutionary Models</li>
+<li>Spiral Model</li>
+<li>Prototyping Model</li>
+<li>RAD Model</li>
+<li>Concurrent Model</li>
+</ul>
+
+<p>
+The selection of a process model depends on requirement stability,
+project complexity, risk, customer feedback and delivery requirements.
+</p>
+
+<!-- 11 -->
+<h2 id="waterfall">11. Waterfall Model</h2>
+
+<h3>Definition</h3>
+<p>
+The Waterfall Model is a linear sequential software development life-cycle
+model in which development proceeds through a series of defined phases.
+</p>
+
+<div class="diagram">
+<div class="vertical">
+<span>Requirement Analysis</span><b>↓</b>
+<span>System Design</span><b>↓</b>
+<span>Implementation</span><b>↓</b>
+<span>Testing</span><b>↓</b>
+<span>Deployment</span><b>↓</b>
+<span>Maintenance</span>
+</div>
+</div>
+
+<h3>Phases</h3>
+<ol>
+<li><strong>Requirement Analysis:</strong> Gather, analyze and document user requirements.</li>
+<li><strong>System Design:</strong> Prepare system architecture and detailed design.</li>
+<li><strong>Implementation:</strong> Convert design into program code.</li>
+<li><strong>Testing:</strong> Test the software and identify defects.</li>
+<li><strong>Deployment:</strong> Deliver the software to the user.</li>
+<li><strong>Maintenance:</strong> Correct defects and make required changes after delivery.</li>
+</ol>
+
+<h3>Advantages</h3>
+<ol>
+<li>Simple and easy to understand.</li>
+<li>Clearly defined phases.</li>
+<li>Easy to manage when requirements are stable.</li>
+<li>Suitable for small projects with fixed requirements.</li>
+</ol>
+
+<h3>Disadvantages</h3>
+<ol>
+<li>Not suitable for frequently changing requirements.</li>
+<li>Working software is generally available late.</li>
+<li>Changes in later phases can be costly.</li>
+<li>Defects may be identified relatively late.</li>
+</ol>
+
+<p><strong>Suitable for:</strong> Projects with well-understood and stable requirements.</p>
+
+<!-- 12 -->
+<h2 id="vmodel">12. V-Model</h2>
+
+<h3>Definition</h3>
+<p>
+The V-Model is a software development model in which each development
+phase is associated with a corresponding testing phase. It emphasizes
+verification and validation.
+</p>
+
+<div class="diagram">
+<table>
+<tr><th>Verification / Development</th><th>Validation / Testing</th></tr>
+<tr><td>Requirement Analysis</td><td>Acceptance Testing</td></tr>
+<tr><td>System Design</td><td>System Testing</td></tr>
+<tr><td>Architecture Design</td><td>Integration Testing</td></tr>
+<tr><td>Module Design</td><td>Unit Testing</td></tr>
+<tr><td colspan="2" style="text-align:center"><strong>CODING — Bottom of the V</strong></td></tr>
+</table>
+<p class="caption">Each development activity maps to its corresponding testing activity.</p>
+</div>
+
+<h3>Verification Activities</h3>
+<ol>
+<li>Requirement Analysis</li>
+<li>System Design</li>
+<li>Architecture / High-Level Design</li>
+<li>Module / Low-Level Design</li>
+<li>Coding</li>
+</ol>
+
+<h3>Validation and Testing Activities</h3>
+<ol>
+<li><strong>Unit Testing:</strong> Tests individual modules and is associated with module design.</li>
+<li><strong>Integration Testing:</strong> Tests interactions between modules and is associated with architecture design.</li>
+<li><strong>System Testing:</strong> Tests the complete system and is associated with system design.</li>
+<li><strong>Acceptance Testing:</strong> Checks whether the software satisfies user requirements.</li>
+</ol>
+
+<p><strong>Verification:</strong> Are we building the product correctly?</p>
+<p><strong>Validation:</strong> Are we building the correct product?</p>
+
+<h3>Advantages</h3>
+<ul>
+<li>Testing is planned early.</li>
+<li>Clear relationship between development and testing phases.</li>
+<li>Defects can be identified systematically.</li>
+<li>Suitable when requirements are clearly defined.</li>
+</ul>
+
+<h3>Disadvantages</h3>
+<ul>
+<li>Not flexible when requirements change.</li>
+<li>Working software is generally available late.</li>
+<li>Changes can require modification of multiple stages.</li>
+</ul>
+
+<!-- 13 -->
+<h2 id="incremental">13. Incremental Process Model</h2>
+
+<h3>Definition</h3>
+<p>
+The Incremental Model develops and delivers software in a series of
+increments. Each increment adds functionality to the previously
+delivered product.
+</p>
+
+<div class="diagram">
+<div class="flow">
+<span>Overall Requirements</span><b>→</b>
+<span>Increment 1<br>Core Product</span><b>→</b>
+<span>Increment 2<br>Added Features</span><b>→</b>
+<span>Increment 3<br>More Features</span>
+</div>
+</div>
+
+<h3>Working</h3>
+<ol>
+<li>Identify and prioritize overall requirements.</li>
+<li>Plan the first increment.</li>
+<li>Design, implement and test it.</li>
+<li>Deliver the working increment.</li>
+<li>Obtain feedback and plan the next increment.</li>
+<li>Repeat until the required functionality is delivered.</li>
+</ol>
+
+<h3>Advantages</h3>
+<ul>
+<li>Working software is delivered early.</li>
+<li>Customer feedback guides later increments.</li>
+<li>Smaller increments are easier to test and debug.</li>
+<li>Changes can be incorporated between increments.</li>
+</ul>
+
+<h3>Disadvantages</h3>
+<ul>
+<li>Careful planning and integration are required.</li>
+<li>Architecture can become difficult to manage.</li>
+<li>Poorly planned increments may increase cost.</li>
+</ul>
+
+<!-- 14 -->
+<h2 id="evolutionary">14. Evolutionary Process Models</h2>
+
+<h3>Definition</h3>
+<p>
+Evolutionary process models develop software through repeated versions.
+The product evolves as developers and customers gain a better
+understanding of requirements.
+</p>
+
+<h3>Characteristics</h3>
+<ul>
+<li>Development occurs through iterations or versions.</li>
+<li>Customer feedback refines the product.</li>
+<li>Requirements may evolve.</li>
+<li>Early versions help identify missing functionality.</li>
+</ul>
+
+<h3>Advantages</h3>
+<ul>
+<li>Users can evaluate partially developed software.</li>
+<li>Feedback improves later versions.</li>
+<li>Core functionality can be tested early.</li>
+<li>Unclear requirements may become clearer.</li>
+</ul>
+
+<h3>Disadvantages</h3>
+<ul>
+<li>Repeated changes may complicate planning.</li>
+<li>Architecture may become difficult to maintain.</li>
+<li>Cost and completion time may be harder to predict.</li>
+</ul>
+
+<!-- 15 -->
+<h2 id="spiral">15. Spiral Model</h2>
+
+<h3>Definition</h3>
+<p>
+The Spiral Model is a risk-driven evolutionary software process model.
+Development proceeds through repeated loops, with each loop involving
+objectives, risk analysis, development and planning.
+</p>
+
+<div class="diagram">
+<div class="flow">
+<span>1. Objective Setting</span><b>→</b>
+<span>2. Risk Analysis</span>
+</div>
+<div style="margin:1rem">↓</div>
+<div class="flow">
+<span>4. Planning Next Cycle</span><b>←</b>
+<span>3. Development & Validation</span>
+</div>
+<p class="caption">The four activities repeat in successive spiral cycles.</p>
+</div>
+
+<h3>Four Activities</h3>
+<ol>
+<li><strong>Objective Setting:</strong> Define objectives, alternatives and constraints.</li>
+<li><strong>Risk Assessment and Reduction:</strong> Identify and analyze risks. Use prototypes or alternatives to reduce major risks.</li>
+<li><strong>Development and Validation:</strong> Develop and test the next product version.</li>
+<li><strong>Planning:</strong> Review results and plan the next iteration.</li>
+</ol>
+
+<h3>Advantages</h3>
+<ol>
+<li>Strong focus on risk identification and management.</li>
+<li>Suitable for large and complex projects.</li>
+<li>Supports changing requirements.</li>
+<li>Customer feedback can be incorporated.</li>
+<li>Allows repeated evaluation of project risks.</li>
+</ol>
+
+<h3>Disadvantages</h3>
+<ol>
+<li>Expensive and complex to manage.</li>
+<li>Requires expertise in risk analysis.</li>
+<li>Time and cost estimation can be difficult.</li>
+<li>Not generally suitable for small, low-risk projects.</li>
+</ol>
+
+<p><strong>Suitable for:</strong> Large, complex and high-risk projects.</p>
+
+<!-- 16 -->
+<h2 id="prototype">16. Prototyping Model</h2>
+
+<h3>Definition</h3>
+<p>
+The Prototyping Model creates an early working representation of the
+proposed software so that users can evaluate it and clarify requirements
+before final development.
+</p>
+
+<div class="diagram">
+<div class="vertical">
+<span>Initial Requirements</span><b>↓</b>
+<span>Quick Design</span><b>↓</b>
+<span>Build Prototype</span><b>↓</b>
+<span>User Evaluation and Feedback</span><b>↓</b>
+<span>Refine Prototype ↺</span><b>↓</b>
+<span>Develop Final System</span><b>↓</b>
+<span>Testing and Deployment</span>
+</div>
+</div>
+
+<h3>Steps</h3>
+<ol>
+<li>Gather initial requirements.</li>
+<li>Prepare a quick design.</li>
+<li>Build the prototype.</li>
+<li>Obtain user evaluation and feedback.</li>
+<li>Refine requirements and prototype.</li>
+<li>Repeat refinement as required.</li>
+<li>Develop and test the final system.</li>
+</ol>
+
+<h3>Advantages</h3>
+<ul>
+<li>Helps clarify unclear requirements.</li>
+<li>Encourages early user involvement.</li>
+<li>Identifies missing requirements.</li>
+<li>Usability problems can be discovered early.</li>
+</ul>
+
+<h3>Disadvantages</h3>
+<ul>
+<li>Users may mistake the prototype for the completed product.</li>
+<li>Repeated changes may increase cost and time.</li>
+<li>Prototype architecture may not be suitable for the final system.</li>
+<li>Directly converting a prototype into the final product may cause design compromises.</li>
+</ul>
+
+<p><strong>Suitable for:</strong> Projects with unclear requirements or systems requiring early user-interface evaluation.</p>
+
+<!-- 17 -->
+<h2 id="rad">17. Rapid Application Development (RAD) Model</h2>
+
+<h3>Definition</h3>
+<p>
+Rapid Application Development (RAD) is an incremental software
+development model that emphasizes rapid development, reusable
+components, user involvement and quick delivery through time-boxed
+development cycles.
+</p>
+
+<h3>Phases of RAD Model</h3>
+<ol>
+<li><strong>Business Modelling:</strong> Identify business functions, information flow and the objectives of the application.</li>
+<li><strong>Data Modelling:</strong> Identify the data objects required by the system and define their relationships.</li>
+<li><strong>Process Modelling:</strong> Define the processes required to manipulate and transform the data.</li>
+<li><strong>Application Generation:</strong> Build the application using reusable components and development tools.</li>
+<li><strong>Testing and Turnover:</strong> Test the system, integrate components and deliver the application.</li>
+</ol>
+
+<div class="diagram">
+<div class="vertical">
+<span>Business Modelling</span><b>↓</b>
+<span>Data Modelling</span><b>↓</b>
+<span>Process Modelling</span><b>↓</b>
+<span>Application Generation</span><b>↓</b>
+<span>Testing and Turnover</span>
+</div>
+</div>
+
+<h3>Advantages</h3>
+<ul>
+<li>Fast development and delivery.</li>
+<li>High customer involvement.</li>
+<li>Encourages component reuse.</li>
+<li>Suitable for modular projects.</li>
+<li>Early feedback helps improve the application.</li>
+</ul>
+
+<h3>Disadvantages</h3>
+<ul>
+<li>Requires skilled developers.</li>
+<li>Requires continuous customer participation.</li>
+<li>Not suitable for every large or highly complex system.</li>
+<li>Requires modularization and appropriate tools.</li>
+<li>Integration may become difficult if components are poorly coordinated.</li>
+</ul>
+
+<p><strong>Suitable for:</strong> Projects requiring rapid delivery, where requirements can be modularized and users are available for frequent feedback.</p>
+
+<!-- 18 -->
+<h2 id="concurrent">18. Concurrent Model</h2>
+
+<h3>Definition</h3>
+<p>
+The Concurrent Model represents software engineering activities as
+states that may occur concurrently. Different activities can progress
+independently and change state in response to events.
+</p>
+
+<div class="diagram">
+<div class="flow">
+<span>Communication</span>
+<span>Modelling</span>
+<span>Construction</span>
+<span>Testing</span>
+</div>
+<p class="caption">Activities may overlap rather than follow one fixed sequence.</p>
+</div>
+
+<h3>Characteristics</h3>
+<ul>
+<li>Communication, modelling, construction and testing may overlap.</li>
+<li>Each activity can be in a different state at a given time.</li>
+<li>Events cause activity-state transitions.</li>
+<li>It supports parallel development activities.</li>
+<li>It is not a simple one-way sequential model.</li>
+</ul>
+
+<h3>Advantages</h3>
+<ul>
+<li>Supports parallel work.</li>
+<li>Can reduce overall development time.</li>
+<li>Provides flexibility when activities overlap.</li>
+<li>Suitable for projects with multiple interacting activities.</li>
+</ul>
+
+<h3>Disadvantages</h3>
+<ul>
+<li>Requires careful coordination.</li>
+<li>Management can become complex.</li>
+<li>Dependencies between activities must be monitored.</li>
+</ul>
+
+<!-- 19 -->
+<h2 id="agile">19. Agile Process Model</h2>
+
+<h3>Definition</h3>
+<p>
+Agile is an iterative and incremental software development approach
+that emphasizes frequent delivery, customer collaboration, response
+to change and continuous feedback.
+</p>
+
+<div class="diagram">
+<div class="flow">
+<span>Product Backlog</span><b>→</b>
+<span>Planning</span><b>→</b>
+<span>Iteration</span><b>→</b>
+<span>Design & Build</span><b>→</b>
+<span>Testing</span><b>→</b>
+<span>Working Increment</span>
+</div>
+<p class="caption">Review and feedback guide the next iteration.</p>
+</div>
+
+<h3>Characteristics</h3>
+<ol>
+<li>Iterative and incremental development.</li>
+<li>Frequent delivery of working software.</li>
+<li>Customer collaboration.</li>
+<li>Flexible response to changing requirements.</li>
+<li>Continuous testing and feedback.</li>
+<li>Close team cooperation.</li>
+</ol>
+
+<h3>Four Agile Manifesto Values</h3>
+<ol>
+<li>Individuals and interactions over processes and tools.</li>
+<li>Working software over comprehensive documentation.</li>
+<li>Customer collaboration over contract negotiation.</li>
+<li>Responding to change over following a plan.</li>
+</ol>
+
+<p>The items on the right still have value; Agile emphasizes the items on the left more.</p>
+
+<h3>Twelve Agile Principles</h3>
+<ol>
+<li>Satisfy customers through early and continuous delivery of valuable software.</li>
+<li>Welcome changing requirements, even late in development.</li>
+<li>Deliver working software frequently.</li>
+<li>Business people and developers work together throughout the project.</li>
+<li>Build projects around motivated individuals and support them.</li>
+<li>Prefer direct conversation for effective communication.</li>
+<li>Working software is the primary measure of progress.</li>
+<li>Maintain a sustainable development pace.</li>
+<li>Give continuous attention to technical excellence and good design.</li>
+<li>Simplicity is essential.</li>
+<li>Good architectures and designs emerge from self-organizing teams.</li>
+<li>Regularly reflect and adjust to improve team effectiveness.</li>
+</ol>
+
+<h3>Advantages</h3>
+<ul>
+<li>Early and frequent delivery.</li>
+<li>Better customer involvement.</li>
+<li>Easy response to changing requirements.</li>
+<li>Continuous feedback.</li>
+<li>Frequent testing and improvement.</li>
+</ul>
+
+<h3>Limitations</h3>
+<ul>
+<li>Requires regular customer collaboration.</li>
+<li>Frequent changes can make scheduling difficult.</li>
+<li>Requires disciplined communication.</li>
+<li>May be difficult where fixed scope and extensive upfront documentation are mandatory.</li>
+</ul>
+
+<!-- 20 -->
+<h2 id="xp">20. Extreme Programming (XP)</h2>
+
+<h3>Definition</h3>
+<p>
+Extreme Programming (XP) is an Agile development method that emphasizes
+frequent releases, customer involvement, continuous feedback and
+disciplined engineering practices.
+</p>
+
+<h3>Five Core Values</h3>
+<ol>
+<li>Communication</li>
+<li>Simplicity</li>
+<li>Feedback</li>
+<li>Courage</li>
+<li>Respect</li>
+</ol>
+
+<h3>Important XP Practices</h3>
+<ol>
+<li><strong>Planning Game:</strong> Customer and developers prioritize features and plan releases.</li>
+<li><strong>Small Releases:</strong> Deliver useful software frequently.</li>
+<li><strong>Simple Design:</strong> Keep the design as simple as possible for current requirements.</li>
+<li><strong>Testing:</strong> Perform continuous testing, including automated tests.</li>
+<li><strong>Refactoring:</strong> Improve internal code structure without changing external behaviour.</li>
+<li><strong>Pair Programming:</strong> Two developers work together at one workstation.</li>
+<li><strong>Collective Code Ownership:</strong> Team members can improve any part of the code.</li>
+<li><strong>Continuous Integration:</strong> Integrate and test changes frequently.</li>
+<li><strong>On-Site Customer:</strong> Keep a customer representative available for feedback.</li>
+<li><strong>Coding Standards:</strong> Follow shared coding conventions.</li>
+<li><strong>Sustainable Pace:</strong> Avoid continuous excessive overtime.</li>
+<li><strong>System Metaphor:</strong> Use a shared simple description of how the system works.</li>
+</ol>
+
+<h3>Typical XP Cycle</h3>
+<div class="diagram">
+<div class="flow">
+<span>User Stories</span><b>→</b>
+<span>Planning</span><b>→</b>
+<span>Design</span><b>→</b>
+<span>Coding</span><b>→</b>
+<span>Testing</span><b>→</b>
+<span>Small Release</span>
+</div>
+</div>
+
+<h3>Advantages</h3>
+<ul>
+<li>Frequent feedback and releases.</li>
+<li>Early defect detection.</li>
+<li>Improved communication.</li>
+<li>Adaptability to changing requirements.</li>
+<li>Improved code structure through refactoring.</li>
+</ul>
+
+<h3>Limitations</h3>
+<ul>
+<li>Requires customer availability.</li>
+<li>Requires strong team discipline.</li>
+<li>Pair programming may not suit every team.</li>
+<li>Scaling to large distributed teams can be challenging.</li>
+</ul>
+
+<!-- 21 -->
+<h2 id="scrum">21. Scrum</h2>
+
+<h3>Definition</h3>
+<p>
+Scrum is an Agile framework in which a team develops a product through
+fixed-length iterations called Sprints. Each Sprint aims to produce
+a usable product increment.
+</p>
+
+<h3>Scrum Accountabilities</h3>
+<ol>
+<li><strong>Product Owner:</strong> Maximizes product value and manages the Product Backlog.</li>
+<li><strong>Scrum Master:</strong> Helps the team understand and apply Scrum and supports removal of impediments.</li>
+<li><strong>Developers:</strong> Create the usable product increment during each Sprint.</li>
+</ol>
+
+<h3>Scrum Events</h3>
+<ol>
+<li><strong>Sprint:</strong> Fixed-length cycle in which work is performed.</li>
+<li><strong>Sprint Planning:</strong> Establishes the Sprint Goal and plans the work.</li>
+<li><strong>Daily Scrum:</strong> Daily event for Developers to inspect progress and adapt their plan.</li>
+<li><strong>Sprint Review:</strong> Inspect the outcome with stakeholders and discuss adaptations.</li>
+<li><strong>Sprint Retrospective:</strong> Identify improvements to team effectiveness and quality.</li>
+</ol>
+
+<h3>Scrum Artifacts</h3>
+<ol>
+<li><strong>Product Backlog:</strong> Ordered list of work needed to improve the product.</li>
+<li><strong>Sprint Backlog:</strong> Sprint Goal, selected Product Backlog items and delivery plan.</li>
+<li><strong>Increment:</strong> Usable step toward the product goal that meets the Definition of Done.</li>
+</ol>
+
+<h3>Scrum Lifecycle</h3>
+<div class="diagram">
+<div class="vertical">
+<span>Product Backlog</span><b>↓</b>
+<span>Sprint Planning</span><b>↓</b>
+<span>Sprint Backlog</span><b>↓</b>
+<span>Sprint: Design · Develop · Test</span><b>↓</b>
+<span>Usable Increment</span><b>↓</b>
+<span>Sprint Review</span><b>↓</b>
+<span>Sprint Retrospective</span><b>↺</b>
+<span>Next Sprint</span>
+</div>
+<p class="caption">Daily Scrum takes place throughout the Sprint.</p>
+</div>
+
+<h3>Advantages</h3>
+<ul>
+<li>Regular delivery of usable increments.</li>
+<li>Clear accountabilities and events.</li>
+<li>Frequent inspection and adaptation.</li>
+<li>Transparency and continuous improvement.</li>
+</ul>
+
+<h3>Limitations</h3>
+<ul>
+<li>Requires active team participation.</li>
+<li>Poor backlog management reduces effectiveness.</li>
+<li>Requires consistent understanding of Scrum practices.</li>
+</ul>
+
+<!-- 22 -->
+<h2 id="kanban">22. Kanban</h2>
+
+<h3>Definition</h3>
+<p>
+Kanban is a method for managing and improving workflow by visualizing
+work, limiting work in progress (WIP) and managing the flow of tasks.
+</p>
+
+<h3>Main Principles</h3>
+<ol>
+<li>Visualize workflow.</li>
+<li>Limit work in progress.</li>
+<li>Manage and improve flow.</li>
+<li>Make workflow policies explicit.</li>
+<li>Use feedback loops.</li>
+<li>Improve collaboratively and evolve experimentally.</li>
+</ol>
+
+<h3>Example Kanban Board</h3>
+<table>
+<tr><th>To Do</th><th>In Progress</th><th>Testing</th><th>Done</th></tr>
+<tr><td>Task A</td><td>Task C</td><td>Task D</td><td>Task F</td></tr>
+<tr><td>Task B</td><td>Task E</td><td></td><td></td></tr>
+</table>
+
+<p class="caption">Illustrative Kanban board showing the movement of tasks through workflow stages.</p>
+
+<h3>Advantages</h3>
+<ul>
+<li>Work status is clearly visible.</li>
+<li>Bottlenecks can be identified.</li>
+<li>WIP limits control parallel work.</li>
+<li>Supports continuous delivery.</li>
+<li>Allows flexible priorities.</li>
+</ul>
+
+<h3>Limitations</h3>
+<ul>
+<li>The board must be kept updated.</li>
+<li>Without WIP limits it can become only a task list.</li>
+<li>Delivery timing is less fixed than Sprint-based Scrum.</li>
+</ul>
+
+<!-- 23 -->
+<h2 id="comparison">23. Important Process Model Comparisons</h2>
+
+<h3>Waterfall vs Incremental Model</h3>
+<table>
+<tr><th>Parameter</th><th>Waterfall</th><th>Incremental</th></tr>
+<tr><td>Development</td><td>Sequential phases.</td><td>Multiple increments.</td></tr>
+<tr><td>Delivery</td><td>Generally near the end.</td><td>Working software in stages.</td></tr>
+<tr><td>Requirement changes</td><td>Difficult.</td><td>Easier between increments.</td></tr>
+<tr><td>Testing</td><td>Follows implementation phases.</td><td>Performed for each increment.</td></tr>
+<tr><td>Customer feedback</td><td>Usually later.</td><td>After increments.</td></tr>
+</table>
+
+<h3>Waterfall vs Spiral Model</h3>
+<table>
+<tr><th>Parameter</th><th>Waterfall</th><th>Spiral</th></tr>
+<tr><td>Approach</td><td>Linear sequential.</td><td>Risk-driven evolutionary.</td></tr>
+<tr><td>Risk analysis</td><td>Not the central focus.</td><td>Central activity in every cycle.</td></tr>
+<tr><td>Requirements</td><td>Preferably stable.</td><td>Can evolve across iterations.</td></tr>
+<tr><td>Customer feedback</td><td>Generally later.</td><td>Can be incorporated repeatedly.</td></tr>
+<tr><td>Cost</td><td>Generally simpler to estimate.</td><td>Can be expensive and complex.</td></tr>
+<tr><td>Suitability</td><td>Small projects with clear requirements.</td><td>Large, complex, high-risk projects.</td></tr>
+</table>
+
+<h3>Agile vs Waterfall Model</h3>
+<table>
+<tr><th>Parameter</th><th>Waterfall</th><th>Agile</th></tr>
+<tr><td>Approach</td><td>Sequential.</td><td>Iterative and incremental.</td></tr>
+<tr><td>Requirements</td><td>Expected to be stable.</td><td>Can change throughout development.</td></tr>
+<tr><td>Customer involvement</td><td>Generally at defined stages.</td><td>Continuous collaboration.</td></tr>
+<tr><td>Delivery</td><td>Generally near project completion.</td><td>Frequent working increments.</td></tr>
+<tr><td>Testing</td><td>Usually after implementation.</td><td>Continuous throughout iterations.</td></tr>
+<tr><td>Flexibility</td><td>Less flexible.</td><td>More flexible.</td></tr>
+<tr><td>Documentation</td><td>Usually more upfront documentation.</td><td>Working software is emphasized.</td></tr>
+<tr><td>Best suited for</td><td>Stable requirements.</td><td>Changing requirements and frequent feedback.</td></tr>
+</table>
+
+<h3>Scrum vs Kanban</h3>
+<table>
+<tr><th>Parameter</th><th>Scrum</th><th>Kanban</th></tr>
+<tr><td>Definition</td><td>Agile framework using fixed-length Sprints.</td><td>Workflow method focused on continuous flow.</td></tr>
+<tr><td>Work cycle</td><td>Fixed-duration Sprints.</td><td>No mandatory fixed iteration.</td></tr>
+<tr><td>Planning</td><td>Sprint Planning before each Sprint.</td><td>Planning as work needs arise.</td></tr>
+<tr><td>Roles</td><td>Product Owner, Scrum Master and Developers.</td><td>No mandatory prescribed roles.</td></tr>
+<tr><td>WIP</td><td>Managed through Sprint practices.</td><td>Explicit WIP limits are central.</td></tr>
+<tr><td>Change</td><td>Changes should not endanger the Sprint Goal.</td><td>Priorities can be adjusted under workflow policies.</td></tr>
+<tr><td>Delivery</td><td>Usable increments.</td><td>Continuous delivery as items are completed.</td></tr>
+</table>
+
+<!-- 24 -->
+<h2 id="trends">24. Advanced Trends in Software Engineering</h2>
+
+<p>
+Software Engineering continues to evolve due to changes in technology,
+development practices and user requirements. Important trends include:
+</p>
+
+<ol>
+<li><strong>Artificial Intelligence and Machine Learning:</strong> Used for intelligent applications, prediction, automated testing and defect detection.</li>
+<li><strong>Cloud Computing:</strong> Provides computing resources, storage and software services over the internet.</li>
+<li><strong>DevOps:</strong> Combines development and operations practices to improve collaboration, automation and software delivery.</li>
+<li><strong>Microservices Architecture:</strong> Divides an application into smaller, independently deployable services.</li>
+<li><strong>Internet of Things (IoT):</strong> Connects physical devices that collect and exchange data through networks.</li>
+<li><strong>Low-Code and No-Code Development:</strong> Uses visual tools and predefined components to accelerate application development.</li>
+<li><strong>Cybersecurity Engineering:</strong> Integrates security practices throughout the software development life cycle.</li>
+<li><strong>Continuous Integration and Continuous Delivery:</strong> Automates integration, testing and delivery activities.</li>
+</ol>
+
+<!-- 25 -->
+<h2 id="questionbank">25. M1 Question Bank</h2>
+
+<p>
+Priority labels are intended to help organize revision. They do not
+guarantee the questions that will appear in an examination.
+</p>
+
+<div class="callout">
+<strong>Priority Key:</strong><br>
+🔴 MUSA Top Priority<br>
+🟠 Extended Question Bank<br>
+🔵 College QB / IA<br>
+🟣 Previous Year Question<br>
+⚪ Additional syllabus coverage
+</div>
+
+<h3>Introduction, Process and Umbrella Activities</h3>
+<ol>
+<li>Define Software Engineering. Explain the umbrella activities of Software Engineering. 🔵</li>
+<li>Explain the layered approach of Software Engineering. ⚪</li>
+<li>Explain the need and characteristics of Software Engineering. ⚪</li>
+<li>What is a software process? Explain its major activities. 🔵</li>
+<li>Explain the generic process model. ⚪</li>
+<li>Explain the generic process framework activities. ⚪</li>
+<li>Explain umbrella activities of Software Engineering. 🔵</li>
+<li>List and explain the different umbrella activities. 🔵</li>
+<li>Explain the different software application domains. ⚪</li>
+</ol>
+
+<h3>CMM and CMMI</h3>
+<ol>
+<li>Explain Capability Maturity Model (CMM) and its different levels in detail. 🔴</li>
+<li>Explain the process of CMM. 🟣</li>
+<li>Explain CMM and CMMI. ⚪</li>
+<li>Differentiate between CMM and CMMI. ⚪</li>
+</ol>
+
+<h3>Waterfall, V-Model and Incremental</h3>
+<ol>
+<li>Explain the Waterfall Model with a suitable diagram. ⚪</li>
+<li>Differentiate between Waterfall and Spiral Model. 🟠</li>
+<li>Explain and compare Waterfall and Incremental Models. 🟠</li>
+<li>Explain the V-Model of Software Development with a diagram. ⚪</li>
+<li>Explain verification and validation phases of V-Model. ⚪</li>
+<li>Explain the Incremental Process Model with a suitable diagram. 🟠</li>
+<li>Differentiate between Waterfall and Incremental Models. ⚪</li>
+</ol>
+
+<h3>Evolutionary, Spiral, Prototyping and RAD</h3>
+<ol>
+<li>Explain the Spiral Model of Software Development and discuss its limitations. 🔴</li>
+<li>Explain the Spiral Model with a suitable diagram. 🟣</li>
+<li>Differentiate between Waterfall and Spiral Models. 🟠</li>
+<li>When should the Prototype Model be used? Discuss its advantages and disadvantages. 🟣</li>
+<li>Explain the Prototype Model with a suitable diagram. ⚪</li>
+<li>Discuss Incremental and Prototype Models for Software Development with suitable diagrams. 🟣</li>
+<li>Explain the RAD Model with its phases, advantages and disadvantages. 🔵</li>
+<li>Differentiate between RAD and traditional development models. ⚪</li>
+</ol>
+
+<h3>Agile, XP, Scrum and Kanban</h3>
+<ol>
+<li>What is Agile Methodology? Explain its principles and give an example of a software model. 🟣</li>
+<li>Explain the Agile Process Model in detail. 🔴</li>
+<li>What is Agile in the context of Software Engineering? Explain with a suitable diagram. 🟣</li>
+<li>Explain Extreme Programming (XP) with its principles and activities. 🔴</li>
+<li>Explain the Agile Process Model and Extreme Programming. 🟠</li>
+<li>Differentiate between Scrum and Kanban. ⚪</li>
+<li>Explain Scrum activities and its lifecycle with a suitable diagram. 🔵</li>
+<li>Differentiate between Agile and Waterfall models. 🔵</li>
+<li>Explain the Kanban method and its principles. ⚪</li>
+</ol>
+
+<h3>Other Questions</h3>
+<ol>
+<li>Explain the Concurrent Process Model. ⚪</li>
+<li>Explain the advanced trends in Software Engineering. 🔵</li>
+<li>Explain the different characteristics of software. ⚪</li>
+<li>Explain the major activities involved in Software Engineering. ⚪</li>
+</ol>
+
+<div class="callout">
+<strong>Final Revision Tip:</strong>
+Prioritize CMM, Umbrella Activities, Spiral Model, Agile Process Model,
+XP, RAD, Scrum Lifecycle and the Agile-vs-Waterfall comparison.
+Then revise the remaining topics to ensure full module coverage.
+</div>
+
+</section>
+</body>
+</html>

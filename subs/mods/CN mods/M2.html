@@ -1,0 +1,1368 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Module 2 | Data Link Layer and MAC Sublayer</title>
+  <style>
+    #module-content {
+      --m2-line: var(--rule, #394355);
+      --m2-ink: var(--ink, #e8eaf0);
+      --m2-muted: var(--muted, #a5adbd);
+      --m2-accent: var(--accent, #8fb0ee);
+      width: 100%;
+      max-width: none;
+      color: var(--m2-ink);
+      line-height: 1.72
+    }
+
+    #module-content * {
+      box-sizing: border-box
+    }
+
+    #module-content h1 {
+      font-size: clamp(1.8rem, 3vw, 2.5rem);
+      line-height: 1.2;
+      margin: .2rem 0 .6rem
+    }
+
+    #module-content h2 {
+      font-size: clamp(1.35rem, 2.2vw, 1.8rem);
+      line-height: 1.25;
+      margin: 2.6rem 0 .8rem;
+      padding-bottom: .45rem;
+      border-bottom: 1px solid var(--m2-line)
+    }
+
+    #module-content h3 {
+      font-size: 1.12rem;
+      line-height: 1.35;
+      margin: 1.4rem 0 .45rem
+    }
+
+    #module-content p {
+      margin: .5rem 0 .9rem
+    }
+
+    #module-content li {
+      margin: .3rem 0
+    }
+
+    #module-content strong {
+      color: var(--m2-accent)
+    }
+
+    #module-content .eyebrow {
+      font: 800 .75rem system-ui, sans-serif;
+      letter-spacing: .13em;
+      color: var(--m2-accent)
+    }
+
+    #module-content .lead {
+      color: var(--m2-muted);
+      max-width: 88ch
+    }
+
+    #module-content .callout,
+    #module-content .note {
+      padding: .9rem 1rem;
+      margin: 1rem 0;
+      border-left: 3px solid var(--m2-accent);
+      background: color-mix(in srgb, var(--m2-accent) 8%, transparent)
+    }
+
+    #module-content .note {
+      border: 1px solid var(--m2-line);
+      border-left: 3px solid var(--m2-accent);
+      border-radius: 8px
+    }
+
+    #module-content .index {
+      border: 1px solid var(--m2-line);
+      border-radius: 10px;
+      padding: 1rem 1.2rem;
+      margin: 1.5rem 0
+    }
+
+    #module-content .index ol {
+      columns: 2;
+      column-gap: 2rem
+    }
+
+    #module-content .index li {
+      break-inside: avoid
+    }
+
+    #module-content a {
+      color: var(--m2-accent);
+      overflow-wrap: anywhere
+    }
+
+    #module-content .table-wrap {
+      width: 100%;
+      max-width: 100%;
+      overflow-x: auto;
+      margin: 1rem 0 1.5rem
+    }
+
+    #module-content table {
+      width: 100%;
+      min-width: 580px;
+      border-collapse: collapse;
+      font-size: .94rem
+    }
+
+    #module-content th,
+    #module-content td {
+      border: 1px solid var(--m2-line);
+      padding: .65rem .75rem;
+      text-align: left;
+      vertical-align: top
+    }
+
+    #module-content th {
+      background: color-mix(in srgb, var(--m2-accent) 12%, transparent)
+    }
+
+    #module-content .diagram {
+      width: 100%;
+      max-width: 100%;
+      overflow-x: auto;
+      border: 1px dashed var(--m2-line);
+      border-radius: 10px;
+      padding: 1rem;
+      margin: 1rem 0;
+      text-align: center
+    }
+
+    #module-content .diagram svg {
+      display: block;
+      max-width: 100%;
+      height: auto;
+      margin: auto
+    }
+
+    #module-content .caption,
+    #module-content .muted {
+      font-size: .87rem;
+      color: var(--m2-muted)
+    }
+
+    #module-content .video,
+    #module-content .reference {
+      border: 1px solid var(--m2-line);
+      border-left: 3px solid var(--m2-accent);
+      border-radius: 8px;
+      padding: .8rem 1rem;
+      margin: .8rem 0
+    }
+
+    #module-content .two-col {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 1rem
+    }
+
+    #module-content .two-col>div {
+      min-width: 0;
+      border: 1px solid var(--m2-line);
+      border-radius: 8px;
+      padding: .9rem
+    }
+
+    #module-content pre {
+      white-space: pre;
+      overflow-x: auto;
+      padding: 1rem;
+      border: 1px solid var(--m2-line);
+      border-radius: 8px;
+      background: color-mix(in srgb, var(--m2-ink) 5%, transparent)
+    }
+
+    #module-content code {
+      font-family: ui-monospace, Consolas, monospace
+    }
+
+    #module-content .tag {
+      display: inline-block;
+      border: 1px solid var(--m2-line);
+      border-radius: 20px;
+      padding: .1rem .55rem;
+      margin: .15rem;
+      font: 700 .72rem system-ui, sans-serif;
+      color: var(--m2-muted)
+    }
+
+    #module-content .question-list li {
+      margin: .55rem 0
+    }
+
+    @media(max-width:650px) {
+      #module-content .index ol {
+        columns: 1
+      }
+
+      #module-content .two-col {
+        grid-template-columns: 1fr
+      }
+
+      #module-content table {
+        font-size: .88rem
+      }
+    }
+
+    @media print {
+      #module-content .index {
+        display: none
+      }
+
+      #module-content h2 {
+        break-after: avoid
+      }
+
+      #module-content table,
+      #module-content .diagram {
+        break-inside: avoid
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <section id="module-content">
+    <p class="eyebrow">PAPER. / COMPUTER NETWORKS / MODULE 02</p>
+    <h1>Data Link Layer and MAC Sublayer</h1>
+    <p class="lead">This module explains the functions and design of the Data Link Layer, its services to the Network
+      Layer, framing, error detection and correction, flow-control protocols, PPP, HDLC, random-access MAC protocols and
+      IEEE LAN standards. The sequence follows Module II of the uploaded University of Mumbai syllabus for course
+      2115112.</p>
+    <div class="callout"><strong>Official syllabus scope:</strong> 2.1 Introduction and functions; 2.2 services to
+      Network Layer, framing, error detection and correction, parity bits, checksum, Hamming codes and CRC; 2.3
+      unrestricted simplex, stop-and-wait and sliding-window protocols; 2.4 PPP and HDLC; 2.5 Pure and Slotted ALOHA,
+      CSMA, CSMA/CD and CSMA/CA; 2.6 IEEE 802.3 and IEEE 802.11. <br><strong>Self-learning:</strong> Demonstration of
+      Data Link Layer protocols on a simulator.</div>
+    <div class="index"><strong>In this module</strong>
+      <ol>
+        <li><a href="#intro">Introduction and functions of DLL</a></li>
+        <li><a href="#services">Services to the Network Layer</a></li>
+        <li><a href="#framing">Framing and framing methods</a></li>
+        <li><a href="#errors">Error detection and correction</a></li>
+        <li><a href="#parity">Parity bits</a></li>
+        <li><a href="#checksum">Checksum</a></li>
+        <li><a href="#hamming">Hamming codes</a></li>
+        <li><a href="#crc">Cyclic Redundancy Check (CRC)</a></li>
+        <li><a href="#flow">Flow control protocols</a></li>
+        <li><a href="#ppp">PPP</a></li>
+        <li><a href="#hdlc">HDLC</a></li>
+        <li><a href="#aloha">Pure and Slotted ALOHA</a></li>
+        <li><a href="#csma">CSMA, CSMA/CD and CSMA/CA</a></li>
+        <li><a href="#ieee">IEEE 802.3 and IEEE 802.11</a></li>
+        <li><a href="#qb">Question-bank map and references</a></li>
+      </ol>
+    </div>
+
+    <h2 id="intro">1. Introduction to the Data Link Layer</h2>
+    <h3>Definition</h3>
+    <p>The <strong>Data Link Layer (DLL)</strong> is the second layer of the OSI reference model. It provides
+      node-to-node delivery of data over a single physical link. It accepts packets from the Network Layer, encapsulates
+      them into frames, and passes the frames to the Physical Layer for transmission. At the receiving node, it performs
+      the reverse operation and delivers the recovered packet to the Network Layer.</p>
+    <div class="diagram"><svg viewBox="0 0 760 230" role="img"
+        aria-label="Data link layer communication between two adjacent nodes">
+        <g fill="none" stroke="currentColor" stroke-width="2">
+          <rect x="35" y="25" width="190" height="150" rx="8" />
+          <rect x="535" y="25" width="190" height="150" rx="8" />
+          <path d="M225 105H535" stroke-dasharray="7 5" />
+          <path d="M510 97l25 8-25 8" />
+        </g>
+        <g fill="currentColor" text-anchor="middle" font-size="17"><text x="130" y="52">Node A</text><text x="130"
+            y="91">Network Layer</text><text x="130" y="125" font-weight="bold">Data Link Layer</text><text x="130"
+            y="155">Physical Layer</text><text x="630" y="52">Node B</text><text x="630" y="91">Network
+            Layer</text><text x="630" y="125" font-weight="bold">Data Link Layer</text><text x="630" y="155">Physical
+            Layer</text><text x="380" y="82" font-size="14">Frame over one link</text><text x="380" y="145"
+            font-size="13">Node-to-node delivery</text></g>
+      </svg></div>
+    <p class="caption">Figure: The Data Link Layer provides a link-level transfer between two directly connected nodes.
+      Routers and intermediate systems may terminate one link-layer frame and create another for the next link.</p>
+    <h3>Main functions of the Data Link Layer</h3>
+    <ol>
+      <li><strong>Framing:</strong> Divides the continuous bit stream into identifiable units called frames by adding
+        headers and trailers.</li>
+      <li><strong>Physical addressing:</strong> Uses link-layer addresses (such as MAC addresses in Ethernet) to
+        identify source and destination interfaces on a local link.</li>
+      <li><strong>Flow control:</strong> Prevents a fast sender from overwhelming a slower receiver by regulating the
+        rate or amount of outstanding data.</li>
+      <li><strong>Error control:</strong> Detects transmission errors and, in protocols that support it, uses
+        acknowledgements and retransmissions or correction mechanisms to recover.</li>
+      <li><strong>Access control:</strong> Determines which station may use a shared communication medium when multiple
+        devices contend for it.</li>
+      <li><strong>Link management:</strong> Establishes, maintains or terminates link-level operation as required by the
+        technology.</li>
+    </ol>
+    <div class="note"><strong>Exam distinction:</strong> Error detection is not identical to error correction. A CRC can
+      detect many error patterns, but the receiver normally requests retransmission or discards a corrupted frame;
+      Hamming codes can add enough redundancy to correct certain bit errors.</div>
+
+    <h2 id="services">2. Services Provided to the Network Layer</h2>
+    <p>The Data Link Layer provides an interface through which the Network Layer can send packets across a link. In the
+      classic layered description, three service types are commonly distinguished:</p>
+    <h3>2.1 Unacknowledged connectionless service</h3>
+    <ul>
+      <li>No logical connection is established before sending frames.</li>
+      <li>The sender transmits frames independently; the receiver does not acknowledge each frame at the DLL level.</li>
+      <li>Lost or damaged frames are not recovered by this service itself.</li>
+      <li>It is suitable for links where the error rate is low or where higher layers handle recovery. Traditional
+        Ethernet is a common example of a connectionless link service.</li>
+    </ul>
+    <h3>2.2 Acknowledged connectionless service</h3>
+    <ul>
+      <li>No connection setup is required, but each frame is individually acknowledged.</li>
+      <li>If an acknowledgement is not received within the required time, the sender may retransmit the frame.</li>
+      <li>It is useful on less reliable links where recovery is desirable without maintaining a long-lived logical
+        connection.</li>
+    </ul>
+    <h3>2.3 Acknowledged connection-oriented service</h3>
+    <ul>
+      <li>A logical connection is established before data transfer.</li>
+      <li>Frames are numbered and delivered reliably and in order using acknowledgements, sequence numbers and
+        retransmissions.</li>
+      <li>The connection is released after communication is complete.</li>
+      <li>It is useful when reliable, ordered delivery over the link is required.</li>
+    </ul>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>Service</th>
+            <th>Connection setup</th>
+            <th>Acknowledgement</th>
+            <th>Reliability at DLL</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Unacknowledged connectionless</td>
+            <td>No</td>
+            <td>No</td>
+            <td>No DLL recovery guarantee</td>
+          </tr>
+          <tr>
+            <td>Acknowledged connectionless</td>
+            <td>No</td>
+            <td>Per frame</td>
+            <td>Recovery through acknowledgement/retransmission</td>
+          </tr>
+          <tr>
+            <td>Acknowledged connection-oriented</td>
+            <td>Yes</td>
+            <td>Yes</td>
+            <td>Reliable, ordered link delivery</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h2 id="framing">3. Framing</h2>
+    <div class="definition"><strong>Definition:</strong> Framing is the process of dividing the bit stream received from
+      the Network Layer into manageable data units called <em>frames</em>. The receiver must be able to identify where
+      each frame begins and ends.</div>
+    <p>At the Physical Layer, bits may arrive as a continuous stream. The Data Link Layer adds framing information so
+      the receiver can recognize boundaries, identify control information and check the frame for errors.</p>
+    <h3>General frame format</h3>
+    <div class="diagram"><svg viewBox="0 0 760 120" role="img"
+        aria-label="Generic frame with header payload and trailer">
+        <g stroke="currentColor" stroke-width="1.5">
+          <rect x="20" y="28" width="150" height="52" fill="#6686bd" fill-opacity=".18" />
+          <rect x="170" y="28" width="420" height="52" fill="#6686bd" fill-opacity=".08" />
+          <rect x="590" y="28" width="150" height="52" fill="#6686bd" fill-opacity=".18" />
+        </g>
+        <g fill="currentColor" text-anchor="middle" font-size="16"><text x="95" y="59">Header</text><text x="380"
+            y="59">Payload / Data</text><text x="665" y="59">Trailer</text><text x="95" y="102" font-size="12">Address /
+            control</text><text x="665" y="102" font-size="12">Error check (e.g. FCS)</text></g>
+      </svg></div>
+    <p class="caption">A generic frame may contain addressing and control fields in its header, payload in the middle,
+      and an error-detection field in its trailer. Exact fields depend on the protocol.</p>
+    <h3>3.1 Character count</h3>
+    <p>A field in the frame header specifies the number of characters (or bytes) present in the frame. The receiver
+      reads the count and uses it to locate the end of the frame.</p>
+    <ol>
+      <li>The sender places the frame length in the count field.</li>
+      <li>The receiver reads the count and collects the indicated number of bytes.</li>
+      <li>It then treats the next byte as the beginning of the next frame.</li>
+    </ol>
+    <p><strong>Limitation:</strong> If the count field is corrupted, the receiver may lose synchronization and interpret
+      subsequent frame boundaries incorrectly. A later valid count does not always restore synchronization immediately.
+    </p>
+    <h3>3.2 Byte stuffing (character stuffing)</h3>
+    <p>In byte-oriented framing, special flag bytes mark the beginning and end of a frame. If the same flag byte appears
+      in the payload, the sender inserts an escape byte before it. This process is called <strong>byte
+        stuffing</strong>. The receiver removes the inserted escape byte before delivering the original data.</p>
+    <div class="diagram"><svg viewBox="0 0 760 170" role="img" aria-label="Byte stuffing example">
+        <g fill="currentColor" font-size="15"><text x="15" y="27">Original payload:</text><text x="180" y="27"
+            font-family="monospace">A B FLAG C</text><text x="15" y="83">Transmitted data:</text><text x="180" y="83"
+            font-family="monospace">FLAG | A B ESC FLAG C | FLAG</text><text x="15" y="139">Receiver:</text><text
+            x="180" y="139" font-family="monospace">Removes ESC; restores A B FLAG C</text></g>
+        <path d="M165 40H735M165 96H735" stroke="currentColor" stroke-opacity=".3" />
+      </svg></div>
+    <p><strong>Advantage:</strong> Payload can contain any byte pattern without being mistaken for a frame delimiter.
+      <strong>Limitation:</strong> Extra escape bytes increase the transmitted frame length when special bytes occur.
+    </p>
+    <h3>3.3 Bit stuffing</h3>
+    <p>Bit-oriented protocols use a special flag bit pattern to mark frame boundaries. In HDLC, the flag is
+      <code>01111110</code>. To prevent this pattern from appearing inside the payload, the sender inserts a
+      <code>0</code> after every sequence of five consecutive <code>1</code> bits in the data. The receiver removes each
+      inserted zero after detecting five consecutive ones.</p>
+    <div class="diagram"><svg viewBox="0 0 760 150" role="img" aria-label="Bit stuffing example">
+        <g fill="currentColor" font-family="monospace" font-size="17"><text x="18" y="34">Data bits:</text><text x="180"
+            y="34">01111110 11111 1 010</text><text x="18" y="83">Stuffed:</text><text x="180" y="83">01111110 111110 1
+            010</text></g>
+        <g fill="currentColor" font-size="12"><text x="18" y="126">A zero is inserted after the fifth consecutive one in
+            the data field.</text></g>
+      </svg></div>
+    <p><strong>Advantages:</strong> It is independent of character encoding and supports arbitrary bit-oriented data.
+      <strong>Limitation:</strong> The number of inserted bits varies with the data pattern.</p>
+    <h3>3.4 Physical-layer coding violations</h3>
+    <p>Some physical encodings have signal patterns that are not used for ordinary data. A reserved or invalid signal
+      pattern can therefore be used to mark frame boundaries. This method avoids adding stuffing bits, but it is
+      possible only when the physical encoding provides suitable unused symbols.</p>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>Method</th>
+            <th>Boundary identification</th>
+            <th>Main limitation / consideration</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Character count</td>
+            <td>Length field in header</td>
+            <td>Corrupted count can destroy synchronization.</td>
+          </tr>
+          <tr>
+            <td>Byte stuffing</td>
+            <td>Special start/end bytes; escape special payload bytes</td>
+            <td>Extra bytes are inserted when needed.</td>
+          </tr>
+          <tr>
+            <td>Bit stuffing</td>
+            <td>Flag bit pattern; insert zero after five consecutive ones</td>
+            <td>Variable bit overhead; sender and receiver must implement the rule.</td>
+          </tr>
+          <tr>
+            <td>Coding violations</td>
+            <td>Reserved physical signal pattern</td>
+            <td>Requires unused code symbols in the physical encoding.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <h3>Variable-length frames vs fixed-length frames</h3>
+    <p><strong>Fixed-length framing</strong> uses frames of a predetermined size, so boundaries can be inferred from
+      position or fixed size. <strong>Variable-length framing</strong> permits the payload size to vary and uses a
+      length field or delimiters/stuffing to identify boundaries.</p>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>Fixed-length frames</th>
+            <th>Variable-length frames</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>All frames have the same defined size.</td>
+            <td>Frame size can vary within protocol limits.</td>
+          </tr>
+          <tr>
+            <td>Boundary detection can be simple after synchronization.</td>
+            <td>Needs a length field, delimiters or stuffing.</td>
+          </tr>
+          <tr>
+            <td>May waste space when data is smaller than the fixed payload capacity.</td>
+            <td>Can use link capacity more efficiently for differently sized data units.</td>
+          </tr>
+          <tr>
+            <td>Simple buffering and processing can be possible.</td>
+            <td>More flexible, but boundary handling is more involved.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h2 id="errors">4. Error Detection and Error Correction</h2>
+    <p>During transmission, noise, interference, attenuation or other physical effects may change one or more bits.
+      Error-control techniques add redundant information so that a receiver can detect or correct such changes.</p>
+    <h3>Types of transmission errors</h3>
+    <ul>
+      <li><strong>Single-bit error:</strong> Exactly one bit in a data unit changes from 0 to 1 or from 1 to 0.</li>
+      <li><strong>Burst error:</strong> Two or more bits in a data unit are affected; the erroneous bits may be
+        separated by correct bits. Burst length is measured from the first corrupted bit to the last corrupted bit.</li>
+    </ul>
+    <h3>Detection and correction</h3>
+    <div class="two-col">
+      <div>
+        <h3>Error detection</h3>
+        <p>Redundant bits allow the receiver to determine that the received data is inconsistent with the code rules.
+          The receiver may discard the frame or request retransmission.</p>
+        <p><strong>Examples:</strong> parity, checksum and CRC.</p>
+      </div>
+      <div>
+        <h3>Error correction</h3>
+        <p>Redundant bits provide enough information for the receiver to identify and correct certain errors without
+          asking for retransmission.</p>
+        <p><strong>Example:</strong> Hamming code for single-bit correction.</p>
+      </div>
+    </div>
+    <p>A code's <strong>Hamming distance</strong> is the number of bit positions in which two codewords differ. If the
+      minimum Hamming distance of a code is <em>d</em>, it can detect up to <em>d − 1</em> bit errors and correct up to
+      <em>floor((d − 1)/2)</em> bit errors.</p>
+
+    <h2 id="parity">5. Parity Bits</h2>
+    <div class="definition"><strong>Parity bit:</strong> An extra bit appended to a group of data bits so that the total
+      number of 1s follows an agreed parity rule.</div>
+    <h3>Even parity</h3>
+    <p>The parity bit is selected so that the total number of 1s in the data plus parity bit is even.</p>
+    <h3>Odd parity</h3>
+    <p>The parity bit is selected so that the total number of 1s in the data plus parity bit is odd.</p>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>Data bits</th>
+            <th>Number of 1s</th>
+            <th>Even parity bit</th>
+            <th>Odd parity bit</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>1011001</td>
+            <td>4</td>
+            <td>0</td>
+            <td>1</td>
+          </tr>
+          <tr>
+            <td>1011011</td>
+            <td>5</td>
+            <td>1</td>
+            <td>0</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <h3>Working</h3>
+    <ol>
+      <li>The sender counts the number of 1s in the data bits.</li>
+      <li>It calculates the parity bit according to the selected even or odd rule.</li>
+      <li>The parity bit is transmitted with the data.</li>
+      <li>The receiver counts the 1s again and checks whether the parity condition is satisfied.</li>
+      <li>If the condition fails, an error is detected.</li>
+    </ol>
+    <p><strong>Advantages:</strong> Simple, inexpensive and easy to implement. <strong>Limitations:</strong> A single
+      parity bit detects every odd number of bit flips, but it cannot detect an even number of bit flips. It does not
+      identify the erroneous bit and cannot correct it by itself.</p>
+    <h3>Two-dimensional parity</h3>
+    <p>In two-dimensional parity, data bits are arranged in rows and columns. A parity bit is calculated for each row
+      and each column. If a single bit changes, the incorrect row and incorrect column intersect, identifying the bit
+      that can be corrected. Some multiple-bit error patterns may still escape detection or may not be uniquely
+      correctable.</p>
+
+    <h2 id="checksum">6. Checksum</h2>
+    <div class="definition"><strong>Checksum:</strong> An error-detection value calculated from a data unit using
+      arithmetic, appended to the data, and recomputed by the receiver to check whether the data may have been
+      corrupted.</div>
+    <h3>Sender-side procedure (one's-complement checksum)</h3>
+    <ol>
+      <li>Divide the data into equal-sized words (commonly 16-bit words in Internet checksum use).</li>
+      <li>Add all words using one's-complement addition. Any carry beyond the word width is wrapped around and added to
+        the least significant end.</li>
+      <li>Complement every bit of the final sum. This is the checksum.</li>
+      <li>Transmit the data words along with the checksum.</li>
+    </ol>
+    <h3>Receiver-side procedure</h3>
+    <ol>
+      <li>Add all received data words and the received checksum using the same one's-complement addition.</li>
+      <li>If the result is all 1s (equivalently, its complement is zero), the check passes.</li>
+      <li>Otherwise, an error is indicated.</li>
+    </ol>
+    <h3>Worked example (8-bit words for illustration)</h3>
+    <p>Take two data words: <code>10011001</code> and <code>11100010</code>.</p>
+    <pre>  10011001
++ 11100010
+-----------
+1 01111011   (carry out = 1)
+  01111011
++        1   (wrap the carry around)
+-----------
+  01111100   (sum)
+  10000011   (one's complement = checksum)</pre>
+    <p>The sender transmits <code>10011001 11100010 10000011</code>. At the receiver, adding all three words with
+      end-around carry produces <code>11111111</code> if no error is detected.</p>
+    <h3>Advantages and limitations</h3>
+    <ul>
+      <li>Simple and efficient in software.</li>
+      <li>Detects many common errors in transmitted data.</li>
+      <li>It is not as strong as CRC for many burst-error patterns.</li>
+      <li>Different error patterns can produce the same checksum, so checksum verification is not proof that data is
+        error-free.</li>
+    </ul>
+
+    <h2 id="hamming">7. Hamming Codes</h2>
+    <div class="definition"><strong>Hamming code:</strong> A linear error-correcting code that inserts parity/check bits
+      at selected positions so that the receiver can locate and correct a single-bit error.</div>
+    <h3>Number of redundant bits</h3>
+    <p>For <em>m</em> data bits and <em>r</em> check bits, the number of check bits must satisfy:</p>
+    <div class="callout"><strong>2<sup>r</sup> ≥ m + r + 1</strong><br>The left side represents the possible syndrome
+      values; the right side accounts for every data/check-bit position plus the no-error condition.</div>
+    <h3>Positioning of check bits</h3>
+    <p>Number bit positions starting from 1. Place check bits at positions that are powers of two: <strong>1, 2, 4, 8,
+        16, ...</strong>. Fill the remaining positions with data bits.</p>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>Position</th>
+            <th>1</th>
+            <th>2</th>
+            <th>3</th>
+            <th>4</th>
+            <th>5</th>
+            <th>6</th>
+            <th>7</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <th>Bit type</th>
+            <td>P1</td>
+            <td>P2</td>
+            <td>D1</td>
+            <td>P4</td>
+            <td>D2</td>
+            <td>D3</td>
+            <td>D4</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <h3>Parity coverage for the (7,4) Hamming code</h3>
+    <ul>
+      <li><strong>P1</strong> checks positions whose binary position number has its least significant bit set: 1, 3, 5
+        and 7.</li>
+      <li><strong>P2</strong> checks positions with the second binary bit set: 2, 3, 6 and 7.</li>
+      <li><strong>P4</strong> checks positions with the third binary bit set: 4, 5, 6 and 7.</li>
+    </ul>
+    <h3>Encoding and error correction procedure</h3>
+    <ol>
+      <li>Choose the data bits and determine the required number of check bits using <code>2^r ≥ m+r+1</code>.</li>
+      <li>Insert check bits at power-of-two positions.</li>
+      <li>For each check bit, calculate the selected even (or agreed) parity across its covered positions.</li>
+      <li>Transmit the complete codeword.</li>
+      <li>The receiver recalculates the parity checks. Their results form a binary <strong>syndrome</strong>.</li>
+      <li>A zero syndrome indicates no single-bit error was identified. A non-zero syndrome gives the position number of
+        the erroneous bit in a standard Hamming single-error-correcting code; flip that bit to correct it.</li>
+    </ol>
+    <div class="note"><strong>Scope note:</strong> Basic Hamming code provides single-error correction. A Hamming code
+      with an additional overall parity bit is commonly called SECDED (single-error correction, double-error detection);
+      the extra bit allows detection of a two-bit error, but not correction of it.</div>
+
+    <h2 id="crc">8. Cyclic Redundancy Check (CRC)</h2>
+    <div class="definition"><strong>CRC:</strong> A powerful error-detection technique in which a bit sequence is
+      treated as a polynomial over modulo-2 arithmetic and divided by a predetermined generator polynomial. The
+      remainder is appended to the data.</div>
+    <h3>Important properties</h3>
+    <ul>
+      <li>Modulo-2 addition and subtraction are both performed using XOR; there are no carries or borrows.</li>
+      <li>The generator is represented as a bit pattern and its highest- and lowest-order coefficients are normally 1.
+      </li>
+      <li>If the generator has degree <em>r</em>, the sender appends <em>r</em> zero bits before division and ultimately
+        appends an <em>r</em>-bit remainder.</li>
+    </ul>
+    <h3>CRC generation at sender</h3>
+    <ol>
+      <li>Let the data bit sequence be <em>D</em> and the generator bit sequence be <em>G</em>.</li>
+      <li>If the generator has degree <em>r</em>, append <em>r</em> zeros to the data.</li>
+      <li>Divide the augmented data by the generator using modulo-2 division (XOR subtraction).</li>
+      <li>Take the <em>r</em>-bit remainder and append it to the original data.</li>
+      <li>Transmit the resulting codeword.</li>
+    </ol>
+    <h3>CRC checking at receiver</h3>
+    <p>The receiver divides the complete received codeword by the same generator. A zero remainder means the check
+      passes; a non-zero remainder indicates an error. A zero remainder does not guarantee that no error occurred,
+      because some error patterns are undetectable by a particular generator.</p>
+    <h3>Small worked example</h3>
+    <p>Use data <code>1101</code> and generator <code>1011</code> (degree 3). Append three zeros: <code>1101000</code>.
+      Modulo-2 division by <code>1011</code> gives remainder <code>001</code>. Therefore the transmitted codeword is
+      <code>1101001</code>. The receiver divides <code>1101001</code> by <code>1011</code>; the remainder is
+      <code>000</code>.</p>
+    <div class="note"><strong>How to perform modulo-2 division:</strong> Align the generator under the leftmost 1 of the
+      current working bits and XOR it with that section. Bring down the next bit and repeat until fewer than the
+      generator's number of bits remain. The final remainder is padded to exactly <em>r</em> bits.</div>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>Technique</th>
+            <th>Core operation</th>
+            <th>Primary capability</th>
+            <th>Limitation</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Parity</td>
+            <td>Count 1s and add parity bit(s)</td>
+            <td>Detects odd-number bit flips in a protected group</td>
+            <td>Cannot detect every even-number error; no correction with one parity bit</td>
+          </tr>
+          <tr>
+            <td>Checksum</td>
+            <td>One's-complement word addition</td>
+            <td>Detects many data corruption patterns</td>
+            <td>Some different error patterns can yield the same checksum</td>
+          </tr>
+          <tr>
+            <td>Hamming code</td>
+            <td>Parity checks and syndrome</td>
+            <td>Corrects a single-bit error in basic form</td>
+            <td>Basic form does not reliably correct multiple-bit errors</td>
+          </tr>
+          <tr>
+            <td>CRC</td>
+            <td>Modulo-2 polynomial division</td>
+            <td>Strong detection of many random and burst errors</td>
+            <td>Detection only; recovery is handled by a higher/reliability protocol</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h2 id="flow">9. Flow Control Protocols</h2>
+    <p><strong>Flow control</strong> is a set of procedures that regulate the rate of data transmission so that a sender
+      does not transmit more data than the receiver can accept and buffer. It is distinct from congestion control, which
+      deals with overload within the network.</p>
+    <h3>9.1 Unrestricted Simplex Protocol</h3>
+    <p>This is a basic conceptual protocol for a noiseless channel where data flows only from sender to receiver and the
+      receiver is assumed to be always ready. There is no need for flow control or error control.</p>
+    <ul>
+      <li>Communication is simplex: data travels in one direction.</li>
+      <li>The sender continuously sends frames whenever it has data.</li>
+      <li>The channel is assumed error-free, and the receiver has enough capacity.</li>
+      <li>No acknowledgements, sequence numbers or retransmissions are required.</li>
+    </ul>
+    <p><strong>Limitation:</strong> It is an idealized protocol and does not model real links with finite receiver
+      buffers or transmission errors.</p>
+    <h3>9.2 Stop-and-Wait Protocol</h3>
+    <p>In the basic Stop-and-Wait flow-control protocol, the sender transmits one frame and waits until the receiver is
+      ready/acknowledges before sending the next frame. Only one frame can be outstanding at a time.</p>
+    <ol>
+      <li>The sender transmits one frame.</li>
+      <li>The receiver accepts the frame and sends an acknowledgement (ACK).</li>
+      <li>After receiving the ACK, the sender transmits the next frame.</li>
+      <li>The cycle continues until all data is sent.</li>
+    </ol>
+    <div class="diagram"><svg viewBox="0 0 760 220" role="img" aria-label="Stop and wait timeline">
+        <g stroke="currentColor" stroke-width="1.5" fill="none">
+          <path d="M130 35V190M630 35V190" />
+          <path d="M130 65L610 110M610 125L130 160" stroke="#4c9b79" stroke-width="3" />
+          <path d="M590 103l20 7-19 8M150 153l-20 7 20 8" />
+        </g>
+        <g fill="currentColor" font-size="15"><text x="130" y="22" text-anchor="middle">Sender</text><text x="630"
+            y="22" text-anchor="middle">Receiver</text><text x="370" y="73" text-anchor="middle">Frame 0</text><text
+            x="370" y="143" text-anchor="middle">ACK 0</text><text x="370" y="205" text-anchor="middle">Time ↓</text>
+        </g>
+      </svg></div>
+    <p><strong>Advantages:</strong> Simple implementation, small buffer requirement and easy sequencing.
+      <strong>Disadvantage:</strong> Link utilization can be low when propagation delay is large because the sender
+      remains idle while waiting.</p>
+    <h3>Stop-and-Wait ARQ (error-control extension)</h3>
+    <p>When errors and lost frames are considered, Stop-and-Wait ARQ uses a timer, acknowledgements and sequence numbers
+      (typically alternating 0 and 1). If a frame or ACK is lost or damaged, the sender retransmits after timeout. The
+      receiver uses sequence numbers to recognize and discard duplicate retransmissions while acknowledging the expected
+      frame.</p>
+    <h3>9.3 Sliding Window Protocol</h3>
+    <p>Sliding Window allows multiple frames to be sent before acknowledgements are received. The sender and receiver
+      maintain windows that define which sequence-numbered frames may be transmitted or accepted. As acknowledgements
+      arrive, the sender's window advances (“slides”), allowing additional frames to be sent.</p>
+    <div class="diagram"><svg viewBox="0 0 760 175" role="img" aria-label="Sliding window sequence number range">
+        <g fill="none" stroke="currentColor" stroke-width="1.5">
+          <rect x="30" y="52" width="700" height="58" rx="5" />
+          <rect x="30" y="52" width="175" height="58" fill="#6686bd" fill-opacity=".25" />
+          <rect x="205" y="52" width="175" height="58" fill="#4c9b79" fill-opacity=".2" />
+        </g>
+        <g fill="currentColor" text-anchor="middle" font-size="14"><text x="117" y="86">Already ACKed</text><text
+            x="292" y="86">Send window</text><text x="555" y="86">Not yet permitted</text><text x="117" y="35">Window
+            advances as ACKs arrive</text><text x="292" y="137">Frames allowed to send</text><text x="555"
+            y="137">Future sequence numbers</text></g>
+      </svg></div>
+    <h3>Types of sliding-window ARQ</h3>
+    <div class="two-col">
+      <div>
+        <h3>Go-Back-N ARQ</h3>
+        <ul>
+          <li>Sender can transmit several frames without waiting.</li>
+          <li>Receiver generally accepts frames in order and discards out-of-order frames.</li>
+          <li>If a frame is lost/damaged, the sender retransmits that frame and all later outstanding frames.</li>
+          <li>Uses cumulative acknowledgements in the common form.</li>
+        </ul>
+      </div>
+      <div>
+        <h3>Selective Repeat ARQ</h3>
+        <ul>
+          <li>Receiver can buffer correctly received out-of-order frames.</li>
+          <li>Only lost or damaged frames need retransmission.</li>
+          <li>Uses individual/selective acknowledgements and a retransmission timer per outstanding frame
+            (conceptually).</li>
+          <li>Requires more receiver buffering and more complex logic.</li>
+        </ul>
+      </div>
+    </div>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>Basis</th>
+            <th>Stop-and-Wait</th>
+            <th>Go-Back-N</th>
+            <th>Selective Repeat</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Frames in flight</td>
+            <td>One</td>
+            <td>Multiple</td>
+            <td>Multiple</td>
+          </tr>
+          <tr>
+            <td>Receiver handling</td>
+            <td>One frame at a time</td>
+            <td>Normally accepts in-order frames only</td>
+            <td>Can buffer out-of-order frames</td>
+          </tr>
+          <tr>
+            <td>Retransmission</td>
+            <td>One unacknowledged frame</td>
+            <td>Lost/damaged frame and following outstanding frames</td>
+            <td>Only missing/damaged frames</td>
+          </tr>
+          <tr>
+            <td>Complexity</td>
+            <td>Low</td>
+            <td>Moderate</td>
+            <td>Higher</td>
+          </tr>
+          <tr>
+            <td>Efficiency on noisy links</td>
+            <td>Can be low</td>
+            <td>Can waste bandwidth by repeating later frames</td>
+            <td>Often better when errors are isolated, at added complexity</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h2 id="ppp">10. Point-to-Point Protocol (PPP)</h2>
+    <div class="definition"><strong>PPP</strong> is a data-link protocol used to carry network-layer packets over
+      point-to-point links. It provides framing, link configuration and support for multiple Network Layer protocols.
+    </div>
+    <h3>Main functions / features</h3>
+    <ul>
+      <li>Encapsulates Network Layer packets over point-to-point links.</li>
+      <li>Provides framing and an error-detection field (Frame Check Sequence).</li>
+      <li>Uses the Link Control Protocol (LCP) to establish, configure, test and terminate the data-link connection.
+      </li>
+      <li>Uses Network Control Protocols (NCPs) to configure network-layer protocols.</li>
+      <li>Supports authentication options such as PAP and CHAP where configured.</li>
+      <li>PPP detects errors but does not itself provide general retransmission-based error correction in its normal
+        operation.</li>
+    </ul>
+    <h3>PPP frame format</h3>
+    <div class="diagram"><svg viewBox="0 0 850 145" role="img" aria-label="PPP frame format fields">
+        <g stroke="currentColor" stroke-width="1.2">
+          <rect x="10" y="35" width="100" height="48" fill="#6686bd" fill-opacity=".18" />
+          <rect x="110" y="35" width="100" height="48" fill="#6686bd" fill-opacity=".12" />
+          <rect x="210" y="35" width="100" height="48" fill="#6686bd" fill-opacity=".18" />
+          <rect x="310" y="35" width="110" height="48" fill="#6686bd" fill-opacity=".12" />
+          <rect x="420" y="35" width="260" height="48" fill="#4c9b79" fill-opacity=".16" />
+          <rect x="680" y="35" width="100" height="48" fill="#6686bd" fill-opacity=".18" />
+          <rect x="780" y="35" width="60" height="48" fill="#6686bd" fill-opacity=".12" />
+        </g>
+        <g fill="currentColor" font-size="13" text-anchor="middle"><text x="60" y="64">Flag</text><text x="160"
+            y="64">Address</text><text x="260" y="64">Control</text><text x="365" y="64">Protocol</text><text x="550"
+            y="64">Payload</text><text x="730" y="64">FCS</text><text x="810" y="64">Flag</text><text x="60"
+            y="110">0x7E</text><text x="160" y="110">0xFF</text><text x="260" y="110">0x03</text><text x="365"
+            y="110">Protocol ID</text><text x="550" y="110">Variable length</text><text x="730" y="110">Error
+            check</text><text x="810" y="110">0x7E</text></g>
+      </svg></div>
+    <p class="caption">Traditional PPP frame fields: Flag, Address, Control, Protocol, Information/Payload, FCS and
+      closing Flag. Address and Control values are commonly fixed in the basic format; field compression may be
+      negotiated.</p>
+    <h3>PPP operation phases</h3>
+    <ol>
+      <li><strong>Link establishment:</strong> LCP negotiates link parameters and options.</li>
+      <li><strong>Optional authentication:</strong> The peers may authenticate using PAP or CHAP.</li>
+      <li><strong>Network-layer configuration:</strong> NCP configures the selected Network Layer protocol.</li>
+      <li><strong>Data transfer:</strong> Network-layer packets are encapsulated and exchanged.</li>
+      <li><strong>Link termination:</strong> LCP closes the link.</li>
+    </ol>
+
+    <h2 id="hdlc">11. High-Level Data Link Control (HDLC)</h2>
+    <div class="definition"><strong>HDLC</strong> is a bit-oriented, synchronous data-link protocol that provides
+      framing and link management, and supports flow and error control using sequence numbers and acknowledgements in
+      its numbered modes.</div>
+    <h3>Features</h3>
+    <ul>
+      <li>Bit-oriented protocol; it is not restricted to character boundaries.</li>
+      <li>Uses the flag <code>01111110</code> at the beginning and end of a frame.</li>
+      <li>Uses bit stuffing to prevent a flag pattern from occurring in the frame body.</li>
+      <li>Uses a Frame Check Sequence (FCS), generally based on CRC, for error detection.</li>
+      <li>Supports point-to-point and multipoint configurations in its protocol model.</li>
+      <li>Provides data transfer and link-management control frames.</li>
+    </ul>
+    <h3>HDLC frame format</h3>
+    <div class="diagram"><svg viewBox="0 0 850 145" role="img" aria-label="HDLC frame format">
+        <g stroke="currentColor" stroke-width="1.2">
+          <rect x="10" y="35" width="100" height="48" fill="#6686bd" fill-opacity=".18" />
+          <rect x="110" y="35" width="125" height="48" fill="#6686bd" fill-opacity=".12" />
+          <rect x="235" y="35" width="125" height="48" fill="#6686bd" fill-opacity=".18" />
+          <rect x="360" y="35" width="330" height="48" fill="#4c9b79" fill-opacity=".16" />
+          <rect x="690" y="35" width="80" height="48" fill="#6686bd" fill-opacity=".18" />
+          <rect x="770" y="35" width="70" height="48" fill="#6686bd" fill-opacity=".12" />
+        </g>
+        <g fill="currentColor" font-size="13" text-anchor="middle"><text x="60" y="64">Flag</text><text x="172"
+            y="64">Address</text><text x="297" y="64">Control</text><text x="525" y="64">Information</text><text x="730"
+            y="64">FCS</text><text x="805" y="64">Flag</text><text x="60" y="110">01111110</text><text x="172"
+            y="110">Station address</text><text x="297" y="110">Frame type / control</text><text x="525" y="110">User
+            data (if present)</text><text x="730" y="110">CRC</text><text x="805" y="110">01111110</text></g>
+      </svg></div>
+    <h3>HDLC frame types</h3>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>Frame type</th>
+            <th>Purpose</th>
+            <th>Typical use</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Information (I-frame)</td>
+            <td>Carries user data and sequence/acknowledgement information.</td>
+            <td>Data transfer with sequencing and flow/error control.</td>
+          </tr>
+          <tr>
+            <td>Supervisory (S-frame)</td>
+            <td>Provides flow and error-control functions without carrying user data.</td>
+            <td>Receive Ready (RR), Receive Not Ready (RNR), Reject (REJ), Selective Reject (SREJ).</td>
+          </tr>
+          <tr>
+            <td>Unnumbered (U-frame)</td>
+            <td>Provides link-management and certain unnumbered data functions.</td>
+            <td>Link setup, disconnection and mode management.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <h3>HDLC operation</h3>
+    <ol>
+      <li>Flags delimit frames and establish synchronization.</li>
+      <li>The Address field identifies the secondary station or destination in the link configuration.</li>
+      <li>The Control field identifies I, S or U frame format and carries sequence/control information.</li>
+      <li>The Information field carries user data when present.</li>
+      <li>The FCS allows the receiver to detect transmission errors.</li>
+      <li>Bit stuffing is applied to the frame contents between the flags; the receiver destuffs the bit stream.</li>
+    </ol>
+    <h3>PPP vs HDLC</h3>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>Basis</th>
+            <th>PPP</th>
+            <th>HDLC</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Orientation</td>
+            <td>Byte-oriented framing</td>
+            <td>Bit-oriented framing</td>
+          </tr>
+          <tr>
+            <td>Frame delimiter</td>
+            <td>Flag byte 0x7E</td>
+            <td>Flag bit pattern 01111110</td>
+          </tr>
+          <tr>
+            <td>Transparency</td>
+            <td>Byte stuffing (asynchronous framing)</td>
+            <td>Bit stuffing</td>
+          </tr>
+          <tr>
+            <td>Configuration</td>
+            <td>LCP and NCP</td>
+            <td>Control field and link procedures vary by HDLC mode</td>
+          </tr>
+          <tr>
+            <td>Protocol support</td>
+            <td>Protocol field identifies encapsulated network protocol</td>
+            <td>Control and information fields follow HDLC format</td>
+          </tr>
+          <tr>
+            <td>Error handling</td>
+            <td>FCS detects errors; normal PPP does not provide link retransmission</td>
+            <td>FCS detects errors; numbered modes support acknowledgement/retransmission procedures</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h2 id="aloha">12. Pure ALOHA and Slotted ALOHA</h2>
+    <p><strong>ALOHA</strong> is a random-access medium access control technique in which stations transmit when they
+      have frames to send. If transmissions collide, the affected station waits for a random time before attempting
+      retransmission.</p>
+    <h3>12.1 Pure ALOHA</h3>
+    <ol>
+      <li>A station transmits whenever a frame is ready.</li>
+      <li>The receiver returns an acknowledgement if the frame is received correctly.</li>
+      <li>If the sender does not receive an acknowledgement within the timeout period, it assumes a collision or loss.
+      </li>
+      <li>The sender waits for a random backoff interval and retransmits.</li>
+    </ol>
+    <p>In Pure ALOHA, a frame can collide with another frame that begins within one frame-time before or after its own
+      start. The vulnerable period is therefore <strong>2T</strong>, where T is the frame transmission time.</p>
+    <h3>12.2 Slotted ALOHA</h3>
+    <ol>
+      <li>Time is divided into equal slots, each one frame transmission time long.</li>
+      <li>A station may begin transmission only at the start of a slot.</li>
+      <li>If two or more stations transmit in the same slot, their frames collide.</li>
+      <li>After a collision, each station waits a random number of slots before retransmission.</li>
+    </ol>
+    <p>Because transmissions begin only at slot boundaries, the vulnerable period is reduced to <strong>T</strong>.</p>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>Basis</th>
+            <th>Pure ALOHA</th>
+            <th>Slotted ALOHA</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Transmission start</td>
+            <td>Any time</td>
+            <td>Only at slot boundaries</td>
+          </tr>
+          <tr>
+            <td>Synchronization</td>
+            <td>Not required</td>
+            <td>Required</td>
+          </tr>
+          <tr>
+            <td>Vulnerable period</td>
+            <td>2T</td>
+            <td>T</td>
+          </tr>
+          <tr>
+            <td>Maximum theoretical throughput</td>
+            <td>1/(2e) ≈ 0.184 (18.4%)</td>
+            <td>1/e ≈ 0.368 (36.8%)</td>
+          </tr>
+          <tr>
+            <td>Collision probability</td>
+            <td>Higher for the same offered load</td>
+            <td>Lower due to slot alignment</td>
+          </tr>
+          <tr>
+            <td>Implementation</td>
+            <td>Simpler</td>
+            <td>Needs slot timing synchronization</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <p>For the standard idealized model, throughput is <strong>S = G e<sup>−2G</sup></strong> for Pure ALOHA and
+      <strong>S = G e<sup>−G</sup></strong> for Slotted ALOHA, where G is the average number of transmission attempts
+      per frame time (including retransmissions). The maxima occur at G = 0.5 and G = 1 respectively.</p>
+
+    <h2 id="csma">13. CSMA, CSMA/CD and CSMA/CA</h2>
+    <h3>13.1 Carrier Sense Multiple Access (CSMA)</h3>
+    <div class="definition"><strong>CSMA</strong> is a contention-based access method in which a station senses the
+      communication channel before transmitting. It attempts to reduce collisions by checking whether the medium is busy
+      or idle.</div>
+    <ol>
+      <li>A station with a frame to send listens to the channel.</li>
+      <li>If the channel is idle, it transmits according to the selected CSMA persistence rule.</li>
+      <li>If the channel is busy, it defers transmission or waits according to the rule.</li>
+      <li>Collisions can still occur because propagation delay means two stations may both sense an idle channel before
+        either signal reaches the other.</li>
+    </ol>
+    <h3>Persistence methods</h3>
+    <ul>
+      <li><strong>1-persistent CSMA:</strong> A station transmits immediately when the channel becomes idle. If busy, it
+        continuously senses the channel. This can lead to collisions when multiple stations are waiting.</li>
+      <li><strong>Non-persistent CSMA:</strong> If the channel is busy, a station waits a random time before sensing
+        again. This can reduce collisions but may increase delay.</li>
+      <li><strong>p-persistent CSMA:</strong> Used with slotted channels. When the channel is idle, the station
+        transmits in a slot with probability p and defers to the next slot with probability 1−p.</li>
+    </ul>
+    <h3>13.2 CSMA with Collision Detection (CSMA/CD)</h3>
+    <p>CSMA/CD was used in shared, half-duplex Ethernet. A station senses the medium, transmits if idle, and continues
+      monitoring while transmitting so it can detect a collision.</p>
+    <ol>
+      <li><strong>Carrier sense:</strong> Listen to determine whether the medium is idle.</li>
+      <li><strong>Transmit:</strong> If idle, begin sending the frame.</li>
+      <li><strong>Collision detection:</strong> Monitor the medium during transmission.</li>
+      <li><strong>Jam signal:</strong> If a collision is detected, stop normal transmission and send a jam signal so
+        other stations become aware of the collision.</li>
+      <li><strong>Binary exponential backoff:</strong> Wait for a random number of slot times before retrying. The
+        backoff range grows after repeated collisions, subject to the Ethernet algorithm's limit.</li>
+      <li><strong>Retry:</strong> Sense the medium and attempt transmission again.</li>
+    </ol>
+    <div class="diagram"><svg viewBox="0 0 760 190" role="img" aria-label="CSMA CD collision handling sequence">
+        <g fill="currentColor" font-size="15">
+          <rect x="15" y="18" width="135" height="42" rx="7" fill="#6686bd" fill-opacity=".18" stroke="currentColor" />
+          <text x="82" y="44" text-anchor="middle">Sense channel</text>
+          <rect x="205" y="18" width="135" height="42" rx="7" fill="#6686bd" fill-opacity=".18" stroke="currentColor" />
+          <text x="272" y="44" text-anchor="middle">Transmit</text>
+          <rect x="395" y="18" width="135" height="42" rx="7" fill="#bd8050" fill-opacity=".18" stroke="currentColor" />
+          <text x="462" y="44" text-anchor="middle">Detect collision?</text>
+          <rect x="585" y="18" width="155" height="42" rx="7" fill="#4c9b79" fill-opacity=".18" stroke="currentColor" />
+          <text x="662" y="44" text-anchor="middle">Successful frame</text>
+          <path d="M150 39H205M340 39H395M530 39H585" stroke="currentColor" stroke-width="2" fill="none" />
+          <path d="M462 60V105H272V132" stroke="currentColor" stroke-width="2" fill="none" />
+          <rect x="190" y="132" width="165" height="42" rx="7" fill="#bd8050" fill-opacity=".18"
+            stroke="currentColor" /><text x="272" y="158" text-anchor="middle">Jam + backoff + retry</text><text x="540"
+            y="30" font-size="11">No</text><text x="472" y="94" font-size="11">Yes</text>
+        </g>
+      </svg></div>
+    <p class="note"><strong>Modern Ethernet note:</strong> Full-duplex switched Ethernet links do not use CSMA/CD
+      because each link is point-to-point and collisions do not occur in normal full-duplex operation. CSMA/CD is
+      important for understanding traditional shared Ethernet.</p>
+    <h3>13.3 CSMA with Collision Avoidance (CSMA/CA)</h3>
+    <p>CSMA/CA is used by IEEE 802.11 wireless LANs. A wireless station cannot reliably detect a collision while
+      transmitting in the same way as a wired Ethernet station, so the protocol attempts to reduce the chance of
+      collisions before transmission.</p>
+    <ol>
+      <li><strong>Carrier sensing:</strong> The station checks whether the wireless medium is idle.</li>
+      <li><strong>Interframe waiting:</strong> It waits for the required interframe space.</li>
+      <li><strong>Random backoff:</strong> It selects a random backoff counter from the contention window and decrements
+        it while the channel remains idle.</li>
+      <li><strong>Transmission:</strong> When the counter reaches zero, the station transmits.</li>
+      <li><strong>ACK:</strong> The receiver sends an acknowledgement after successful reception.</li>
+      <li><strong>Retry:</strong> If the sender does not receive the ACK, it assumes a collision or loss, increases the
+        contention window according to the procedure and retries.</li>
+    </ol>
+    <h3>RTS/CTS mechanism</h3>
+    <p>IEEE 802.11 may use Request to Send (RTS) and Clear to Send (CTS) control frames to reserve the medium before
+      sending a long data frame. A station sends RTS; the access point/receiver responds with CTS; other stations
+      hearing these frames defer for the indicated duration. This can reduce collisions caused by hidden stations,
+      although it adds control-frame overhead.</p>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>Basis</th>
+            <th>CSMA</th>
+            <th>CSMA/CD</th>
+            <th>CSMA/CA</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Full form</td>
+            <td>Carrier Sense Multiple Access</td>
+            <td>Carrier Sense Multiple Access with Collision Detection</td>
+            <td>Carrier Sense Multiple Access with Collision Avoidance</td>
+          </tr>
+          <tr>
+            <td>Approach</td>
+            <td>Senses before transmitting</td>
+            <td>Detects collisions during transmission</td>
+            <td>Attempts to avoid collisions before transmission</td>
+          </tr>
+          <tr>
+            <td>Collision handling</td>
+            <td>Defers based on carrier sensing; collision can still occur</td>
+            <td>Jam signal and binary exponential backoff</td>
+            <td>Random backoff, ACK and optional RTS/CTS</td>
+          </tr>
+          <tr>
+            <td>Typical context</td>
+            <td>Shared-medium networks</td>
+            <td>Traditional half-duplex shared Ethernet</td>
+            <td>Wireless LAN (IEEE 802.11)</td>
+          </tr>
+          <tr>
+            <td>Why used</td>
+            <td>Reduce simultaneous transmissions</td>
+            <td>Recover from detected collisions</td>
+            <td>Wireless collision detection is difficult, so prevent/reduce collisions</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h2 id="ieee">14. Introduction to IEEE Standards: IEEE 802.3 and IEEE 802.11</h2>
+    <h3>IEEE 802 family</h3>
+    <p>The IEEE 802 family defines standards for local and metropolitan area network technologies, including both
+      Physical Layer and Data Link Layer specifications. The Data Link Layer is commonly described as having Logical
+      Link Control (LLC) and Media Access Control (MAC) sublayers.</p>
+    <div class="diagram"><svg viewBox="0 0 650 210" role="img" aria-label="IEEE 802 data link sublayers">
+        <g stroke="currentColor" stroke-width="1.5" fill="none">
+          <rect x="120" y="18" width="410" height="48" rx="6" />
+          <rect x="120" y="82" width="410" height="48" rx="6" />
+          <rect x="120" y="146" width="410" height="48" rx="6" />
+        </g>
+        <g fill="currentColor" text-anchor="middle" font-size="17"><text x="325" y="48">Logical Link Control
+            (LLC)</text><text x="325" y="112">Media Access Control (MAC)</text><text x="325" y="176">Physical
+            Layer</text></g>
+      </svg></div>
+    <h3>14.1 IEEE 802.3 — Ethernet</h3>
+    <p>IEEE 802.3 specifies Ethernet. It defines Ethernet MAC operation and Physical Layer specifications for wired
+      LANs. Ethernet frames include destination and source MAC addresses, a length/type field, payload and a Frame Check
+      Sequence (FCS).</p>
+    <ul>
+      <li>Used for wired local area networking.</li>
+      <li>Uses MAC addresses for local frame delivery.</li>
+      <li>Modern Ethernet commonly uses switches and full-duplex point-to-point links.</li>
+      <li>Older shared half-duplex Ethernet used CSMA/CD.</li>
+      <li>Ethernet PHY variants define different media and speeds, such as twisted pair and optical fibre.</li>
+    </ul>
+    <h3>14.2 IEEE 802.11 — Wireless LAN (Wi-Fi)</h3>
+    <p>IEEE 802.11 specifies wireless local area network operation. It defines MAC procedures and multiple radio
+      Physical Layer technologies for wireless communication in unlicensed and, depending on the band and jurisdiction,
+      other designated spectrum.</p>
+    <ul>
+      <li>Provides wireless connectivity between stations and access points, or in supported peer modes.</li>
+      <li>Uses CSMA/CA-based channel access rather than classic collision detection.</li>
+      <li>Supports association, authentication and wireless frame exchange procedures.</li>
+      <li>Radio propagation, interference, obstacles and shared airtime affect performance.</li>
+      <li>Security mechanisms are defined and updated across 802.11 generations; deployment should use modern supported
+        security settings.</li>
+    </ul>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>Basis</th>
+            <th>IEEE 802.3 Ethernet</th>
+            <th>IEEE 802.11 Wireless LAN</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Medium</td>
+            <td>Wired cable (copper/fibre, depending on PHY)</td>
+            <td>Radio waves</td>
+          </tr>
+          <tr>
+            <td>Mobility</td>
+            <td>Generally limited by cable connection</td>
+            <td>Supports mobility within radio coverage</td>
+          </tr>
+          <tr>
+            <td>Access method</td>
+            <td>Modern switched full-duplex Ethernet; CSMA/CD in legacy shared half-duplex Ethernet</td>
+            <td>CSMA/CA</td>
+          </tr>
+          <tr>
+            <td>Interference</td>
+            <td>Less affected by radio interference; cable/EMI characteristics still matter</td>
+            <td>Can be affected by interference, obstacles and shared airtime</td>
+          </tr>
+          <tr>
+            <td>Security</td>
+            <td>Physical access and network controls are important</td>
+            <td>Wireless authentication and encryption are essential</td>
+          </tr>
+          <tr>
+            <td>Typical device</td>
+            <td>Ethernet switch</td>
+            <td>Wireless access point</td>
+          </tr>
+          <tr>
+            <td>Use</td>
+            <td>Fixed desktops, servers, wired infrastructure</td>
+            <td>Laptops, phones, tablets and wireless IoT devices</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h2 id="qb">15. Question-Bank Coverage and Study References</h2>
+    <h3>Questions from the original uploaded CN Question Bank</h3>
+    <ul class="question-list">
+      <li><span class="tag">QB Q10</span> What services does the Data Link Layer provide to the Network Layer? — Section
+        2.</li>
+      <li><span class="tag">QB Q11</span> What is framing? Explain its methods. — Section 3.</li>
+      <li><span class="tag">QB Q12</span> What is error detection? Explain parity and checksum. — Sections 4–6; also
+        study Hamming code and CRC from the syllabus.</li>
+      <li><span class="tag">QB Q13</span> Explain CSMA, CSMA/CD and CSMA/CA. — Section 13.</li>
+    </ul>
+    <h3>MUSA Winter 2025 question bank</h3>
+    <ul class="question-list">
+      <li><span class="tag">MUSA Q5</span> Pure ALOHA and Slotted ALOHA; comparison — Section 12.</li>
+      <li><span class="tag">MUSA Q9</span> Framing methods and advantages of variable-length over fixed-length frames —
+        Section 3.</li>
+      <li><span class="tag">MUSA Q10</span> Sliding Window, Selective Repeat and comparison with Go-Back-N — Section 9.
+      </li>
+      <li><span class="tag">MUSA Q13</span> CSMA/CA and collision handling in CSMA/CD — Section 13.</li>
+      <li><span class="tag">MUSA Q21</span> IEEE 802.3 and IEEE 802.11; comparison — Section 14.</li>
+      <li><span class="tag">MUSA Q22</span> Unrestricted Simplex and Stop-and-Wait — Section 9.</li>
+      <li><span class="tag">MUSA Q23</span> HDLC protocol — Section 11.</li>
+      <li><span class="tag">MUSA Numerical Q1</span> Parity bits, checksum, Hamming codes and CRC — Sections 5–8.</li>
+      <li><span class="tag">MUSA Numerical Q2</span> CSMA/CD — Section 13.</li>
+    </ul>
+    <h3>MUSA Winter 2026 Top 15</h3>
+    <p>The Top 15 list repeats framing, sliding-window/Selective Repeat, CSMA/CA with CSMA/CD, and the IEEE 802.3/802.11
+      comparison. These are therefore high-priority revision areas, but the full Winter 2025 question bank and official
+      syllabus remain part of the coverage.</p>
+    <h3>Playlist alignment — NetworkChuck</h3>
+    <div class="video"><strong>Primary video-learning playlist:</strong> <a
+        href="https://www.youtube.com/playlist?list=PLIhvC56v63IJVXv0GJcl9vO5Z6znCVb1P" target="_blank"
+        rel="noopener">NetworkChuck — FREE CCNA 200-301 Complete Course (2025)</a>.<p>The screenshot supplied in this
+        conversation verifies the playlist identity and shows its first episodes on networking fundamentals, switches,
+        routers and OSI/TCP-IP. It does not verify a specific NetworkChuck episode for ALOHA, framing, parity, checksum,
+        Hamming code, CRC, PPP or HDLC. No unverified episode title is assigned to these topics. Use the playlist as
+        supplementary context where its later episodes match; this module's explanations cover the syllabus content that
+        is not confirmed by the visible playlist entries.</p>
+    </div>
+    <h3>Reference textbooks</h3>
+    <div class="reference"><strong>Andrew S. Tanenbaum and David J. Wetherall, Computer Networks, 5th Edition,
+        Pearson.</strong>
+      <p>Chapter 3, <em>The Data Link Layer</em>: framing (Section 3.1.2), error detection and correction (Section 3.2),
+        elementary data-link protocols (Section 3.3), sliding-window protocols (Section 3.4), and example data-link
+        protocols including PPP (Section 3.5). Chapter 4, <em>The Medium Access Control Sublayer</em>: ALOHA and
+        multiple-access protocols (Section 4.2).</p>
+    </div>
+    <div class="reference"><strong>Behrouz A. Forouzan, Data Communications and Networking, 5th Edition,
+        McGraw-Hill.</strong>
+      <p>Use the Data Link Control and Media Access Control chapters for framing, error/flow control, PPP/HDLC and
+        random-access protocols. Page numbers vary by printing; chapter/section headings are safer locators.</p>
+    </div>
+    <h3>Numerical practice checklist</h3>
+    <ul>
+      <li>Generate even and odd parity bits and test received words.</li>
+      <li>Compute and verify a one's-complement checksum, including end-around carry.</li>
+      <li>Determine the number and positions of Hamming check bits, calculate the syndrome and correct a single-bit
+        error.</li>
+      <li>Perform modulo-2 division to generate and verify a CRC remainder.</li>
+      <li>Explain the CSMA/CD collision process and binary exponential backoff; distinguish it from CSMA/CA.</li>
+    </ul>
+    <div class="callout"><strong>Exam-writing structure:</strong> For a 7–8 mark answer, begin with a definition,
+      explain the working in ordered steps, add a labelled diagram or frame format where relevant, include
+      advantages/limitations or a comparison table, and finish with a brief application or conclusion.</div>
+    <p class="muted">Coverage note: This module is based on the uploaded University of Mumbai syllabus, the uploaded CN
+      Question Bank, MUSA Winter 2025/2026 question-bank pages, and the named reference textbooks. The NetworkChuck
+      episode list beyond the supplied screenshot has not been independently verified.</p>
+  </section>
+</body>
+
+</html>

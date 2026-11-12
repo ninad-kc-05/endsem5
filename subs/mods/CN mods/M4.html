@@ -1,0 +1,1367 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Module 4 | Transport Layer Protocols</title>
+    <style>
+        #module-content {
+            --m4-line: var(--rule, #394355);
+            --m4-ink: var(--ink, #e8eaf0);
+            --m4-muted: var(--muted, #a5adbd);
+            --m4-accent: var(--accent, #8fb0ee);
+            width: 100%;
+            max-width: none;
+            color: var(--m4-ink);
+            line-height: 1.72
+        }
+
+        #module-content * {
+            box-sizing: border-box
+        }
+
+        #module-content h1 {
+            font-size: clamp(1.8rem, 3vw, 2.5rem);
+            line-height: 1.2;
+            margin: .2rem 0 .6rem
+        }
+
+        #module-content h2 {
+            font-size: clamp(1.35rem, 2.2vw, 1.8rem);
+            line-height: 1.25;
+            margin: 2.6rem 0 .8rem;
+            padding-bottom: .45rem;
+            border-bottom: 1px solid var(--m4-line)
+        }
+
+        #module-content h3 {
+            font-size: 1.12rem;
+            line-height: 1.35;
+            margin: 1.4rem 0 .45rem
+        }
+
+        #module-content p {
+            margin: .5rem 0 .9rem
+        }
+
+        #module-content li {
+            margin: .3rem 0
+        }
+
+        #module-content strong {
+            color: var(--m4-accent)
+        }
+
+        #module-content .eyebrow {
+            font: 800 .75rem system-ui, sans-serif;
+            letter-spacing: .13em;
+            color: var(--m4-accent)
+        }
+
+        #module-content .lead {
+            color: var(--m4-muted);
+            max-width: 88ch
+        }
+
+        #module-content .callout,
+        #module-content .note {
+            padding: .9rem 1rem;
+            margin: 1rem 0;
+            border-left: 3px solid var(--m4-accent);
+            background: color-mix(in srgb, var(--m4-accent) 8%, transparent)
+        }
+
+        #module-content .note {
+            border: 1px solid var(--m4-line);
+            border-left: 3px solid var(--m4-accent);
+            border-radius: 8px
+        }
+
+        #module-content .index {
+            border: 1px solid var(--m4-line);
+            border-radius: 10px;
+            padding: 1rem 1.2rem;
+            margin: 1.5rem 0
+        }
+
+        #module-content .index ol {
+            columns: 2;
+            column-gap: 2rem
+        }
+
+        #module-content .index li {
+            break-inside: avoid
+        }
+
+        #module-content a {
+            color: var(--m4-accent);
+            overflow-wrap: anywhere
+        }
+
+        #module-content .table-wrap {
+            width: 100%;
+            max-width: 100%;
+            overflow-x: auto;
+            margin: 1rem 0 1.5rem
+        }
+
+        #module-content table {
+            width: 100%;
+            min-width: 580px;
+            border-collapse: collapse;
+            font-size: .94rem
+        }
+
+        #module-content th,
+        #module-content td {
+            border: 1px solid var(--m4-line);
+            padding: .65rem .75rem;
+            text-align: left;
+            vertical-align: top
+        }
+
+        #module-content th {
+            background: color-mix(in srgb, var(--m4-accent) 12%, transparent)
+        }
+
+        #module-content .diagram {
+            width: 100%;
+            max-width: 100%;
+            overflow-x: auto;
+            border: 1px dashed var(--m4-line);
+            border-radius: 10px;
+            padding: 1rem;
+            margin: 1rem 0;
+            text-align: center
+        }
+
+        #module-content .diagram svg {
+            display: block;
+            max-width: 100%;
+            height: auto;
+            margin: auto
+        }
+
+        #module-content .caption,
+        #module-content .muted {
+            font-size: .87rem;
+            color: var(--m4-muted)
+        }
+
+        #module-content .video,
+        #module-content .reference {
+            border: 1px solid var(--m4-line);
+            border-left: 3px solid var(--m4-accent);
+            border-radius: 8px;
+            padding: .8rem 1rem;
+            margin: .8rem 0
+        }
+
+        #module-content .two-col {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 1rem
+        }
+
+        #module-content .two-col>div {
+            min-width: 0;
+            border: 1px solid var(--m4-line);
+            border-radius: 8px;
+            padding: .9rem
+        }
+
+        #module-content pre {
+            white-space: pre;
+            overflow-x: auto;
+            padding: 1rem;
+            border: 1px solid var(--m4-line);
+            border-radius: 8px;
+            background: color-mix(in srgb, var(--m4-ink) 5%, transparent)
+        }
+
+        #module-content code {
+            font-family: ui-monospace, Consolas, monospace
+        }
+
+        #module-content .tag {
+            display: inline-block;
+            border: 1px solid var(--m4-line);
+            border-radius: 20px;
+            padding: .1rem .55rem;
+            margin: .15rem;
+            font: 700 .72rem system-ui, sans-serif;
+            color: var(--m4-muted)
+        }
+
+        #module-content .question-list li {
+            margin: .55rem 0
+        }
+
+        #module-content .formula {
+            padding: .7rem 1rem;
+            border: 1px solid var(--m4-line);
+            border-radius: 8px;
+            text-align: center;
+            font-family: ui-monospace, Consolas, monospace;
+            overflow-x: auto
+        }
+
+        @media(max-width:650px) {
+            #module-content .index ol {
+                columns: 1
+            }
+
+            #module-content .two-col {
+                grid-template-columns: 1fr
+            }
+
+            #module-content table {
+                font-size: .88rem
+            }
+        }
+
+        @media print {
+            #module-content .index {
+                display: none
+            }
+
+            #module-content h2 {
+                break-after: avoid
+            }
+
+            #module-content table,
+            #module-content .diagram {
+                break-inside: avoid
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <section id="module-content">
+        <p class="eyebrow">PAPER. / COMPUTER NETWORKS / MODULE 04</p>
+        <h1>Transport Layer Protocols</h1>
+        <p class="lead">The Transport Layer provides process-to-process communication between applications running on
+            different hosts. This module covers transport services and primitives, Berkeley sockets, TCP and UDP,
+            connection management, TCP timers, flow control, congestion control, SCTP and Quality of Service (QoS),
+            following Module IV of the uploaded University of Mumbai syllabus.</p>
+
+        <div class="callout"><strong>Official syllabus scope — Module IV (7 hours):</strong> 4.1 The Transport Service:
+            transport service primitives, Berkeley Sockets, TCP characteristics, header structure, TCP connection
+            management (handshake), TCP timers, UDP characteristics, header structure and applications. 4.2 TCP Flow
+            Control (Sliding Window), TCP Congestion Control: Slow Start, Additive Increase/Multiplicative Decrease
+            (AIMD), Congestion Avoidance (DECbit, RED), SCTP and Quality of Service. <br><strong>Self-learning:</strong>
+            Transport service primitives and sockets programming.</div>
+
+        <div class="index"><strong>In this module</strong>
+            <ol>
+                <li><a href="#overview">Transport Layer: role and services</a></li>
+                <li><a href="#primitives">Transport service primitives</a></li>
+                <li><a href="#sockets">Berkeley sockets and socket programming</a></li>
+                <li><a href="#tcp">TCP characteristics and services</a></li>
+                <li><a href="#tcpheader">TCP segment header structure</a></li>
+                <li><a href="#handshake">TCP connection management: three-way handshake</a></li>
+                <li><a href="#termination">TCP connection termination</a></li>
+                <li><a href="#timers">TCP timers</a></li>
+                <li><a href="#udp">UDP characteristics, header and applications</a></li>
+                <li><a href="#flow">TCP flow control and sliding window</a></li>
+                <li><a href="#congestion">TCP congestion control</a></li>
+                <li><a href="#aimd">Slow start, AIMD and congestion avoidance</a></li>
+                <li><a href="#decbit">DECbit and RED</a></li>
+                <li><a href="#sctp">SCTP</a></li>
+                <li><a href="#qos">Quality of Service</a></li>
+                <li><a href="#compare">TCP vs UDP</a></li>
+                <li><a href="#qb">Question-bank map and references</a></li>
+            </ol>
+        </div>
+
+        <h2 id="overview">1. Transport Layer: Role and Services</h2>
+        <h3>Definition</h3>
+        <p>The <strong>Transport Layer</strong> is Layer 4 of the OSI reference model. It provides logical communication
+            between application processes running on different hosts. While the Network Layer delivers packets from one
+            host to another, the Transport Layer delivers data to the correct process or application within the
+            destination host.</p>
+        <h3>Important functions</h3>
+        <ol>
+            <li><strong>Process-to-process delivery:</strong> Uses port numbers to identify sending and receiving
+                application processes.</li>
+            <li><strong>Segmentation and reassembly:</strong> Divides application data into transport segments and
+                reassembles received data at the destination.</li>
+            <li><strong>Multiplexing and demultiplexing:</strong> Allows multiple applications to use the network
+                simultaneously and delivers incoming data to the correct application.</li>
+            <li><strong>Connection control:</strong> Supports connection-oriented communication (TCP) or connectionless
+                communication (UDP).</li>
+            <li><strong>Flow control:</strong> Prevents a fast sender from overwhelming a slower receiver.</li>
+            <li><strong>Error control / reliability:</strong> TCP detects loss and corruption and uses acknowledgements
+                and retransmissions to provide reliable, ordered delivery.</li>
+            <li><strong>Congestion control:</strong> TCP adjusts its sending rate according to network congestion
+                conditions.</li>
+        </ol>
+        <div class="diagram"><svg viewBox="0 0 760 210" role="img"
+                aria-label="Transport layer process-to-process delivery using port numbers">
+                <g fill="none" stroke="currentColor" stroke-width="2">
+                    <rect x="20" y="35" width="175" height="135" rx="8" />
+                    <rect x="565" y="35" width="175" height="135" rx="8" />
+                    <rect x="280" y="65" width="200" height="75" rx="8" />
+                    <path d="M195 102H280M480 102H565" />
+                    <path d="M265 94l15 8-15 8M550 94l15 8-15 8" />
+                </g>
+                <g fill="currentColor" text-anchor="middle" font-size="14"><text x="107" y="62">Source host</text><text
+                        x="107" y="92">Application A</text><text x="107" y="116">Port 51000</text><text x="380"
+                        y="94">Transport layer</text><text x="380" y="116">TCP / UDP segment</text><text x="652"
+                        y="62">Destination host</text><text x="652" y="92">Application B</text><text x="652"
+                        y="116">Port 443</text><text x="380" y="190" font-size="12">Host-to-host delivery is extended to
+                        process-to-process delivery.</text></g>
+            </svg>
+            <p class="caption">Port numbers identify application endpoints at the transport layer.</p>
+        </div>
+        <h3>Transport Layer and Network Layer</h3>
+        <div class="table-wrap">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Network Layer</th>
+                        <th>Transport Layer</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Provides host-to-host delivery.</td>
+                        <td>Provides process-to-process delivery.</td>
+                    </tr>
+                    <tr>
+                        <td>Uses logical IP addresses.</td>
+                        <td>Uses port numbers along with IP addresses.</td>
+                    </tr>
+                    <tr>
+                        <td>Routers primarily process this layer's packets.</td>
+                        <td>End hosts process transport segments.</td>
+                    </tr>
+                    <tr>
+                        <td>IP offers connectionless, best-effort delivery.</td>
+                        <td>TCP adds reliable connection-oriented service; UDP offers connectionless datagram service.
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <h2 id="primitives">2. Transport Service Primitives</h2>
+        <p>A <strong>service primitive</strong> is an operation provided by a layer to the layer above it. Transport
+            service primitives describe how an application requests transport communication. The exact API varies by
+            operating system and transport implementation; the following are the classic connection-oriented service
+            operations.</p>
+        <div class="table-wrap">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Primitive</th>
+                        <th>Purpose</th>
+                        <th>Typical role</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>LISTEN</strong></td>
+                        <td>Waits for an incoming connection request.</td>
+                        <td>Server prepares to accept a client.</td>
+                    </tr>
+                    <tr>
+                        <td><strong>CONNECT</strong></td>
+                        <td>Actively attempts to establish a connection with a remote endpoint.</td>
+                        <td>Client initiates a connection.</td>
+                    </tr>
+                    <tr>
+                        <td><strong>ACCEPT</strong></td>
+                        <td>Accepts an incoming connection request and creates/returns a connection endpoint.</td>
+                        <td>Server accepts a client.</td>
+                    </tr>
+                    <tr>
+                        <td><strong>SEND</strong></td>
+                        <td>Transfers data over an established connection.</td>
+                        <td>Either endpoint sends data.</td>
+                    </tr>
+                    <tr>
+                        <td><strong>RECEIVE</strong></td>
+                        <td>Waits for and obtains incoming data.</td>
+                        <td>Either endpoint receives data.</td>
+                    </tr>
+                    <tr>
+                        <td><strong>DISCONNECT</strong></td>
+                        <td>Releases or closes the transport connection.</td>
+                        <td>Either endpoint initiates connection release.</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <h3>Typical server and client sequence</h3>
+        <div class="diagram"><svg viewBox="0 0 760 265" role="img"
+                aria-label="Transport service primitive sequence for server and client">
+                <g fill="none" stroke="currentColor" stroke-width="1.8">
+                    <path d="M180 35V235M580 35V235" />
+                    <path d="M180 55H580M580 85H180M180 125H580M580 165H180M180 205H580" />
+                    <path
+                        d="M568 47l12 8-12 8M192 77l-12 8 12 8M568 117l12 8-12 8M192 157l-12 8 12 8M568 197l12 8-12 8" />
+                </g>
+                <g fill="currentColor" font-size="13"><text x="180" y="22" text-anchor="middle">Server</text><text
+                        x="580" y="22" text-anchor="middle">Client</text><text x="380" y="48"
+                        text-anchor="middle">LISTEN</text><text x="380" y="78" text-anchor="middle">CONNECT</text><text
+                        x="380" y="118" text-anchor="middle">ACCEPT / connection established</text><text x="380" y="158"
+                        text-anchor="middle">SEND / RECEIVE data</text><text x="380" y="198"
+                        text-anchor="middle">DISCONNECT</text><text x="380" y="250" text-anchor="middle">Conceptual
+                        service sequence; actual API calls depend on implementation.</text></g>
+            </svg></div>
+        <div class="note"><strong>Exam point:</strong> LISTEN and ACCEPT are generally associated with a passive server;
+            CONNECT is generally used by the active client. SEND and RECEIVE exchange data after connection
+            establishment.</div>
+
+        <h2 id="sockets">3. Berkeley Sockets and Socket Programming</h2>
+        <h3>What is a socket?</h3>
+        <p>A <strong>socket</strong> is an endpoint used by an application to communicate over a network. The Berkeley
+            sockets API provides programming calls for creating and using sockets. A socket is commonly identified by a
+            combination of an IP address, a transport protocol and a port number. For a TCP connection, the two
+            endpoints together identify the connection.</p>
+        <h3>Common Berkeley socket calls</h3>
+        <div class="table-wrap">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Call</th>
+                        <th>Purpose</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><code>socket()</code></td>
+                        <td>Creates a socket endpoint and selects the address family and socket type.</td>
+                    </tr>
+                    <tr>
+                        <td><code>bind()</code></td>
+                        <td>Associates a local IP address and port with a socket.</td>
+                    </tr>
+                    <tr>
+                        <td><code>listen()</code></td>
+                        <td>Marks a stream socket as passive and specifies a connection-request queue limit.</td>
+                    </tr>
+                    <tr>
+                        <td><code>accept()</code></td>
+                        <td>Accepts a pending connection and returns a new connected socket.</td>
+                    </tr>
+                    <tr>
+                        <td><code>connect()</code></td>
+                        <td>Initiates a connection to a remote socket address.</td>
+                    </tr>
+                    <tr>
+                        <td><code>send()</code> / <code>recv()</code></td>
+                        <td>Send and receive data on a connected socket.</td>
+                    </tr>
+                    <tr>
+                        <td><code>sendto()</code> / <code>recvfrom()</code></td>
+                        <td>Send and receive datagrams, commonly used with UDP.</td>
+                    </tr>
+                    <tr>
+                        <td><code>close()</code></td>
+                        <td>Closes a socket descriptor and releases its local resources.</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <h3>TCP client-server socket sequence</h3>
+        <div class="diagram"><svg viewBox="0 0 760 300" role="img"
+                aria-label="Berkeley TCP socket programming sequence">
+                <g fill="none" stroke="currentColor" stroke-width="1.7">
+                    <rect x="20" y="35" width="330" height="230" rx="8" />
+                    <rect x="410" y="35" width="330" height="230" rx="8" />
+                </g>
+                <g fill="currentColor" text-anchor="middle" font-size="14"><text x="185" y="58">TCP Server</text><text
+                        x="575" y="58">TCP Client</text><text x="185" y="92">socket()</text><text x="185"
+                        y="120">bind()</text><text x="185" y="148">listen()</text><text x="185"
+                        y="176">accept()</text><text x="185" y="218">send() / recv()</text><text x="185"
+                        y="246">close()</text><text x="575" y="92">socket()</text><text x="575"
+                        y="120">connect()</text><text x="575" y="176">Connection established</text><text x="575"
+                        y="218">send() / recv()</text><text x="575" y="246">close()</text><text x="380" y="286"
+                        font-size="12">Simplified call sequence; error handling and address setup are omitted.</text>
+                </g>
+                <g fill="none" stroke="currentColor" stroke-width="1.5">
+                    <path d="M350 176H410M398 168l12 8-12 8" />
+                </g>
+            </svg></div>
+        <h3>UDP socket sequence</h3>
+        <p>A UDP application commonly creates a datagram socket with <code>socket()</code>, optionally uses
+            <code>bind()</code> to select a local port, sends datagrams using <code>sendto()</code>, receives them using
+            <code>recvfrom()</code>, and closes the socket using <code>close()</code>. There is no TCP-style connection
+            handshake in basic UDP communication.
+        </p>
+        <div class="note"><strong>Self-learning focus:</strong> Be able to explain the purpose and order of socket
+            calls. A complete socket-programming implementation also requires address structures, error checking,
+            byte-order conversion and correct resource cleanup; these are beyond the detail explicitly listed in the
+            syllabus.</div>
+
+        <h2 id="tcp">4. TCP Characteristics and Services</h2>
+        <p><strong>Transmission Control Protocol (TCP)</strong> is a connection-oriented, reliable, byte-stream
+            transport protocol. It is designed to provide ordered delivery of data between application processes.</p>
+        <h3>Main characteristics</h3>
+        <ol>
+            <li><strong>Connection-oriented:</strong> A logical connection is established before application data is
+                exchanged and released after communication.</li>
+            <li><strong>Reliable delivery:</strong> Uses sequence numbers, acknowledgements, checksums and
+                retransmissions to recover from loss or corruption.</li>
+            <li><strong>Byte-stream service:</strong> Applications write and read a continuous stream of bytes; TCP does
+                not preserve application write boundaries as message boundaries.</li>
+            <li><strong>Full-duplex communication:</strong> Both endpoints can send and receive data simultaneously.
+            </li>
+            <li><strong>Ordered delivery:</strong> Data is delivered to the receiving application in sequence.</li>
+            <li><strong>Flow control:</strong> A receiver advertises how much additional data it can accept.</li>
+            <li><strong>Congestion control:</strong> The sender regulates transmission according to perceived network
+                congestion.</li>
+            <li><strong>Multiplexing:</strong> Port numbers allow multiple application connections to share a host's
+                network interface.</li>
+        </ol>
+        <h3>Common TCP applications</h3>
+        <p>TCP is commonly used by applications that need reliable, ordered byte delivery, including web traffic using
+            HTTP/1.1 or HTTP/2 over TCP, file transfer, email transfer and remote terminal sessions. Modern HTTP/3 uses
+            QUIC over UDP, so not all HTTP traffic uses TCP.</p>
+
+        <h2 id="tcpheader">5. TCP Segment Header Structure</h2>
+        <p>A TCP segment consists of a <strong>header</strong> followed by application data. The TCP header is at least
+            20 bytes and can be larger when options are present. The Data Offset field specifies the header length in
+            32-bit words.</p>
+        <div class="diagram">
+            <svg viewBox="0 0 920 330" role="img"
+                aria-label="Correct TCP header format showing all fields and bit widths">
+
+                <g fill="none" stroke="currentColor" stroke-width="1.3">
+
+                    <!-- Row 1: Source and Destination Ports -->
+                    <rect x="20" y="20" width="880" height="42" />
+                    <path d="M460 20V62" />
+
+                    <!-- Row 2: Sequence Number -->
+                    <rect x="20" y="62" width="880" height="42" />
+
+                    <!-- Row 3: Acknowledgment Number -->
+                    <rect x="20" y="104" width="880" height="42" />
+
+                    <!-- Row 4: Data Offset, Reserved, Flags, Window Size -->
+                    <rect x="20" y="146" width="880" height="42" />
+                    <path d="M130 146V188M240 146V188M460 146V188" />
+
+                    <!-- Row 5: Checksum and Urgent Pointer -->
+                    <rect x="20" y="188" width="880" height="42" />
+                    <path d="M460 188V230" />
+
+                    <!-- Options and Padding -->
+                    <rect x="20" y="230" width="880" height="42" />
+
+                    <!-- Application Data -->
+                    <rect x="20" y="272" width="880" height="42" />
+
+                </g>
+
+                <g fill="currentColor" text-anchor="middle" dominant-baseline="middle" font-size="14">
+
+                    <!-- Row 1 -->
+                    <text x="240" y="41">Source Port (16)</text>
+                    <text x="680" y="41">Destination Port (16)</text>
+
+                    <!-- Row 2 -->
+                    <text x="460" y="83">Sequence Number (32)</text>
+
+                    <!-- Row 3 -->
+                    <text x="460" y="125">Acknowledgment Number (32)</text>
+
+                    <!-- Row 4 -->
+                    <text x="75" y="167">Data Offset (4)</text>
+                    <text x="185" y="167">Reserved (3)</text>
+                    <text x="350" y="167">Flags (9)</text>
+                    <text x="680" y="167">Window Size (16)</text>
+
+                    <!-- Row 5 -->
+                    <text x="240" y="209">Checksum (16)</text>
+                    <text x="680" y="209">Urgent Pointer (16)</text>
+
+                    <!-- Variable fields -->
+                    <text x="460" y="251">Options (if present) + Padding</text>
+                    <text x="460" y="293">Application Data (variable)</text>
+
+                </g>
+            </svg>
+
+            <p class="caption">Conceptual field layout. The first two 32-bit rows are subdivided to show the common
+                field groups; the exact control-bit layout is described below.</p>
+        </div>
+        <h3>TCP header fields</h3>
+        <div class="table-wrap">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Field</th>
+                        <th>Size</th>
+                        <th>Function</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Source Port</td>
+                        <td>16 bits</td>
+                        <td>Identifies the sending application endpoint.</td>
+                    </tr>
+                    <tr>
+                        <td>Destination Port</td>
+                        <td>16 bits</td>
+                        <td>Identifies the receiving application endpoint.</td>
+                    </tr>
+                    <tr>
+                        <td>Sequence Number</td>
+                        <td>32 bits</td>
+                        <td>Identifies the sequence number of the first data byte in the segment (with special
+                            interpretation for SYN).</td>
+                    </tr>
+                    <tr>
+                        <td>Acknowledgment Number</td>
+                        <td>32 bits</td>
+                        <td>When ACK is set, indicates the next sequence number expected by the sender of the ACK.</td>
+                    </tr>
+                    <tr>
+                        <td>Data Offset</td>
+                        <td>4 bits</td>
+                        <td>Specifies TCP header length in 32-bit words.</td>
+                    </tr>
+                    <tr>
+                        <td>Reserved</td>
+                        <td>Reserved bits</td>
+                        <td>Reserved for future use and normally set as specified by the protocol.</td>
+                    </tr>
+                    <tr>
+                        <td>Control Flags</td>
+                        <td>9 bits in the commonly shown modern header</td>
+                        <td>Includes NS, CWR, ECE, URG, ACK, PSH, RST, SYN and FIN.</td>
+                    </tr>
+                    <tr>
+                        <td>Window Size</td>
+                        <td>16 bits</td>
+                        <td>Advertises the receiver's available receive window (with window scaling negotiated when
+                            used).</td>
+                    </tr>
+                    <tr>
+                        <td>Checksum</td>
+                        <td>16 bits</td>
+                        <td>Error-detection checksum covering the TCP header and data, plus the IP pseudo-header.</td>
+                    </tr>
+                    <tr>
+                        <td>Urgent Pointer</td>
+                        <td>16 bits</td>
+                        <td>Indicates the urgent-data boundary when URG is set.</td>
+                    </tr>
+                    <tr>
+                        <td>Options + Padding</td>
+                        <td>Variable</td>
+                        <td>May carry negotiated parameters such as MSS, window scale, SACK permitted, timestamps;
+                            padding aligns the header.</td>
+                    </tr>
+                    <tr>
+                        <td>Data</td>
+                        <td>Variable</td>
+                        <td>Application byte stream carried by the segment.</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <h3>Important TCP flags</h3>
+        <ul>
+            <li><strong>SYN:</strong> Synchronizes sequence numbers and is used to establish a connection.</li>
+            <li><strong>ACK:</strong> Indicates that the acknowledgment field is valid.</li>
+            <li><strong>FIN:</strong> Indicates that the sender has finished sending data and wants to close its sending
+                direction.</li>
+            <li><strong>RST:</strong> Resets or aborts a connection.</li>
+            <li><strong>PSH:</strong> Requests prompt delivery of data to the receiving application.</li>
+            <li><strong>URG:</strong> Indicates that the urgent pointer field is significant.</li>
+            <li><strong>ECE and CWR:</strong> Used in Explicit Congestion Notification (ECN) signalling.</li>
+        </ul>
+        <div class="note"><strong>Exam facts:</strong> Minimum TCP header = 20 bytes; maximum header = 60 bytes. TCP
+            sequence and acknowledgment numbers count bytes, not segments.</div>
+
+        <h2 id="handshake">6. TCP Connection Management: Three-Way Handshake</h2>
+        <p>Before data transfer, TCP establishes a connection using a <strong>three-way handshake</strong>. The exchange
+            synchronizes the initial sequence numbers of both endpoints and confirms that both sides can send and
+            receive.</p>
+        <h3>Steps</h3>
+        <ol>
+            <li><strong>SYN:</strong> The client sends a segment with SYN = 1 and an initial sequence number, for
+                example <code>SEQ = x</code>.</li>
+            <li><strong>SYN + ACK:</strong> The server responds with SYN = 1 and ACK = 1, its own initial sequence
+                number <code>SEQ = y</code>, and acknowledgment <code>ACK = x + 1</code>.</li>
+            <li><strong>ACK:</strong> The client sends ACK = 1 with <code>SEQ = x + 1</code> and
+                <code>ACK = y + 1</code>. The connection is established.
+            </li>
+        </ol>
+        <div class="diagram"><svg viewBox="0 0 820 300" role="img"
+                aria-label="TCP three-way handshake sequence diagram">
+                <g fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M170 40V260M650 40V260" />
+                    <path
+                        d="M170 85H650M638 77l12 8-12 8M650 155H170M182 147l-12 8 12 8M170 225H650M638 217l12 8-12 8" />
+                </g>
+                <g fill="currentColor" text-anchor="middle" font-size="15"><text x="170" y="25">Client</text><text
+                        x="650" y="25">Server</text><text x="410" y="72">1. SYN, SEQ = x</text><text x="410" y="142">2.
+                        SYN + ACK, SEQ = y, ACK = x + 1</text><text x="410" y="212">3. ACK, SEQ = x + 1, ACK = y +
+                        1</text><text x="410" y="280">Connection established; data transfer can begin.</text></g>
+            </svg></div>
+        <h3>Why three messages?</h3>
+        <ul>
+            <li>The first message informs the server that the client wants to establish a connection and provides the
+                client's initial sequence number.</li>
+            <li>The second message acknowledges the client's request and provides the server's initial sequence number.
+            </li>
+            <li>The third message acknowledges the server's sequence number, confirming that the client received it.
+            </li>
+        </ul>
+        <div class="note"><strong>Remember:</strong> SYN consumes one sequence number. Therefore, the acknowledgment for
+            a SYN with sequence number <code>x</code> is <code>x + 1</code>, even if no application data is carried.
+        </div>
+
+        <h2 id="termination">7. TCP Connection Termination</h2>
+        <p>TCP is full duplex, so each direction is closed independently. A common orderly close uses four segments,
+            although acknowledgments and FINs may sometimes be combined.</p>
+        <ol>
+            <li>Endpoint A sends FIN to indicate that it has no more data to send.</li>
+            <li>Endpoint B acknowledges the FIN.</li>
+            <li>When B has finished sending, it sends its own FIN.</li>
+            <li>Endpoint A acknowledges the FIN. The active closer typically enters TIME-WAIT before fully releasing the
+                connection.</li>
+        </ol>
+        <div class="diagram"><svg viewBox="0 0 800 270" role="img" aria-label="TCP four-way connection termination">
+                <g fill="none" stroke="currentColor" stroke-width="1.8">
+                    <path d="M170 35V230M630 35V230" />
+                    <path
+                        d="M170 75H630M618 67l12 8-12 8M630 120H170M182 112l-12 8 12 8M170 165H630M618 157l12 8-12 8M630 210H170M182 202l-12 8 12 8" />
+                </g>
+                <g fill="currentColor" text-anchor="middle" font-size="14"><text x="170" y="20">Host A</text><text
+                        x="630" y="20">Host B</text><text x="400" y="62">1. FIN</text><text x="400" y="107">2.
+                        ACK</text><text x="400" y="152">3. FIN</text><text x="400" y="197">4. ACK</text><text x="400"
+                        y="252">Each direction is closed independently.</text></g>
+            </svg></div>
+        <h3>TIME-WAIT</h3>
+        <p>The endpoint performing the active close normally remains in TIME-WAIT for a period (commonly described as
+            twice the maximum segment lifetime, 2MSL). This helps ensure that the final ACK can be retransmitted if
+            necessary and that delayed segments from the old connection expire before the same connection identifiers
+            are reused.</p>
+
+        <h2 id="timers">8. TCP Timers</h2>
+        <p>TCP uses timers to detect missing acknowledgments, support retransmission and manage connection state. Timer
+            details are important for reliable communication.</p>
+        <div class="table-wrap">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Timer</th>
+                        <th>Purpose</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>Retransmission timer</strong></td>
+                        <td>Starts when data is sent. If the acknowledgment does not arrive before timeout, TCP
+                            retransmits the segment. The retransmission timeout (RTO) is calculated dynamically using
+                            measured round-trip time and variation.</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Persist timer</strong></td>
+                        <td>Prevents deadlock when a receiver advertises a zero window and a later window-update message
+                            may be lost. TCP periodically probes the receiver.</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Keepalive timer</strong></td>
+                        <td>Can be used to probe an otherwise idle connection to determine whether the peer is still
+                            reachable. Its use and default behaviour depend on the implementation/application.</td>
+                    </tr>
+                    <tr>
+                        <td><strong>TIME-WAIT timer</strong></td>
+                        <td>Maintains the active closer in TIME-WAIT so delayed segments expire and the final
+                            acknowledgment can be repeated if required.</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Delayed ACK timer</strong></td>
+                        <td>Allows an acknowledgment to be briefly delayed so it may be combined with outgoing data or
+                            another acknowledgment, while avoiding excessive delay.</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <h3>Retransmission timeout (RTO)</h3>
+        <p>TCP estimates the round-trip time (RTT) from acknowledged segments and uses the estimate and its variation to
+            set an RTO. A timeout that is too short causes unnecessary retransmissions; one that is too long delays
+            recovery from loss.</p>
+        <div class="formula">RTO is based on smoothed RTT (SRTT) and RTT variation (RTTVAR)</div>
+        <p>In commonly used TCP algorithms, the RTO calculation uses a smoothed RTT plus a safety margin based on RTT
+            variation. Exact constants and rules are specified by the TCP implementation/standard and should not be
+            confused with a fixed universal timeout.</p>
+
+        <h2 id="udp">9. UDP Characteristics, Header Structure and Applications</h2>
+        <h3>Definition</h3>
+        <p><strong>User Datagram Protocol (UDP)</strong> is a connectionless transport protocol. It sends independent
+            datagrams without establishing a connection. UDP provides process-to-process delivery using port numbers,
+            but does not itself guarantee delivery, ordering, duplicate suppression or retransmission.</p>
+        <h3>Characteristics</h3>
+        <ul>
+            <li>Connectionless: no handshake is required before sending datagrams.</li>
+            <li>Message-oriented: each send operation produces a datagram; message boundaries are preserved.</li>
+            <li>Low protocol overhead: UDP has a fixed 8-byte header.</li>
+            <li>Best-effort delivery: datagrams may be lost, duplicated or delivered out of order.</li>
+            <li>No built-in flow control or congestion control equivalent to TCP's mechanisms. Applications using UDP
+                must behave responsibly and implement additional mechanisms when needed.</li>
+            <li>Supports unicast, multicast and broadcast use where supported by the network and application.</li>
+        </ul>
+        <h3>UDP header format</h3>
+        <div class="diagram"><svg viewBox="0 0 820 150" role="img" aria-label="UDP header with four 16-bit fields">
+                <g fill="none" stroke="currentColor" stroke-width="1.5">
+                    <rect x="20" y="25" width="780" height="48" />
+                    <path d="M215 25V73M410 25V73M605 25V73" />
+                    <rect x="20" y="73" width="780" height="48" />
+                </g>
+                <g fill="currentColor" text-anchor="middle" dominant-baseline="middle" font-size="15"><text x="117"
+                        y="49">Source Port</text><text x="312" y="49">Destination Port</text><text x="507"
+                        y="49">Length</text><text x="702" y="49">Checksum</text><text x="410" y="97">Application Data
+                        (variable length)</text></g>
+            </svg>
+            <p class="caption">UDP header: four fields of 16 bits each, for a total of 8 bytes.</p>
+        </div>
+        <div class="table-wrap">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Field</th>
+                        <th>Size</th>
+                        <th>Function</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Source Port</td>
+                        <td>16 bits</td>
+                        <td>Identifies the sending application; may be zero when not used by the sender.</td>
+                    </tr>
+                    <tr>
+                        <td>Destination Port</td>
+                        <td>16 bits</td>
+                        <td>Identifies the receiving application.</td>
+                    </tr>
+                    <tr>
+                        <td>Length</td>
+                        <td>16 bits</td>
+                        <td>Length in bytes of the UDP header and UDP data; minimum value is 8 bytes.</td>
+                    </tr>
+                    <tr>
+                        <td>Checksum</td>
+                        <td>16 bits</td>
+                        <td>Detects errors in the UDP header and data; calculation includes an IP pseudo-header. It is
+                            optional in IPv4 but required in IPv6 except for narrowly defined exceptions.</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <h3>Applications of UDP</h3>
+        <ul>
+            <li><strong>DNS:</strong> Many standard DNS queries use UDP; TCP is also used in defined situations.</li>
+            <li><strong>DHCP:</strong> Uses UDP for client-server address configuration.</li>
+            <li><strong>VoIP and real-time media:</strong> Often use UDP to avoid waiting for retransmission of delayed
+                media packets; application protocols may add their own recovery/congestion mechanisms.</li>
+            <li><strong>Online games:</strong> May use UDP for time-sensitive updates.</li>
+            <li><strong>Streaming and real-time communication:</strong> UDP may be used where the application manages
+                timing and loss handling.</li>
+            <li><strong>QUIC:</strong> Runs over UDP and provides transport features, including reliability and
+                congestion control, above UDP.</li>
+        </ul>
+
+        <h2 id="flow">10. TCP Flow Control Using Sliding Window</h2>
+        <h3>Meaning of flow control</h3>
+        <p><strong>Flow control</strong> prevents a sender from transmitting more data than the receiver can buffer. TCP
+            uses a byte-oriented sliding-window mechanism. The receiver advertises its available receive buffer space in
+            the TCP Window field; the sender limits the amount of unacknowledged data accordingly.</p>
+        <h3>How TCP sliding-window flow control works</h3>
+        <ol>
+            <li>The receiver allocates a receive buffer for incoming bytes.</li>
+            <li>The receiver advertises a receive window (rwnd), representing the amount of additional data it can
+                accept.</li>
+            <li>The sender may transmit bytes within the permitted window without waiting for an acknowledgment for
+                every segment.</li>
+            <li>As the receiver accepts data and the application reads it, buffer space becomes available.</li>
+            <li>The receiver advertises an updated window, allowing the sender's window to slide forward.</li>
+        </ol>
+        <div class="diagram"><svg viewBox="0 0 820 190" role="img"
+                aria-label="TCP sliding window showing acknowledged bytes, outstanding bytes and available window">
+                <g fill="none" stroke="currentColor" stroke-width="1.5">
+                    <rect x="35" y="55" width="750" height="55" />
+                    <path d="M185 55V110M485 55V110" />
+                </g>
+                <g fill="currentColor" text-anchor="middle" font-size="14"><text x="110" y="83">Acknowledged</text><text
+                        x="335" y="83">Sent, not yet ACKed</text><text x="635" y="83">Allowed to send</text><text
+                        x="110" y="135">Left of window</text><text x="335" y="135">Outstanding data</text><text x="635"
+                        y="135">Receiver-advertised space</text><text x="410" y="25">Illustrative sender sequence
+                        space</text><text x="410" y="172" font-size="12">As ACKs arrive and the receiver advertises
+                        space, the usable window moves forward.</text></g>
+            </svg></div>
+        <h3>Receive window and congestion window</h3>
+        <p>The sender is constrained by two different limits:</p>
+        <div class="formula">Effective sending window = min(rwnd, cwnd)</div>
+        <ul>
+            <li><strong>rwnd (receiver window):</strong> Advertised by the receiver; protects the receiver from buffer
+                overflow.</li>
+            <li><strong>cwnd (congestion window):</strong> Maintained by the sender's congestion-control algorithm;
+                helps protect the network from overload.</li>
+        </ul>
+        <div class="note"><strong>Do not confuse:</strong> Flow control protects the receiver. Congestion control
+            protects the network. Both can limit how much data the sender may have in flight.</div>
+
+        <h2 id="congestion">11. TCP Congestion Control</h2>
+        <h3>Meaning of congestion</h3>
+        <p><strong>Network congestion</strong> occurs when the offered traffic load approaches or exceeds the capacity
+            of network resources such as router links and buffers. It can cause long queueing delays, packet loss and
+            reduced throughput.</p>
+        <h3>Causes</h3>
+        <ul>
+            <li>Too many sources transmit simultaneously.</li>
+            <li>Traffic arrives at a router faster than its outgoing link can transmit it.</li>
+            <li>Insufficient buffer capacity causes packet drops.</li>
+            <li>Retransmissions add more traffic and may worsen congestion.</li>
+            <li>Uneven traffic distribution creates bottlenecks even when other links are underused.</li>
+        </ul>
+        <h3>Congestion control in TCP</h3>
+        <p>TCP congestion control adjusts the congestion window (cwnd), which limits the amount of unacknowledged data
+            in the network. TCP interprets signals such as packet loss and ECN marking as indications of congestion and
+            changes its sending rate.</p>
+        <h3>Flow control versus congestion control</h3>
+        <div class="table-wrap">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Flow Control</th>
+                        <th>Congestion Control</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Protects the receiving host.</td>
+                        <td>Protects the network from excessive traffic.</td>
+                    </tr>
+                    <tr>
+                        <td>Based mainly on receiver buffer availability.</td>
+                        <td>Based on network congestion signals such as loss, delay or ECN.</td>
+                    </tr>
+                    <tr>
+                        <td>Uses the receiver-advertised window (rwnd).</td>
+                        <td>Uses the sender's congestion window (cwnd).</td>
+                    </tr>
+                    <tr>
+                        <td>Prevents receiver buffer overflow.</td>
+                        <td>Reduces overload, queue growth and packet loss.</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <h2 id="aimd">12. Slow Start, AIMD and Congestion Avoidance</h2>
+        <h3>Slow Start</h3>
+        <p>TCP begins with a congestion window (initial cwnd) and increases it as acknowledgments arrive. During slow
+            start, cwnd grows approximately exponentially per round-trip time: it increases by roughly one segment for
+            each new acknowledgment, resulting in a doubling per RTT when acknowledgments arrive for all segments. Slow
+            start continues until a threshold (ssthresh) is reached or congestion is detected.</p>
+        <h3>Congestion Avoidance</h3>
+        <p>When cwnd reaches ssthresh, TCP generally enters congestion avoidance. Instead of exponential growth, cwnd
+            increases approximately linearly, commonly by about one maximum segment size (MSS) per RTT. This slower
+            growth reduces the risk of suddenly overloading the network.</p>
+        <h3>AIMD — Additive Increase / Multiplicative Decrease</h3>
+        <ul>
+            <li><strong>Additive Increase:</strong> When no congestion is detected, increase cwnd gradually,
+                approximately linearly.</li>
+            <li><strong>Multiplicative Decrease:</strong> When congestion is detected, reduce cwnd by a multiplicative
+                factor. A common TCP response to loss is to reduce the congestion window substantially, often
+                approximately by half, subject to the specific TCP variant and event.</li>
+        </ul>
+        <div class="formula">AIMD: increase cwnd additively; decrease cwnd multiplicatively when congestion is detected.
+        </div>
+        <div class="diagram"><svg viewBox="0 0 780 300" role="img"
+                aria-label="Illustrative TCP congestion window growth showing slow start, congestion avoidance and multiplicative decrease">
+                <g fill="none" stroke="currentColor" stroke-width="1.5">
+                    <path d="M70 25V250H740" />
+                    <path
+                        d="M70 230L130 215L190 185L250 125L310 65L370 55L430 45L490 35L550 25L570 150L630 140L690 130L730 120" />
+                </g>
+                <g fill="currentColor" font-size="13"><text x="15" y="30">cwnd</text><text x="660" y="278">Time /
+                        RTT</text><text x="175" y="165">Slow start</text><text x="405" y="82">Congestion
+                        avoidance</text><text x="585" y="170">Decrease</text><text x="545" y="15">Congestion</text></g>
+            </svg>
+            <p class="caption">Conceptual graph only; it illustrates exponential growth, linear growth and a
+                multiplicative reduction. It is not a measured TCP trace.</p>
+        </div>
+        <h3>Typical response to congestion</h3>
+        <ol>
+            <li>TCP increases cwnd during slow start or congestion avoidance.</li>
+            <li>A congestion indication occurs, for example packet loss detected by duplicate ACKs or a retransmission
+                timeout.</li>
+            <li>TCP reduces cwnd and updates ssthresh according to its congestion-control algorithm.</li>
+            <li>TCP resumes transmission more cautiously, using congestion avoidance or slow start depending on the
+                event and algorithm.</li>
+        </ol>
+        <div class="note"><strong>Exam distinction:</strong> Slow Start is exponential growth; Congestion Avoidance is
+            approximately linear growth; AIMD describes additive growth and multiplicative reduction.</div>
+
+        <h2 id="decbit">13. DECbit and RED Congestion Avoidance</h2>
+        <h3>DECbit</h3>
+        <p><strong>DECbit</strong> is an early congestion-avoidance mechanism associated with Digital Equipment
+            Corporation's network architecture. It uses a congestion indication bit in packet headers. A router
+            experiencing congestion marks packets by setting the bit. The destination echoes the indication to the
+            source, and the source adjusts its sending window according to the fraction of marked packets.</p>
+        <h3>Working of DECbit</h3>
+        <ol>
+            <li>A router monitors its queue length.</li>
+            <li>When the average queue exceeds a specified threshold, the router sets the congestion indication bit in
+                forwarded packets.</li>
+            <li>The destination returns the indication to the sender in acknowledgments.</li>
+            <li>The sender examines the proportion of marked packets over a measurement interval.</li>
+            <li>If a significant fraction is marked, the sender reduces its congestion window; otherwise, it cautiously
+                increases the window.</li>
+        </ol>
+        <h3>RED — Random Early Detection</h3>
+        <p><strong>Random Early Detection (RED)</strong> is an active queue-management technique used in routers.
+            Instead of waiting until a queue becomes full, RED monitors the average queue length and probabilistically
+            drops or marks packets before the buffer overflows. This early signal encourages responsive transport
+            sources to reduce their sending rates.</p>
+        <h3>Working of RED</h3>
+        <ol>
+            <li>The router calculates a smoothed average queue length.</li>
+            <li>If the average is below the minimum threshold, packets are normally enqueued.</li>
+            <li>When the average lies between the minimum and maximum thresholds, packets are dropped or marked with an
+                increasing probability.</li>
+            <li>When the average exceeds the maximum threshold, packets are typically dropped or marked according to the
+                configured policy.</li>
+            <li>Responsive senders detect loss or ECN marking and reduce their congestion window.</li>
+        </ol>
+        <div class="table-wrap">
+            <table>
+                <thead>
+                    <tr>
+                        <th>DECbit</th>
+                        <th>RED</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Uses an explicit congestion indication bit that is echoed back to the sender.</td>
+                        <td>Uses average queue length to make probabilistic early drop/mark decisions.</td>
+                    </tr>
+                    <tr>
+                        <td>Sender adjusts its window based on returned congestion indications.</td>
+                        <td>Transport sources react to early packet loss or ECN marking.</td>
+                    </tr>
+                    <tr>
+                        <td>Associated with the DECnet congestion avoidance scheme.</td>
+                        <td>Active queue management technique for routers.</td>
+                    </tr>
+                    <tr>
+                        <td>Signals congestion through packet marking.</td>
+                        <td>Signals congestion probabilistically before the queue becomes full.</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="note"><strong>Terminology:</strong> RED is a queue-management mechanism, not a replacement for
+            end-to-end TCP congestion control. DECbit is a historical explicit-feedback approach.</div>
+
+        <h2 id="sctp">14. SCTP — Stream Control Transmission Protocol</h2>
+        <h3>Definition</h3>
+        <p><strong>Stream Control Transmission Protocol (SCTP)</strong> is a reliable, message-oriented transport
+            protocol. It combines features useful for transporting messages and supports multiple streams within an
+            association and multihoming (multiple network addresses at an endpoint).</p>
+        <h3>Characteristics and features</h3>
+        <ol>
+            <li><strong>Message-oriented:</strong> Preserves message boundaries, unlike TCP's byte-stream service.</li>
+            <li><strong>Reliable transfer:</strong> Uses acknowledgments, checksums and retransmission to provide
+                reliable delivery.</li>
+            <li><strong>Multistreaming:</strong> Supports multiple independent streams within one association, reducing
+                the impact of ordering delays between unrelated streams.</li>
+            <li><strong>Multihoming:</strong> An endpoint can be associated with multiple IP addresses, providing path
+                redundancy and resilience.</li>
+            <li><strong>Association setup:</strong> Establishes an association using a four-way cookie-based handshake
+                (INIT, INIT-ACK, COOKIE-ECHO, COOKIE-ACK).</li>
+            <li><strong>Congestion and flow control:</strong> Includes mechanisms to control traffic and protect the
+                receiver and network.</li>
+        </ol>
+        <h3>TCP, UDP and SCTP comparison</h3>
+        <div class="table-wrap">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Feature</th>
+                        <th>TCP</th>
+                        <th>UDP</th>
+                        <th>SCTP</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Connection model</td>
+                        <td>Connection-oriented</td>
+                        <td>Connectionless</td>
+                        <td>Association-oriented</td>
+                    </tr>
+                    <tr>
+                        <td>Data model</td>
+                        <td>Byte stream</td>
+                        <td>Datagrams / messages</td>
+                        <td>Messages</td>
+                    </tr>
+                    <tr>
+                        <td>Reliability</td>
+                        <td>Reliable, ordered byte delivery</td>
+                        <td>No built-in reliability guarantee</td>
+                        <td>Reliable message delivery</td>
+                    </tr>
+                    <tr>
+                        <td>Multistreaming</td>
+                        <td>No native independent streams within one connection</td>
+                        <td>No</td>
+                        <td>Yes</td>
+                    </tr>
+                    <tr>
+                        <td>Multihoming</td>
+                        <td>Not a native standard TCP feature</td>
+                        <td>Not provided by UDP itself</td>
+                        <td>Yes</td>
+                    </tr>
+                    <tr>
+                        <td>Typical use</td>
+                        <td>Web, file transfer, email</td>
+                        <td>DNS, DHCP, real-time applications</td>
+                        <td>Telecommunication signalling and applications needing its features</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <h2 id="qos">15. Quality of Service (QoS)</h2>
+        <h3>Definition</h3>
+        <p><strong>Quality of Service (QoS)</strong> refers to the ability of a network to provide predictable or
+            differentiated service levels for traffic according to application requirements. Different applications have
+            different needs: voice and video are sensitive to delay and jitter, while file transfer places greater
+            emphasis on reliable delivery and throughput.</p>
+        <h3>QoS parameters</h3>
+        <div class="table-wrap">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Parameter</th>
+                        <th>Meaning</th>
+                        <th>Importance</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>Bandwidth / throughput</strong></td>
+                        <td>Available capacity or achieved data-transfer rate.</td>
+                        <td>Important for high-volume video, downloads and data transfer.</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Delay (latency)</strong></td>
+                        <td>Time taken for data to travel from source to destination.</td>
+                        <td>Low delay is important for interactive voice, video and gaming.</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Jitter</strong></td>
+                        <td>Variation in packet delay.</td>
+                        <td>High jitter can disrupt real-time audio and video playback.</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Packet loss</strong></td>
+                        <td>Fraction or number of packets that fail to reach the destination.</td>
+                        <td>Loss can degrade media quality and reduce transport throughput.</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Reliability</strong></td>
+                        <td>Consistency and dependability of successful communication.</td>
+                        <td>Important for business-critical data and transactions.</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <h3>QoS mechanisms and techniques</h3>
+        <ul>
+            <li><strong>Traffic classification and marking:</strong> Identifies traffic classes and marks packets so
+                network devices can apply policies.</li>
+            <li><strong>Scheduling:</strong> Determines which queued packet is transmitted next; examples include
+                priority scheduling and weighted fair queuing.</li>
+            <li><strong>Traffic shaping:</strong> Smooths traffic by buffering packets and controlling the transmission
+                rate.</li>
+            <li><strong>Traffic policing:</strong> Checks traffic against a rate profile and may drop, remark or
+                otherwise handle excess traffic.</li>
+            <li><strong>Admission control:</strong> Determines whether a new flow can be accepted without violating
+                existing service commitments.</li>
+            <li><strong>Resource reservation:</strong> Reserves or allocates resources for selected flows where the
+                architecture supports it.</li>
+            <li><strong>Active queue management:</strong> Uses early drop or marking strategies such as RED to manage
+                queue build-up.</li>
+        </ul>
+        <div class="note"><strong>Example:</strong> A voice call generally needs low delay, low jitter and low packet
+            loss. A large file transfer can tolerate more delay but benefits from high throughput and reliable delivery.
+        </div>
+
+        <h2 id="compare">16. TCP vs UDP</h2>
+        <div class="table-wrap">
+            <table>
+                <thead>
+                    <tr>
+                        <th>TCP</th>
+                        <th>UDP</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Connection-oriented.</td>
+                        <td>Connectionless.</td>
+                    </tr>
+                    <tr>
+                        <td>Reliable delivery using acknowledgments and retransmissions.</td>
+                        <td>No built-in acknowledgment or retransmission service.</td>
+                    </tr>
+                    <tr>
+                        <td>Byte-stream oriented; does not preserve application message boundaries.</td>
+                        <td>Message-oriented; preserves datagram boundaries.</td>
+                    </tr>
+                    <tr>
+                        <td>Provides sequencing and ordered delivery.</td>
+                        <td>Does not guarantee ordering.</td>
+                    </tr>
+                    <tr>
+                        <td>Provides flow control and congestion control.</td>
+                        <td>No built-in TCP-style flow and congestion control.</td>
+                    </tr>
+                    <tr>
+                        <td>Minimum header size is 20 bytes.</td>
+                        <td>Header size is 8 bytes.</td>
+                    </tr>
+                    <tr>
+                        <td>Connection establishment and termination add protocol exchanges.</td>
+                        <td>No connection handshake is required.</td>
+                    </tr>
+                    <tr>
+                        <td>Commonly used for reliable web, file and email transfer.</td>
+                        <td>Commonly used for DNS, DHCP, real-time media and other datagram applications.</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <h2 id="qb">17. Question-Bank Map and References</h2>
+        <h3>Questions mapped to this module</h3>
+        <p>The following entries are mapped from the uploaded question banks. Question wording is condensed here for
+            navigation; consult the original documents for the complete wording.</p>
+        <div class="table-wrap">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Source</th>
+                        <th>Question / topic</th>
+                        <th>Relevant section</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>MUSA Winter 2025 QB</td>
+                        <td>Q3 — TCP three-way handshake</td>
+                        <td>Section 6</td>
+                    </tr>
+                    <tr>
+                        <td>MUSA Winter 2025 QB</td>
+                        <td>Q18 — TCP header and characteristics</td>
+                        <td>Sections 4–5</td>
+                    </tr>
+                    <tr>
+                        <td>MUSA Winter 2025 QB</td>
+                        <td>Q25(iv) — TCP timers and sliding-window flow control</td>
+                        <td>Sections 8 and 10</td>
+                    </tr>
+                    <tr>
+                        <td>MUSA Winter 2025 QB</td>
+                        <td>Q25(v) — AIMD in TCP control mechanism</td>
+                        <td>Section 12</td>
+                    </tr>
+                    <tr>
+                        <td>MUSA Winter 2025 QB</td>
+                        <td>Q26(i) — TCP and UDP</td>
+                        <td>Sections 9 and 16</td>
+                    </tr>
+                    <tr>
+                        <td>MUSA Winter 2026 Top 15</td>
+                        <td>Q1 — TCP three-way handshake</td>
+                        <td>Section 6</td>
+                    </tr>
+                    <tr>
+                        <td>MUSA Winter 2026 Top 15</td>
+                        <td>Q14 — TCP header and characteristics</td>
+                        <td>Sections 4–5</td>
+                    </tr>
+                    <tr>
+                        <td>MUSA Winter 2026 Top 15</td>
+                        <td>Q16 — Differentiation, short notes and numericals from complete QB</td>
+                        <td>Revise all relevant sections</td>
+                    </tr>
+                    <tr>
+                        <td>Official syllabus</td>
+                        <td>4.1 — Transport service, primitives, Berkeley sockets, TCP, UDP, headers, handshake and
+                            timers</td>
+                        <td>Sections 1–9</td>
+                    </tr>
+                    <tr>
+                        <td>Official syllabus</td>
+                        <td>4.2 — Sliding-window flow control, slow start, AIMD, DECbit, RED, SCTP and QoS</td>
+                        <td>Sections 10–15</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <h3>Video-learning reference — NetworkChuck</h3>
+        <div class="video"><strong>Primary playlist:</strong> <a
+                href="https://www.youtube.com/playlist?list=PLIhvC56v63IJVXv0GJcl9vO5Z6znCVb1P" target="_blank"
+                rel="noopener noreferrer">NetworkChuck — FREE CCNA 200-301 Complete Course (2025)</a>.<br>
+            Use the playlist as a visual companion for networking fundamentals and protocol concepts. The supplied
+            playlist screenshot confirms the first five entries, including the TCP/IP and OSI episodes, but does not
+            establish a specific episode title for every Transport Layer topic. Therefore, no unverified episode numbers
+            or titles are assigned here.</div>
+
+        <h3>Textbook and reference reading</h3>
+        <div class="reference"><strong>Primary prescribed textbook:</strong> Andrew S. Tanenbaum and David J. Wetherall,
+            <em>Computer Networks</em>, 5th Edition, Pearson, 2012. Consult the transport-layer chapter (Chapter 6 in
+            this edition) for transport services, TCP/UDP, connection management and congestion control.
+        </div>
+        <div class="reference"><strong>Prescribed textbook:</strong> Behrouz A. Forouzan, <em>Data Communications and
+                Networking</em>, 5th Edition, McGraw-Hill. Consult the transport-layer chapters for UDP, TCP, flow
+            control and congestion control.</div>
+        <div class="reference"><strong>Additional reference:</strong> James F. Kurose and Keith W. Ross, <em>Computer
+                Networking: A Top-Down Approach</em>, 7th Edition, Chapter 3 — Transport Layer.</div>
+        <div class="reference"><strong>Additional reference:</strong> W. Richard Stevens, <em>TCP/IP Illustrated, Volume
+                1: The Protocols</em>, for TCP segment structure, connection state and TCP operation.</div>
+
+        <h3>Exam preparation checklist</h3>
+        <ul class="question-list">
+            <li>Draw and explain the TCP three-way handshake with sequence and acknowledgment numbers.</li>
+            <li>Draw the TCP header and explain every field with its bit size.</li>
+            <li>Explain TCP timers and their purposes.</li>
+            <li>Explain TCP sliding-window flow control and distinguish rwnd from cwnd.</li>
+            <li>Explain slow start, congestion avoidance and AIMD with a graph.</li>
+            <li>Explain DECbit and RED and compare their operation.</li>
+            <li>Draw the UDP header and explain its fields and applications.</li>
+            <li>Differentiate TCP, UDP and SCTP where required.</li>
+            <li>Explain transport service primitives and the Berkeley socket call sequence.</li>
+            <li>Explain QoS parameters and mechanisms.</li>
+        </ul>
+
+        <div class="callout"><strong>Module completion note:</strong> The content above follows the topics explicitly
+            listed under Module IV of the uploaded syllabus. The MUSA question-bank mapping is included as an
+            exam-priority guide. NetworkChuck references are limited to the playlist itself and the episode titles
+            visible in the supplied screenshot; individual Transport Layer episode titles have not been assumed.</div>
+    </section>
+</body>
+
+</html>

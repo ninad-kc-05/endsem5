@@ -1,0 +1,288 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Module 3 | Software Estimation Metrics and Project Scheduling</title>
+<style>
+#module-content{--m3-line:var(--rule,#394253);--m3-muted:var(--muted,#a5adbd);--m3-accent:var(--accent,#8fb0ee);width:100%;max-width:100%;min-width:0;color:var(--ink,#e8eaf0);line-height:1.68}
+#module-content,#module-content *{box-sizing:border-box}
+#module-content h1,#module-content h2,#module-content h3{line-height:1.25}
+#module-content h1{font-size:clamp(1.8rem,3vw,2.5rem);margin:.2rem 0 .5rem}
+#module-content h2{font-size:clamp(1.35rem,2.2vw,1.8rem);margin:2.6rem 0 .8rem;padding-bottom:.45rem;border-bottom:1px solid var(--m3-line)}
+#module-content h3{font-size:1.12rem;margin:1.35rem 0 .45rem}
+#module-content p{margin:.45rem 0 .85rem}
+#module-content li{margin:.28rem 0}
+#module-content .eyebrow{font:700 .76rem/1.4 var(--sans,system-ui);letter-spacing:.12em;text-transform:uppercase;color:var(--m3-accent)}
+#module-content .lead{color:var(--m3-muted);max-width:85ch}
+#module-content .index{border:1px solid var(--m3-line);padding:1rem 1.2rem;margin:1.5rem 0 2rem;border-radius:8px}
+#module-content .index h2{margin:.1rem 0 .7rem;border:0;padding:0;font-size:1.15rem}
+#module-content .index nav{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:.15rem 1.2rem;min-width:0}
+#module-content .index a{min-width:0;max-width:100%;overflow-wrap:anywhere;word-break:normal;color:var(--m3-accent);text-decoration:none;font:.92rem/1.55 var(--sans,system-ui);padding:.2rem 0}
+#module-content .index a:hover{text-decoration:underline}
+#module-content .callout,#module-content .definition,#module-content .formula{width:100%;max-width:100%;min-width:0;overflow-wrap:anywhere;word-break:normal;border:1px solid var(--m3-line);padding:.85rem 1rem;margin:1rem 0;border-radius:8px}
+#module-content .callout{border-left:3px solid var(--m3-accent);background:color-mix(in srgb,var(--m3-accent) 7%,transparent)}
+#module-content .definition strong{color:var(--m3-accent)}
+#module-content .formula{font-family:ui-monospace,Consolas,monospace;overflow-x:auto;white-space:normal}
+#module-content .table-wrap{width:100%;max-width:100%;min-width:0;overflow-x:auto;margin:1rem 0 1.5rem}
+#module-content table{width:100%;min-width:600px;border-collapse:collapse;font-size:.94rem}
+#module-content th,#module-content td{border:1px solid var(--m3-line);padding:.65rem .75rem;text-align:left;vertical-align:top}
+#module-content th{background:color-mix(in srgb,var(--m3-accent) 12%,transparent)}
+#module-content .two-col{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:1rem;width:100%;max-width:100%;min-width:0}
+#module-content .two-col>*{min-width:0;max-width:100%}
+#module-content .card{display:block;grid-template-columns:none;min-width:0;width:100%;max-width:100%;box-sizing:border-box;overflow-wrap:anywhere;word-break:normal;border:1px solid var(--m3-line);border-radius:8px;padding:.9rem 1rem}
+#module-content .card h3{max-width:100%;min-width:0;margin:.1rem 0 .4rem;overflow-wrap:anywhere;word-break:normal}
+#module-content .card p,#module-content .card li{max-width:100%;min-width:0;overflow-wrap:anywhere;word-break:normal}
+#module-content .diagram-wrap{width:100%;max-width:100%;min-width:0;overflow-x:auto;overflow-y:hidden;border:1px solid var(--m3-line);border-radius:8px;padding:1rem;margin:1rem 0 1.5rem;overscroll-behavior-x:contain}
+#module-content .m3-svg{display:block;max-width:none;flex:none;color:var(--ink,#e8eaf0)}
+#module-content .m3-svg text{fill:currentColor;font-family:Arial,sans-serif}
+#module-content .m3-svg .node{fill:var(--paper,#202633);stroke:var(--accent,#8fb0ee);stroke-width:2}
+#module-content .m3-svg .edge{stroke:currentColor;stroke-width:1.7;fill:none}
+#module-content .caption{font-size:.86rem;color:var(--m3-muted);margin:-.8rem 0 1.2rem}
+#module-content .steps{counter-reset:step;list-style:none;padding:0}
+#module-content .steps li{counter-increment:step;padding-left:2.2rem;position:relative;margin:.65rem 0}
+#module-content .steps li:before{content:counter(step);position:absolute;left:0;top:.05rem;width:1.55rem;height:1.55rem;border:1px solid var(--m3-line);border-radius:50%;text-align:center;line-height:1.45rem;color:var(--m3-accent);font: .85rem/1.45rem var(--sans,system-ui)}
+@media(max-width:680px){#module-content .index nav,#module-content .two-col{grid-template-columns:minmax(0,1fr)}#module-content .index{padding:.85rem}}
+</style>
+</head>
+<body>
+<section id="module-content">
+<header>
+<div class="eyebrow">Software Engineering · Module 03</div>
+<h1>Software Estimation Metrics and Project Scheduling</h1>
+<p class="lead">This module covers the management spectrum, software metrics, size and function-oriented estimation, COCOMO II, and the planning and tracking techniques used to control a software project.</p>
+</header>
+
+<div class="index">
+<h2>Module Contents</h2>
+<nav>
+<a href="#m3-1">03.1 Management Spectrum – 3 P’s</a>
+<a href="#m3-2">03.2 Software Metrics</a>
+<a href="#m3-3">03.3 LOC and Function Point Estimation</a>
+<a href="#m3-4">03.4 Software Project Estimation</a>
+<a href="#m3-5">03.5 COCOMO II Model</a>
+<a href="#m3-6">03.6 Specialized Estimation</a>
+<a href="#m3-7">03.7 Project Scheduling</a>
+<a href="#m3-8">03.8 WBS and Task Set Definition</a>
+<a href="#m3-9">03.9 Timeline Charts and Gantt Chart</a>
+<a href="#m3-10">03.10 CPM and PERT</a>
+<a href="#m3-11">03.11 Schedule Tracking and EVA</a>
+</nav>
+</div>
+
+<h2 id="m3-1">03.1 Management Spectrum – The 3 P’s</h2>
+<div class="definition"><strong>Definition:</strong> The management spectrum describes the key areas that must be managed to make a software project successful. It focuses on People, Product and Process.</div>
+<div class="two-col">
+<div class="card"><h3>1. People</h3><p>People involved in a project range from the project manager and developers to customers and end users. Skilled and motivated people improve software development capability.</p><p><b>People Management Capability Maturity Model (PM-CMM):</b> A framework developed by the Software Engineering Institute (SEI) to improve the maturity of an organisation's people-management practices.</p></div>
+<div class="card"><h3>2. Product</h3><p>The product is the software to be designed and developed. Before estimating cost, effort and schedule, the team must understand the product objectives, scope, functions, constraints and performance requirements.</p><p>Insufficient product information makes reliable estimates difficult.</p></div>
+<div class="card"><h3>3. Process</h3><p>The software process provides the framework for establishing a complete development plan. It identifies the activities and tasks required to build the product.</p><p>Process elements include tasks, milestones, work products and quality-assurance points. Umbrella activities support the process throughout the project.</p></div>
+</div>
+<div class="callout"><b>Exam memory key:</b> People = who builds it; Product = what is being built; Process = how it is built.</div>
+
+<h2 id="m3-2">03.2 Software Metrics</h2>
+<div class="definition"><strong>Software metric:</strong> A quantitative measure of a software characteristic. Metrics help measure software products and processes, plan work, evaluate productivity, monitor quality and support project control.</div>
+<h3>Classification of software metrics</h3>
+<div class="two-col">
+<div class="card"><h3>Product metrics</h3><p>Measure characteristics of the software product, such as size, complexity, performance, reliability, defects and maintainability.</p></div>
+<div class="card"><h3>Process metrics</h3><p>Measure the effectiveness of the software development process, such as defect removal efficiency, review effectiveness, cycle time and rework.</p></div>
+</div>
+<p><b>Project metrics</b> are used by a project manager to monitor project status, effort, cost, schedule, staffing and risks. They support day-to-day project decisions.</p>
+<h3>Size-oriented metrics</h3>
+<p>Size-oriented metrics are derived by considering the amount of software produced, commonly measured in Lines of Code (LOC) or Thousand Lines of Code (KLOC).</p>
+<div class="formula">KLOC = LOC / 1000</div>
+<p>Common derived measures include:</p>
+<div class="table-wrap"><table><thead><tr><th>Metric</th><th>Formula</th><th>Interpretation</th></tr></thead><tbody>
+<tr><td>Productivity</td><td>LOC / Person-month</td><td>Software size produced per unit of effort.</td></tr>
+<tr><td>Quality (defects)</td><td>Defects / KLOC</td><td>Defect density by software size.</td></tr>
+<tr><td>Cost</td><td>Project cost / LOC (or KLOC)</td><td>Cost per unit of software size.</td></tr>
+<tr><td>Documentation</td><td>Pages of documentation / KLOC</td><td>Documentation produced relative to size.</td></tr>
+</tbody></table></div>
+<div class="callout"><b>Note:</b> LOC-based comparisons can be misleading across programming languages and development styles. LOC is also difficult to estimate accurately early in a project.</div>
+
+<h2 id="m3-3">03.3 LOC and Function Point Estimation</h2>
+<h3>A. LOC-based estimation</h3>
+<p>LOC estimation predicts software size by estimating the number of source-code lines required. The estimate is often expressed in KLOC and then used with historical productivity and cost data to estimate effort and cost.</p>
+<div class="formula">Estimated effort (person-months) = Estimated LOC / Historical LOC productivity per person-month</div>
+<p><b>Example:</b> If the estimated size is 24,000 LOC and historical productivity is 600 LOC per person-month:</p>
+<div class="formula">Effort = 24,000 / 600 = 40 person-months</div>
+<h3>B. Function Point (FP) estimation</h3>
+<div class="definition"><strong>Function Point:</strong> A measure of the functionality delivered by a software system. Function points estimate software size from the user's view, rather than depending directly on the programming language or number of code lines. The function-oriented metric concept was initially proposed by Allan Albrecht.</div>
+<p>Five information-domain characteristics are counted and classified by complexity:</p>
+<div class="table-wrap"><table><thead><tr><th>Characteristic</th><th>Meaning</th><th>Typical example</th></tr></thead><tbody>
+<tr><td>External Inputs (EI)</td><td>Data entering the system and updating internal data.</td><td>Registration form, login input.</td></tr>
+<tr><td>External Outputs (EO)</td><td>Information produced and sent outside the system.</td><td>Reports, formatted screens, error messages.</td></tr>
+<tr><td>External Inquiries (EQ)</td><td>Online input that results in an immediate online response.</td><td>Search or lookup request.</td></tr>
+<tr><td>Internal Logical Files (ILF)</td><td>Logical groups of data maintained by the application.</td><td>Student database maintained by the system.</td></tr>
+<tr><td>External Interface Files (EIF)</td><td>Logical groups of data used by the application but maintained externally.</td><td>University database accessed by the system.</td></tr>
+</tbody></table></div>
+<h3>Standard function point weighting factors</h3>
+<div class="table-wrap"><table><thead><tr><th>Measurement parameter</th><th>Simple</th><th>Average</th><th>Complex</th></tr></thead><tbody>
+<tr><td>External Inputs</td><td>3</td><td>4</td><td>6</td></tr><tr><td>External Outputs</td><td>4</td><td>5</td><td>7</td></tr><tr><td>External Inquiries</td><td>3</td><td>4</td><td>6</td></tr><tr><td>Internal Logical Files</td><td>7</td><td>10</td><td>15</td></tr><tr><td>External Interface Files</td><td>5</td><td>7</td><td>10</td></tr>
+</tbody></table></div>
+<h3>Function Point calculation</h3>
+<div class="formula">UFP (Unadjusted Function Points) = Σ (Count × Weight)</div>
+<p>The complexity adjustment factor is calculated using 14 general system characteristics (GSCs), each rated for its degree of influence.</p>
+<div class="formula">CAF = 0.65 + 0.01 × Σ(Fᵢ), where i = 1 to 14<br>AFP (Adjusted Function Points) = UFP × CAF</div>
+<p>Here, <b>Fᵢ</b> is the influence rating for each of the 14 characteristics; the sum is the Total Degree of Influence (TDI). The base adjustment factor is 0.65 and the adjustment multiplier is 0.01.</p>
+<h3>Fourteen general system characteristics</h3>
+<ol><li>Data communications</li><li>Distributed data or functions</li><li>Performance objectives</li><li>Heavily used configuration</li><li>High transaction rate</li><li>Online data entry</li><li>End-user efficiency</li><li>Online updates</li><li>Complex processing</li><li>Reusability for other applications</li><li>Installation and conversion ease</li><li>Operational ease</li><li>Multiple-site access</li><li>Facilitation of change</li></ol>
+<h3>Solved example – Function Points</h3>
+<p>Consider a system with the following counts and complexity levels:</p>
+<div class="table-wrap"><table><thead><tr><th>Function type</th><th>Count</th><th>Complexity</th><th>Weight</th><th>Subtotal</th></tr></thead><tbody>
+<tr><td>External Inputs</td><td>3</td><td>Average</td><td>4</td><td>3 × 4 = 12</td></tr>
+<tr><td>External Outputs</td><td>2</td><td>Average</td><td>5</td><td>2 × 5 = 10</td></tr>
+<tr><td>External Inquiries</td><td>2</td><td>Average</td><td>4</td><td>2 × 4 = 8</td></tr>
+<tr><td>Internal Logical Files</td><td>2</td><td>Average</td><td>10</td><td>2 × 10 = 20</td></tr>
+<tr><td>External Interface Files</td><td>1</td><td>Average</td><td>7</td><td>1 × 7 = 7</td></tr>
+<tr><th colspan="4">UFP</th><th>57</th></tr>
+</tbody></table></div>
+<p>Suppose the sum of the 14 influence ratings is 35.</p>
+<div class="formula">CAF = 0.65 + (0.01 × 35) = 1.00<br>AFP = 57 × 1.00 = 57 Function Points</div>
+<p>If the cost per function point is ₹4,000:</p>
+<div class="formula">Estimated development cost = 57 × ₹4,000 = ₹2,28,000</div>
+<div class="callout"><b>Calculation order:</b> Count each function → select its complexity weight → calculate UFP → add the 14 influence ratings → calculate CAF → calculate AFP → multiply by cost per FP if required.</div>
+
+<h2 id="m3-4">03.4 Software Project Estimation</h2>
+<div class="definition"><strong>Software project estimation:</strong> The process of predicting the resources, effort, cost, size and time required to develop and deliver a software project.</div>
+<h3>What is estimated?</h3>
+<ul><li><b>Size:</b> LOC, KLOC or Function Points.</li><li><b>Effort:</b> person-hours or person-months.</li><li><b>Cost:</b> labour, tools, infrastructure and other project expenses.</li><li><b>Schedule:</b> project duration and milestone dates.</li><li><b>Resources:</b> people, skills, hardware and software tools.</li></ul>
+<h3>General estimation workflow</h3>
+<ol class="steps"><li>Define the project scope and objectives.</li><li>Decompose the product and work into manageable components.</li><li>Estimate software size using LOC, FP or another suitable measure.</li><li>Estimate effort using historical data, productivity or an empirical model.</li><li>Derive cost and schedule, accounting for risks and constraints.</li><li>Compare estimates with actual project data and revise as details improve.</li></ol>
+<h3>Common estimation techniques</h3>
+<div class="table-wrap"><table><thead><tr><th>Technique</th><th>Explanation</th><th>Limitation / consideration</th></tr></thead><tbody>
+<tr><td>Expert judgement</td><td>Experienced professionals estimate based on similar work and domain knowledge.</td><td>May be affected by bias or limited experience.</td></tr>
+<tr><td>Estimation by analogy</td><td>Compares the proposed project with completed, similar projects.</td><td>Requires relevant historical projects.</td></tr>
+<tr><td>Decomposition</td><td>Breaks the project into smaller components and estimates each part.</td><td>Small estimates must be combined consistently.</td></tr>
+<tr><td>Empirical models</td><td>Use mathematical relationships derived from historical project data.</td><td>Accuracy depends on calibration and input quality.</td></tr>
+<tr><td>Agile estimation</td><td>Uses relative sizing, story points, velocity and iteration planning.</td><td>Velocity is team-specific and should not be treated as a universal rate.</td></tr>
+</tbody></table></div>
+
+<h2 id="m3-5">03.5 COCOMO II Model</h2>
+<div class="definition"><strong>COCOMO II:</strong> The Constructive Cost Model II is an empirical software cost-estimation model used to estimate effort, schedule and related project resources from software size and cost drivers.</div>
+<p>COCOMO II supports estimation at different stages of development. Its estimates depend on the chosen model, size measure, scale factors and effort multipliers. The model should be calibrated using relevant organisational data where possible.</p>
+<h3>COCOMO II sub-models</h3>
+<div class="table-wrap"><table><thead><tr><th>Sub-model</th><th>When used</th><th>Purpose</th></tr></thead><tbody>
+<tr><td>Application Composition</td><td>During prototyping or early user-interface/application composition.</td><td>Uses object points such as screens, reports and 3GL components.</td></tr>
+<tr><td>Early Design</td><td>When requirements and architecture are understood at a high level.</td><td>Uses a small set of scale factors and effort multipliers.</td></tr>
+<tr><td>Post-Architecture</td><td>After the software architecture is defined.</td><td>Uses more detailed cost drivers and project information.</td></tr>
+</tbody></table></div>
+<h3>Post-Architecture effort equation</h3>
+<div class="formula">Effort = A × (Size)<sup>E</sup> × ∏ EMᵢ</div>
+<p>Where:</p>
+<ul><li><b>Effort:</b> estimated person-months.</li><li><b>A:</b> calibration constant (commonly 2.94 in the standard COCOMO II formulation).</li><li><b>Size:</b> estimated software size in KSLOC, after accounting for reuse where applicable.</li><li><b>E:</b> scale exponent determined by scale factors.</li><li><b>EMᵢ:</b> effort multipliers representing cost-driver effects.</li></ul>
+<div class="formula">E = B + 0.01 × Σ(SFⱼ)</div>
+<p>The standard COCOMO II formulation commonly uses B = 0.91. Scale factors include precedentedness, development flexibility, architecture/risk resolution, team cohesion and process maturity.</p>
+<h3>Schedule equation</h3>
+<div class="formula">TDEV = C × (Effort)<sup>F</sup><br>F = D + 0.2 × (E − B)</div>
+<p>In the standard formulation, C = 3.67 and D = 0.28. TDEV is development time in months. These constants belong to the standard model; use the values specified by the prescribed textbook or question if a different calibration is supplied.</p>
+<h3>Effort multipliers / cost drivers</h3>
+<p>Effort multipliers adjust the nominal effort to reflect product, platform, personnel and project characteristics. Examples include required reliability, database size, product complexity, execution-time constraints, analyst capability, programmer capability, personnel continuity, tool support and multisite development.</p>
+<div class="callout"><b>Important:</b> Do not confuse scale factors with effort multipliers. Scale factors determine the exponent E; effort multipliers are multiplied together to adjust effort.</div>
+
+<h2 id="m3-6">03.6 Specialized and Agile Estimation</h2>
+<h3>Specialized estimation techniques</h3>
+<ul><li><b>Expert judgement:</b> an expert analyses the project and estimates size, effort or schedule from experience.</li><li><b>Delphi / Wideband Delphi:</b> multiple experts estimate independently, discuss differences and repeat estimation rounds until a reasonable consensus is reached.</li><li><b>Estimation by analogy:</b> uses actual data from similar completed projects and adjusts for differences.</li><li><b>Parkinson's Law:</b> effort is estimated in relation to available resources and time; it is not a reliable substitute for a realistic effort estimate.</li><li><b>Price-to-win:</b> estimate is constrained by the price needed to win a contract; this can create delivery risk if the price is below realistic cost.</li></ul>
+<h3>Agile estimation</h3>
+<p>Agile teams commonly estimate relative effort rather than exact hours at the beginning of a project.</p>
+<div class="two-col">
+<div class="card"><h3>Story points</h3><p>A relative measure of the effort, complexity and uncertainty of a user story. A point value is meaningful within the team, not as a universal time unit.</p></div>
+<div class="card"><h3>Velocity</h3><p>The amount of story-point work completed by a team in an iteration. Historical velocity helps forecast future iteration capacity.</p></div>
+</div>
+<div class="formula">Estimated iterations ≈ Total remaining story points / Average team velocity</div>
+<p><b>Example:</b> If 120 story points remain and the team's average velocity is 30 points per sprint, the rough forecast is 120 / 30 = 4 sprints. This assumes similar team capacity and work conditions.</p>
+
+<h2 id="m3-7">03.7 Project Scheduling</h2>
+<div class="definition"><strong>Project scheduling:</strong> The activity of defining the work to be performed, identifying task dependencies, assigning resources and estimating start and finish dates to create a roadmap for completing the project.</div>
+<h3>Objectives</h3><ul><li>Divide the project into manageable activities.</li><li>Identify task dependencies and sequencing.</li><li>Allocate people and other resources.</li><li>Estimate task duration and project completion time.</li><li>Identify milestones and monitor progress.</li><li>Detect schedule risks and take corrective action.</li></ul>
+<h3>Scheduling principles</h3><ol><li>Compartmentalisation: divide the project into manageable tasks.</li><li>Interdependency: identify relationships and dependencies among tasks.</li><li>Time allocation: assign realistic start dates, finish dates and durations.</li><li>Effort validation: ensure that assigned effort and available resources are realistic.</li><li>Defined responsibilities: assign responsibility for each task.</li><li>Defined outcomes: specify deliverables or work products.</li><li>Defined milestones: identify review points to assess progress.</li></ol>
+
+<h2 id="m3-8">03.8 Work Breakdown Structure and Task Set Definition</h2>
+<div class="definition"><strong>Work Breakdown Structure (WBS):</strong> A hierarchical decomposition of the project into smaller deliverables and work packages that can be estimated, assigned and monitored.</div>
+<p>A WBS starts with the complete project and progressively divides it into phases, deliverables, activities and work packages.</p>
+<div class="diagram-wrap">
+<svg class="m3-svg" width="900" height="300" viewBox="0 0 900 300" role="img" aria-label="Hierarchical work breakdown structure example">
+<g class="edge"><path d="M450 65V105M450 105H150V145M450 105V145M450 105H750V145M150 185V220M450 185V220M750 185V220"/></g>
+<rect class="node" x="330" y="20" width="240" height="45" rx="8"/><text x="450" y="48" text-anchor="middle">Software Project</text>
+<rect class="node" x="55" y="145" width="190" height="40" rx="8"/><text x="150" y="170" text-anchor="middle">Requirements</text>
+<rect class="node" x="355" y="145" width="190" height="40" rx="8"/><text x="450" y="170" text-anchor="middle">Development</text>
+<rect class="node" x="655" y="145" width="190" height="40" rx="8"/><text x="750" y="170" text-anchor="middle">Testing &amp; Release</text>
+<text x="150" y="245" text-anchor="middle">Elicit · Analyse · Specify</text><text x="450" y="245" text-anchor="middle">Design · Code · Integrate</text><text x="750" y="245" text-anchor="middle">Verify · Validate · Deploy</text>
+</svg></div>
+<p class="caption">Illustrative WBS. Actual work packages should be decomposed until they can be estimated and assigned clearly.</p>
+<h3>Task set definition</h3>
+<p>A task set is the collection of software engineering tasks, milestones and deliverables required for a particular project. The task set is selected according to project size, complexity, risk, process model and required quality.</p>
+<p>Each task should have:</p><ul><li>A clear description and expected outcome.</li><li>Estimated effort and duration.</li><li>Predecessors and dependencies.</li><li>An assigned owner or responsible role.</li><li>Required resources and deliverables.</li><li>Completion criteria or milestone.</li></ul>
+
+<h2 id="m3-9">03.9 Timeline Charts and Gantt Chart</h2>
+<p>A timeline chart represents project tasks against calendar time. A Gantt chart is a bar chart in which each task is represented by a horizontal bar positioned according to its planned start and finish dates.</p>
+<h3>Example Gantt schedule</h3>
+<div class="table-wrap"><table><thead><tr><th>Task</th><th>Week 1</th><th>Week 2</th><th>Week 3</th><th>Week 4</th><th>Week 5</th><th>Week 6</th></tr></thead><tbody>
+<tr><td>Requirements</td><td>■</td><td>■</td><td></td><td></td><td></td><td></td></tr>
+<tr><td>Design</td><td></td><td>◆</td><td>■</td><td></td><td></td><td></td></tr>
+<tr><td>Implementation</td><td></td><td></td><td>■</td><td>■</td><td>■</td><td></td></tr>
+<tr><td>Testing</td><td></td><td></td><td></td><td></td><td>■</td><td>■</td></tr>
+<tr><td>Release</td><td></td><td></td><td></td><td></td><td></td><td>◆</td></tr>
+</tbody></table></div>
+<p class="caption">■ = planned work period; ◆ = milestone. This is an illustrative schedule, not a fixed project duration.</p>
+<h3>Advantages</h3><ul><li>Easy to understand and communicate.</li><li>Shows task durations, overlaps and milestones.</li><li>Helps compare planned progress with actual progress.</li><li>Highlights tasks that are delayed.</li></ul>
+<h3>Limitations</h3><ul><li>Large projects can produce crowded charts.</li><li>Complex dependencies may be difficult to understand from bars alone.</li><li>A Gantt chart does not by itself identify the critical path unless dependencies and critical tasks are also analysed.</li></ul>
+
+<h2 id="m3-10">03.10 Critical Path Method and PERT</h2>
+<h3>A. Critical Path Method (CPM)</h3>
+<div class="definition"><strong>Critical Path Method:</strong> A network-based scheduling technique that determines the longest-duration path through a project network. The critical path establishes the minimum project completion time when the task durations and dependencies are fixed.</div>
+<p>Activities on the critical path have zero total float under the calculated schedule. A delay in a critical activity delays the project unless corrective action is taken.</p>
+<h3>CPM terms and formulas</h3>
+<div class="table-wrap"><table><thead><tr><th>Term</th><th>Meaning</th></tr></thead><tbody>
+<tr><td>ES</td><td>Earliest Start time.</td></tr><tr><td>EF</td><td>Earliest Finish time = ES + Duration.</td></tr><tr><td>LS</td><td>Latest Start time without delaying project completion.</td></tr><tr><td>LF</td><td>Latest Finish time without delaying project completion.</td></tr><tr><td>Float / Slack</td><td>Time an activity can be delayed without delaying project completion (total float).</td></tr></tbody></table></div>
+<div class="formula">EF = ES + Duration<br>LS = LF − Duration<br>Total Float = LS − ES = LF − EF</div>
+<h3>CPM calculation procedure</h3>
+<ol class="steps"><li>List all activities, durations and immediate predecessors.</li><li>Draw the activity network according to dependencies.</li><li>Perform the forward pass to calculate ES and EF.</li><li>Perform the backward pass to calculate LS and LF.</li><li>Calculate float for every activity.</li><li>Identify the path with the longest total duration and zero-float activities.</li></ol>
+<h3>Illustrative CPM network</h3>
+<div class="diagram-wrap">
+<svg class="m3-svg" width="900" height="230" viewBox="0 0 900 230" role="img" aria-label="CPM example with parallel activities and merge">
+<defs><marker id="m3arr" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0 0L8 4L0 8Z" fill="currentColor"/></marker></defs>
+<g class="edge" marker-end="url(#m3arr)"><path d="M130 110H220M330 110H420M530 110H620M130 110V185H420V145M530 110V45H620V90"/></g>
+<g><rect class="node" x="20" y="85" width="110" height="50" rx="8"/><rect class="node" x="220" y="85" width="110" height="50" rx="8"/><rect class="node" x="420" y="85" width="110" height="60" rx="8"/><rect class="node" x="620" y="85" width="110" height="50" rx="8"/></g>
+<g text-anchor="middle"><text x="75" y="115">Start</text><text x="275" y="115">A · 3 days</text><text x="475" y="110">B / C</text><text x="475" y="130">merge</text><text x="675" y="115">Finish</text></g>
+</svg></div>
+<p class="caption">Conceptual network only. For a numerical CPM problem, use the exact activity table and dependencies supplied in the question.</p>
+<h3>B. Program Evaluation and Review Technique (PERT)</h3>
+<div class="definition"><strong>PERT:</strong> A probabilistic network scheduling technique used when activity durations are uncertain. It uses three time estimates to calculate an expected activity duration.</div>
+<div class="table-wrap"><table><thead><tr><th>Estimate</th><th>Symbol</th><th>Meaning</th></tr></thead><tbody>
+<tr><td>Optimistic</td><td>O</td><td>Shortest reasonable duration under favourable conditions.</td></tr>
+<tr><td>Most likely</td><td>M</td><td>Duration expected under normal conditions.</td></tr>
+<tr><td>Pessimistic</td><td>P</td><td>Longest reasonable duration under unfavourable conditions.</td></tr>
+</tbody></table></div>
+<div class="formula">Expected time (TE) = (O + 4M + P) / 6<br>Variance = ((P − O) / 6)²<br>Standard deviation = (P − O) / 6</div>
+<p><b>Solved example:</b> An activity has O = 2 days, M = 5 days and P = 8 days.</p>
+<div class="formula">TE = (2 + 4(5) + 8) / 6 = 30 / 6 = 5 days<br>Variance = ((8 − 2) / 6)² = 1 day²<br>Standard deviation = 1 day</div>
+<h3>CPM vs PERT</h3>
+<div class="table-wrap"><table><thead><tr><th>CPM</th><th>PERT</th></tr></thead><tbody>
+<tr><td>Uses a single activity-duration estimate in its basic form.</td><td>Uses optimistic, most likely and pessimistic estimates.</td></tr>
+<tr><td>Suitable when durations are reasonably predictable.</td><td>Useful when activity durations are uncertain.</td></tr>
+<tr><td>Emphasises critical path and float.</td><td>Emphasises expected duration and schedule uncertainty.</td></tr>
+<tr><td>Deterministic scheduling technique.</td><td>Probabilistic scheduling technique.</td></tr></tbody></table></div>
+
+<h2 id="m3-11">03.11 Schedule Tracking and Earned Value Analysis</h2>
+<h3>Schedule tracking</h3>
+<p>Schedule tracking compares actual project progress with the approved schedule. It helps identify slippage early and supports corrective action.</p>
+<ul><li>Review completed tasks and milestone status regularly.</li><li>Compare actual start and finish dates with planned dates.</li><li>Update task estimates and dependencies when justified.</li><li>Identify critical activities that are delayed.</li><li>Reallocate resources or revise the plan when necessary.</li><li>Communicate schedule changes to stakeholders.</li></ul>
+<h3>Earned Value Analysis (EVA)</h3>
+<div class="definition"><strong>Earned Value Analysis:</strong> A project-control technique that integrates scope, schedule and cost to measure project performance against a baseline.</div>
+<div class="table-wrap"><table><thead><tr><th>Term</th><th>Meaning</th></tr></thead><tbody>
+<tr><td>PV – Planned Value</td><td>Budgeted value of work scheduled to be completed by the status date.</td></tr>
+<tr><td>EV – Earned Value</td><td>Budgeted value of the work actually completed by the status date.</td></tr>
+<tr><td>AC – Actual Cost</td><td>Actual cost incurred for the work completed by the status date.</td></tr>
+<tr><td>BAC – Budget at Completion</td><td>Total approved budget for the project.</td></tr></tbody></table></div>
+<h3>Important EVA formulas</h3>
+<div class="formula">Schedule Variance (SV) = EV − PV<br>Cost Variance (CV) = EV − AC<br>Schedule Performance Index (SPI) = EV / PV<br>Cost Performance Index (CPI) = EV / AC</div>
+<ul><li>SV &gt; 0: ahead of planned schedule in earned-value terms; SV &lt; 0: behind schedule.</li><li>CV &gt; 0: under budget for the work performed; CV &lt; 0: over budget.</li><li>SPI &gt; 1: schedule performance is better than planned; SPI &lt; 1: behind plan.</li><li>CPI &gt; 1: cost efficiency is better than planned; CPI &lt; 1: cost efficiency is worse than planned.</li></ul>
+<h3>Solved EVA example</h3>
+<p>At the status date, a project has PV = ₹50,000, EV = ₹40,000 and AC = ₹45,000.</p>
+<div class="formula">SV = EV − PV = 40,000 − 50,000 = −₹10,000<br>CV = EV − AC = 40,000 − 45,000 = −₹5,000<br>SPI = EV / PV = 40,000 / 50,000 = 0.80<br>CPI = EV / AC = 40,000 / 45,000 ≈ 0.89</div>
+<p><b>Interpretation:</b> The project is behind schedule because SPI is below 1 and has an unfavourable cost position because CPI is below 1. It has earned ₹0.80 of planned value for each ₹1 of planned work and ₹0.89 of earned value for each ₹1 spent.</p>
+
+<div class="callout"><b>Module revision chain:</b> Understand the 3 P’s → measure product, process and project → estimate size using LOC or FP → estimate effort using empirical models such as COCOMO II → decompose and schedule work → track progress using schedule measures and Earned Value Analysis.</div>
+</section>
+</body>
+</html>

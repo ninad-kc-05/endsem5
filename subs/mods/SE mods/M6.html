@@ -1,0 +1,196 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Module 6 | Software Risk, SCM, SQA & Maintenance</title>
+<style>
+/* All module rules are deliberately scoped. Layout is fluid and does not use
+   viewport-dependent transforms, JS zoom, or Mermaid rendering. */
+#module-content{
+  --m6-line:var(--rule,#394253);
+  --m6-muted:var(--muted,#a5adbd);
+  --m6-accent:var(--accent,#8fb0ee);
+  width:100%;max-width:100%;min-width:0;
+  color:var(--ink,#e8eaf0);line-height:1.68;
+  overflow-wrap:normal;word-break:normal;
+}
+#module-content,#module-content *{box-sizing:border-box}
+#module-content h1,#module-content h2,#module-content h3,#module-content h4{line-height:1.25;max-width:100%;word-break:normal;overflow-wrap:break-word}
+#module-content h1{font-size:clamp(1.8rem,3vw,2.5rem);margin:.2rem 0 .5rem}
+#module-content h2{font-size:clamp(1.35rem,2.2vw,1.8rem);margin:2.5rem 0 .8rem;padding-bottom:.45rem;border-bottom:1px solid var(--m6-line)}
+#module-content h3{font-size:1.12rem;margin:1.35rem 0 .45rem}
+#module-content p{display:block;width:auto;max-width:100%;margin:.45rem 0 .85rem;white-space:normal;overflow-wrap:break-word;word-break:normal}
+#module-content ul,#module-content ol{display:block;width:auto;max-width:100%;margin:.55rem 0 1rem;padding-left:1.5rem;list-style-position:outside}
+#module-content li{display:list-item;width:auto;max-width:100%;min-width:0;margin:.3rem 0;white-space:normal;overflow-wrap:break-word;word-break:normal}
+#module-content strong,#module-content b{overflow-wrap:normal;word-break:normal}
+#module-content .eyebrow{font:700 .76rem/1.4 var(--sans,system-ui);letter-spacing:.12em;text-transform:uppercase;color:var(--m6-accent)}
+#module-content .lead{color:var(--m6-muted);max-width:85ch}
+#module-content .index{display:block;width:100%;max-width:100%;min-width:0;border:1px solid var(--m6-line);padding:1rem 1.2rem;margin:1.5rem 0 2rem;border-radius:8px}
+#module-content .index h2{margin:.1rem 0 .7rem;border:0;padding:0;font-size:1.15rem}
+#module-content .index nav{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:.15rem 1.2rem;width:100%;min-width:0}
+#module-content .index a{display:block;min-width:0;color:var(--m6-accent);text-decoration:none;font:.92rem/1.55 var(--sans,system-ui);padding:.2rem 0;overflow-wrap:break-word}
+#module-content .index a:hover{text-decoration:underline}
+#module-content .callout,#module-content .definition,#module-content .example{display:block;width:100%;max-width:100%;min-width:0;border:1px solid var(--m6-line);padding:.85rem 1rem;margin:1rem 0;border-radius:8px}
+#module-content .callout{border-left:3px solid var(--m6-accent);background:color-mix(in srgb,var(--m6-accent) 7%,transparent)}
+#module-content .definition strong{color:var(--m6-accent)}
+#module-content .grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:1rem;width:100%;max-width:100%;min-width:0}
+#module-content .card{display:block;min-width:0;width:100%;max-width:100%;border:1px solid var(--m6-line);border-radius:8px;padding:.9rem 1rem;overflow-wrap:break-word}
+#module-content .card h3{margin:.1rem 0 .4rem}
+#module-content .card p,#module-content .card ul,#module-content .card ol,#module-content .card li{display:block;width:auto;min-width:0;max-width:100%;word-break:normal;overflow-wrap:break-word}
+#module-content .card li{display:list-item}
+#module-content .table-wrap{display:block;width:100%;max-width:100%;min-width:0;overflow-x:auto;margin:1rem 0 1.5rem;overscroll-behavior-x:contain}
+#module-content table{width:100%;min-width:650px;border-collapse:collapse;font-size:.94rem}
+#module-content th,#module-content td{border:1px solid var(--m6-line);padding:.65rem .75rem;text-align:left;vertical-align:top;white-space:normal;overflow-wrap:break-word;word-break:normal}
+#module-content th{background:color-mix(in srgb,var(--m6-accent) 12%,transparent)}
+#module-content .diagram-wrap{display:block;width:100%;max-width:100%;min-width:0;overflow-x:auto;overflow-y:hidden;border:1px solid var(--m6-line);border-radius:8px;padding:1rem;margin:1rem 0 1.5rem;overscroll-behavior-x:contain}
+#module-content .m6-svg{display:block;width:920px;height:auto;max-width:none}
+#module-content .m6-svg text{fill:var(--ink,#e8eaf0);font-family:Arial,sans-serif;font-size:15px}
+#module-content .m6-svg .node{fill:var(--paper,#202633);stroke:var(--accent,#8fb0ee);stroke-width:2}
+#module-content .m6-svg .edge{stroke:var(--ink,#e8eaf0);stroke-width:1.8;fill:none}
+#module-content .m6-svg .label{font-size:13px;fill:var(--m6-accent)}
+#module-content .formula{display:block;max-width:100%;min-width:0;font-family:ui-monospace,Consolas,monospace;border:1px solid var(--m6-line);padding:.8rem 1rem;border-radius:8px;overflow-x:auto;white-space:pre-wrap}
+#module-content .caption{font-size:.86rem;color:var(--m6-muted);margin:-.8rem 0 1.2rem}
+#module-content .step{border-left:2px solid var(--m6-accent);padding:.15rem 0 .15rem 1rem;margin:.8rem 0}
+#module-content .tag{font:700 .75rem/1.4 var(--sans,system-ui);color:var(--m6-accent);text-transform:uppercase;letter-spacing:.06em}
+@media(max-width:680px){
+ #module-content .index nav,#module-content .grid{grid-template-columns:minmax(0,1fr)}
+ #module-content .index{padding:.85rem}
+ #module-content .card{padding:.85rem}
+}
+
+#module-content .risk-matrix{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:.5rem;margin:1rem 0}
+#module-content .risk-cell{border:1px solid var(--m6-line);border-radius:6px;padding:.7rem;text-align:center;min-width:0}
+#module-content .risk-cell strong{display:block;color:var(--m6-accent)}
+#module-content .pill{display:inline-block;border:1px solid var(--m6-line);border-radius:999px;padding:.15rem .55rem;font:.82rem var(--sans,system-ui);margin:.1rem}
+#module-content .formula{overflow-wrap:anywhere}
+@media(max-width:700px){#module-content .index nav,#module-content .grid{grid-template-columns:1fr}#module-content .risk-matrix{grid-template-columns:repeat(2,minmax(0,1fr))}}
+</style>
+</head>
+<body>
+<section id="module-content">
+<header class="module-header">
+ <div class="eyebrow">Software Engineering · Module 06</div>
+ <h1>Software Risk, Configuration Management, Quality Assurance &amp; Maintenance</h1>
+ <p class="lead">Exam-oriented notes following the organization and terminology of the supplied Unit 6 chapter notes and IA-2 question banks.</p>
+</header>
+<div class="callout"><strong>Module focus:</strong> identify and manage project risks, control changes to software artifacts, assure software quality throughout development, and understand post-delivery maintenance.</div>
+<div class="index"><h2>Module contents</h2><nav>
+<a href="#risk">06.1 Software Risk</a><a href="#risk-types">06.2 Types of Risk</a><a href="#assessment">06.3 Risk Assessment &amp; Control</a><a href="#rmmm">06.4 RMMM Plan</a><a href="#scm">06.5 Software Configuration Management</a><a href="#version">06.6 Version &amp; Change Control</a><a href="#quality">06.7 Software Quality Management</a><a href="#sqa">06.8 Software Quality Assurance</a><a href="#ftr">06.9 FTR &amp; Walkthrough</a><a href="#maintenance">06.10 Software Maintenance</a><a href="#questions">06.11 Question Bank</a>
+</nav></div>
+<h2 id="risk">06.1 Software Risk</h2>
+<div class="definition"><strong>Definition:</strong> Software risk is an expectation of loss or a potential problem that may or may not occur in the future. It can arise from lack of information, control or time. Loss may include increased production cost, poor-quality software or failure to complete a project on time.</div>
+<p>Risk exists because the future is uncertain and known as well as unknown events may affect the project. Risk management aims to identify possible problems early and plan how to reduce their impact.</p>
+<h2 id="risk-types">06.2 Types of Software Risks</h2>
+<div class="grid">
+ <article class="card"><h3>1. Schedule Risk</h3><p>Time-related or delivery-related risk caused by an incorrect schedule. It can delay development and delivery and may lead to project failure.</p><p><strong>Causes:</strong></p><ul><li>Incorrect time estimation.</li><li>Improper resource allocation or tracking.</li><li>Frequent scope expansion.</li><li>Failure to identify and complete functions.</li></ul></article>
+ <article class="card"><h3>2. Budget Risk</h3><p>Financial risk, mainly caused by budget overruns or poor financial management.</p><p><strong>Causes:</strong></p><ul><li>Incorrect budget estimation.</li><li>Unexpected scope expansion.</li><li>Mismanagement of funds.</li><li>Cost overruns and poor budget tracking.</li></ul></article>
+ <article class="card"><h3>3. Operational Risk</h3><p>Procedural risk arising during day-to-day project activities due to poor process implementation or operational issues.</p><p><strong>Causes:</strong></p><ul><li>Insufficient resources or skilled staff.</li><li>Task and employee conflicts.</li><li>Poor task management and planning.</li><li>Lack of communication, role clarity or training.</li></ul></article>
+ <article class="card"><h3>4. Technical Risk</h3><p>Functional or performance risk associated with the software product or its implementation.</p><p><strong>Causes:</strong></p><ul><li>Frequent requirement changes.</li><li>Complex implementation.</li><li>Insufficient technical skills.</li><li>Improper module integration.</li></ul></article>
+ <article class="card"><h3>5. Programmatic Risk</h3><p>External or unavoidable risk that originates outside the project team's direct control.</p><p><strong>Causes:</strong></p><ul><li>Rapid market changes.</li><li>Insufficient or exhausted funds.</li><li>Changes in government rules or policies.</li><li>Loss of contracts.</li></ul></article>
+</div>
+<div class="callout"><strong>Another classification used in risk identification in the notes:</strong> technology risks, people risks, organizational risks, tools risks, requirement risks and estimation risks. These categories classify risks by their source, whereas the five types above describe common project risk areas.</div>
+<h2 id="assessment">06.3 Risk Assessment, Analysis and Control</h2>
+<h3>Risk management activities</h3>
+<p>The notes describe risk identification, risk analysis/assessment, risk control, risk planning and risk monitoring as key activities.</p>
+<div class="diagram-wrap" role="group" aria-label="Risk management activity flow">
+<svg class="m6-svg" viewBox="0 0 920 170" role="img" aria-labelledby="riskflow-title"><title id="riskflow-title">Risk management activity flow</title>
+<defs><marker id="m6arr1" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6" fill="none" stroke="currentColor"/></marker></defs>
+<g fill="var(--paper,#202633)" stroke="var(--accent,#8fb0ee)" stroke-width="2"><rect x="12" y="48" width="160" height="62" rx="8"/><rect x="196" y="48" width="160" height="62" rx="8"/><rect x="380" y="48" width="160" height="62" rx="8"/><rect x="564" y="48" width="150" height="62" rx="8"/><rect x="738" y="48" width="170" height="62" rx="8"/></g>
+<g class="edge" marker-end="url(#m6arr1)"><path d="M172 79H194 M356 79H378 M540 79H562 M714 79H736"/></g>
+<g text-anchor="middle"><text x="92" y="74">Identify</text><text x="92" y="94">risks</text><text x="276" y="74">Analyze /</text><text x="276" y="94">assess</text><text x="460" y="84">Control</text><text x="639" y="74">Plan</text><text x="639" y="94">responses</text><text x="823" y="74">Monitor</text><text x="823" y="94">risks</text></g></svg></div>
+<h3>1. Risk Identification</h3><p>Anticipate possible risks as early as possible. Identify significant risks and classify them by source so that appropriate management plans can be prepared.</p>
+<h3>2. Risk Analysis / Assessment</h3><p>For each identified risk, estimate its probability of occurring and the seriousness of its consequences. The supplied notes use probability bands and impact categories rather than claiming that exact numerical estimates are always possible.</p>
+<div class="table-wrap"><table><thead><tr><th>Probability band</th><th>Range</th><th>Effect / severity categories</th></tr></thead><tbody><tr><td>Very low</td><td>0–10%</td><td rowspan="5">Catastrophic – threatens the survival of the plan<br>Serious – causes significant delays<br>Tolerable – delay is within allowed contingency<br>Insignificant – negligible effect</td></tr><tr><td>Low</td><td>10–25%</td></tr><tr><td>Moderate</td><td>25–50%</td></tr><tr><td>High</td><td>50–75%</td></tr><tr><td>Very high</td><td>Above 75%</td></tr></tbody></table></div>
+<div class="formula">Risk Priority (p) = Probability (r) × Severity (s)</div>
+<p>Here, <strong>p</strong> is the priority for controlling the risk, <strong>r</strong> is the probability of occurrence and <strong>s</strong> is the severity of loss. Risks with higher priority should receive attention first.</p>
+<div class="example"><strong>Illustrative calculation:</strong> If a risk has probability 0.6 and severity 8 on the chosen severity scale, then p = 0.6 × 8 = 4.8. This is an illustrative use of the formula; the notes do not prescribe a universal severity scale.</div>
+<h3>3. Risk Control</h3><ul><li><strong>Avoid the risk:</strong> change the plan or requirements to remove the source of risk where possible.</li><li><strong>Transfer the risk:</strong> assign the risky element to a third party or use insurance where appropriate.</li><li><strong>Risk reduction:</strong> take steps to reduce the likelihood or loss, such as arranging backup staff.</li></ul>
+<h3>Risk Leverage</h3><p>Risk leverage compares the reduction in risk exposure with the cost of reducing the risk.</p><div class="formula">Risk Leverage = (Risk exposure before reduction − Risk exposure after reduction) / Cost of reduction</div>
+<h3>4. Risk Planning and 5. Risk Monitoring</h3><p><strong>Risk planning</strong> develops ways to handle each key risk. <strong>Risk monitoring</strong> checks whether assumptions about product, process and business risks have changed and whether predicted risks are occurring.</p>
+<h2 id="rmmm">06.4 RMMM – Risk Mitigation, Monitoring and Management</h2>
+<div class="definition"><strong>Definition:</strong> RMMM is a plan included in the software project plan that documents how identified risks will be mitigated, monitored and managed if they occur. The notes also mention documenting risks in a Risk Information Sheet (RIS), which can be maintained in a database for searching, prioritization and analysis.</div>
+<div class="grid">
+ <article class="card"><h3>Risk Mitigation</h3><p>Activities performed to avoid or reduce the causes of risk before they create problems.</p><ul><li>Identify the risk.</li><li>Remove or reduce its causes.</li><li>Control relevant documents regularly.</li><li>Conduct timely reviews.</li></ul></article>
+ <article class="card"><h3>Risk Monitoring</h3><p>Tracks the project and checks whether risk assumptions and mitigation actions remain valid.</p><ul><li>Check whether predicted risks occur.</li><li>Ensure risk-avoidance steps are applied.</li><li>Collect data for future risk analysis.</li><li>Trace problems to the risks that caused them.</li></ul></article>
+ <article class="card"><h3>Risk Management</h3><p>Plans the response when mitigation fails and the risk becomes reality. The project manager applies contingency actions and records the response in the risk register.</p></article>
+</div>
+<h3>RMMM example – High staff turnover</h3>
+<div class="table-wrap"><table><thead><tr><th>RMMM component</th><th>Actions for staff-turnover risk</th></tr></thead><tbody>
+<tr><td><strong>Mitigation</strong></td><td>Meet staff to understand reasons for turnover; address controllable causes; distribute project knowledge; establish documentation standards; assign backup staff for critical roles.</td></tr>
+<tr><td><strong>Monitoring</strong></td><td>Monitor team attitude under project pressure, interpersonal relationships, compensation concerns and job availability inside and outside the company.</td></tr>
+<tr><td><strong>Management / contingency</strong></td><td>If staff leave, use backups and documentation, reallocate resources, adjust the schedule and allow replacement staff to become familiar with the work.</td></tr>
+</tbody></table></div>
+<h3>Limitations of RMMM</h3><ul><li>It increases project cost.</li><li>It requires additional time.</li><li>For large projects, implementing RMMM can itself become a substantial task.</li><li>It cannot guarantee a risk-free project; new risks may appear even after delivery.</li></ul>
+<h2 id="scm">06.5 Software Configuration Management (SCM)</h2>
+<div class="definition"><strong>Definition:</strong> Software Configuration Management is the process of systematically managing, organizing and controlling changes in documents, code and other software entities throughout the Software Development Life Cycle.</div>
+<h3>Why SCM is needed</h3><ul><li>Multiple developers work on software that changes continuously.</li><li>Several versions, branches and authors may exist, often across geographically distributed teams.</li><li>Changes in requirements, policies, budget and schedule must be accommodated.</li><li>Software may need to run on different machines and operating systems.</li><li>SCM improves coordination and helps control the cost of changes.</li></ul>
+<h3>SCM process / activities</h3>
+<div class="step"><strong>1. Configuration identification and establishment</strong><p>Identify configuration items (CIs), establish relationships among them, define control levels and establish change-management procedures. A <strong>baseline</strong> is a formally reviewed and agreed set of mutually consistent configuration items that becomes the basis for further development.</p></div>
+<div class="step"><strong>2. Version control</strong><p>Create and maintain versions of configuration objects so that new products can be built from existing versions. The version history example in the notes shows minor updates such as 1.1.1 and 1.1.2, later versions such as 1.2, 1.3 and 1.4, and a major evolutionary path such as 2.0. More than one version may remain supported.</p></div>
+<div class="step"><strong>3. Change control</strong><p>Review, authorize, document, implement and test requested changes in a controlled manner.</p></div>
+<h2 id="version">06.6 Version Control and Change Control</h2>
+<h3>Version Control</h3><p>A version control system records changes to source-code elements and other configuration objects, including who made a change, when it was made and why. It supports collaboration, history tracking and reversal of changes when necessary.</p>
+<p><strong>Capabilities listed in the notes:</strong></p><ul><li><strong>Project repository:</strong> stores relevant configuration objects.</li><li><strong>Version management:</strong> stores versions and enables a past version to be reconstructed.</li><li><strong>Make facility:</strong> collects relevant configuration objects to construct a specific software version.</li><li><strong>Issue / bug tracking:</strong> records and tracks outstanding issues for configuration objects.</li></ul>
+<h3>Change Control</h3><p>Change control is a systematic approach to managing changes so that unnecessary changes are avoided, all changes are documented, services are not disrupted unnecessarily and resources are used efficiently.</p>
+<div class="table-wrap"><table><thead><tr><th>Stage</th><th>Action</th></tr></thead><tbody>
+<tr><td>1. Change request initiation</td><td>Standardize the request, submit it for management review and keep the requester informed.</td></tr>
+<tr><td>2. Impact assessment</td><td>Assess the possible impact of the requested change in a structured way.</td></tr>
+<tr><td>3. Control and documentation</td><td>Maintain a change log with date, person and details of the change; restrict changes to authorized individuals.</td></tr>
+<tr><td>4. Documentation and procedures</td><td>Update procedures and associated documents when system changes are implemented.</td></tr>
+<tr><td>5. Authorized maintenance and testing</td><td>Control access rights and thoroughly test the software.</td></tr>
+<tr><td>6. Version control and emergency changes</td><td>Ensure the latest approved version is updated. Emergency changes may receive verbal authorization but must be documented as soon as possible.</td></tr>
+</tbody></table></div>
+<h2 id="quality">06.7 Software Quality Management</h2>
+<div class="definition"><strong>Definition:</strong> Software Quality Management ensures that the required level of quality is achieved by improving the product development process. Quality is treated as everyone's responsibility.</div>
+<p>The supplied notes state that quality management should be independent of project management to maintain independence from cost and schedule pressures. It directly affects process quality and indirectly affects product quality.</p>
+<div class="grid"><article class="card"><h3>Quality Assurance (QA)</h3><p>Develops organizational procedures and standards for quality at the organizational level.</p></article><article class="card"><h3>Quality Planning</h3><p>Selects applicable procedures and standards for a project and modifies them as required to prepare a quality plan.</p></article><article class="card"><h3>Quality Control</h3><p>Checks that the development team follows the selected practices and standards to produce quality software.</p></article></div>
+<h2 id="sqa">06.8 Software Quality Assurance (SQA)</h2>
+<div class="definition"><strong>Definition:</strong> SQA is a set of activities for ensuring quality in software processes and checking that the developed software conforms to defined or standardized quality requirements. It is an ongoing activity throughout the SDLC, not merely a final check after development.</div>
+<p>SQA checks quality during each development phase. The process moves to the next phase only when the current phase meets the required quality standards.</p>
+<h3>Components of an SQA system (as listed in the notes)</h3>
+<ol>
+<li><strong>Pre-project components:</strong> ensure that resources, schedule and budget are available; define quality and development plans; and establish a shared understanding of quality between the developer and customer.</li>
+<li><strong>Project life-cycle activity assessment:</strong> assess development and maintenance activities. Development-phase activities include reviews, expert opinions and software testing. Maintenance activities and work performed by subcontractors or external contributors are also assessed.</li>
+<li><strong>Infrastructure error prevention and improvement:</strong> reduce or eliminate recurring errors across the organization.</li>
+<li><strong>Software quality management:</strong> control development and maintenance activities and provide administrative support to prevent schedule and budget failures.</li>
+<li><strong>Standardization, certification and SQA system assessment:</strong> use recognized professional standards, improve coordination with other organizations and assess the quality system against common standards. The notes distinguish quality-management standards and project-process standards.</li>
+<li><strong>Organizing for SQA – human components:</strong> bring together managers, testing staff, SQA trustees/committees and SQA group members to implement SQA, identify deviations and propose improvements.</li>
+</ol>
+<h2 id="ftr">06.9 Formal Technical Review (FTR) and Walkthrough</h2>
+<p>The IA-2 question bank explicitly asks for a comparison of FTR and walkthrough. The chapter notes contain the comparison heading but the detailed comparison table is not legible/present in the extracted text. The following concise distinction is supplementary explanatory material to help prepare that question.</p>
+<div class="table-wrap"><table><thead><tr><th>Basis</th><th>Formal Technical Review (FTR)</th><th>Walkthrough</th></tr></thead><tbody>
+<tr><td>Nature</td><td>Structured peer review of a software work product.</td><td>Author-led presentation of a work product to peers.</td></tr>
+<tr><td>Leadership</td><td>Led by a moderator/review leader.</td><td>Usually led by the author.</td></tr>
+<tr><td>Preparation</td><td>Reviewers prepare in advance using defined review criteria.</td><td>Preparation is generally less formal; participants follow the author's explanation.</td></tr>
+<tr><td>Focus</td><td>Find defects, check conformance to requirements/standards and improve quality.</td><td>Understand the work product, obtain feedback and identify errors or improvements.</td></tr>
+<tr><td>Procedure</td><td>More formal roles, agenda, defect recording and follow-up.</td><td>Relatively informal discussion and step-by-step explanation.</td></tr>
+<tr><td>Output</td><td>Recorded defects, review findings and follow-up actions.</td><td>Comments, questions and suggested corrections.</td></tr>
+</tbody></table></div>
+<h2 id="maintenance">06.10 Software Maintenance</h2>
+<div class="definition"><strong>Definition:</strong> Software maintenance is the modification of software after delivery to correct faults, adapt it to a changed environment, improve it or prevent future problems.</div>
+<div class="callout"><strong>Source coverage note:</strong> The supplied Unit 6 chapter notes identify maintenance in the unit title and mention maintenance activities within SQA, but do not provide a detailed explanation of maintenance types in the extracted chapter text. The four categories below are standard supplementary explanations, not a verbatim expansion from those notes.</div>
+<div class="grid">
+<article class="card"><h3>Corrective Maintenance</h3><p>Changes made to correct faults or errors discovered after delivery.</p><p><strong>Example:</strong> fixing an incorrect invoice total.</p></article>
+<article class="card"><h3>Adaptive Maintenance</h3><p>Changes made to keep software usable in a changed environment.</p><p><strong>Example:</strong> updating software to work with a new operating system or database version.</p></article>
+<article class="card"><h3>Perfective Maintenance</h3><p>Changes made to improve performance, usability or functionality in response to user needs.</p><p><strong>Example:</strong> adding a report filter requested by users.</p></article>
+<article class="card"><h3>Preventive Maintenance</h3><p>Changes made to improve maintainability and reduce the likelihood of future failures.</p><p><strong>Example:</strong> refactoring complex code and improving documentation.</p></article>
+</div>
+<h2 id="questions">06.11 Important Question Bank</h2>
+<p class="lead">Questions below are drawn from the supplied UT2 and IA-2 question banks. Priorities are not assigned because the source question banks do not provide a consistent priority ranking.</p>
+<ol>
+<li>What is software risk? Explain the different types/categories of risk.</li>
+<li>Write a short note on RMMM. Prepare an RMMM plan for a suitable example such as a student attendance system, employee turnover or software reuse.</li>
+<li>Explain the RMMM plan with a suitable example.</li>
+<li>Explain risk and its types. Explain the setting up or generation of an RMMM plan.</li>
+<li>Write a short note on Software Configuration Management (SCM) along with its steps.</li>
+<li>What is SCM? Explain version control and change control.</li>
+<li>Differentiate between Formal Technical Review (FTR) and walkthrough.</li>
+<li>Explain the Software Quality Assurance (SQA) process.</li>
+<li>Explain SQA in detail.</li>
+</ol>
+<div class="callout"><strong>Exam-writing tip:</strong> For an RMMM question, organize the answer under Risk Mitigation, Risk Monitoring and Risk Management, then apply all three to one consistent example. For SCM, define SCM first and explain identification/baselines, version control and change control separately.</div>
+<footer class="caption">Prepared from the supplied SE chapter notes, SE Exam Preparation checklist and IA-2 question banks. Supplementary material is explicitly labelled where the notes do not provide sufficient detail.</footer>
+</section>
+</body>
+</html>

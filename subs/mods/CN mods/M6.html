@@ -1,0 +1,418 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Module 6 | Emerging Network Technologies and Security</title>
+<style>
+#module-content{--m6-line:var(--rule,#394355);--m6-ink:var(--ink,#e8eaf0);--m6-muted:var(--muted,#a5adbd);--m6-accent:var(--accent,#8fb0ee);width:100%;max-width:none;color:var(--m6-ink);line-height:1.72}
+#module-content *{box-sizing:border-box}
+#module-content h1{font-size:clamp(1.8rem,3vw,2.5rem);line-height:1.2;margin:.2rem 0 .6rem}
+#module-content h2{font-size:clamp(1.35rem,2.2vw,1.8rem);line-height:1.25;margin:2.6rem 0 .8rem;padding-bottom:.45rem;border-bottom:1px solid var(--m6-line)}
+#module-content h3{font-size:1.12rem;line-height:1.35;margin:1.4rem 0 .45rem}
+#module-content h4{font-size:1rem;margin:1.1rem 0 .35rem}
+#module-content p{margin:.5rem 0 .9rem}
+#module-content li{margin:.3rem 0}
+#module-content strong{color:var(--m6-accent)}
+#module-content .eyebrow{font:800 .75rem system-ui,sans-serif;letter-spacing:.13em;color:var(--m6-accent)}
+#module-content .lead{color:var(--m6-muted);max-width:90ch}
+#module-content .callout,#module-content .note{padding:.9rem 1rem;margin:1rem 0;border-left:3px solid var(--m6-accent);background:color-mix(in srgb,var(--m6-accent) 8%,transparent)}
+#module-content .note{border:1px solid var(--m6-line);border-left:3px solid var(--m6-accent);border-radius:8px}
+#module-content .index{border:1px solid var(--m6-line);border-radius:10px;padding:1rem 1.2rem;margin:1.5rem 0}
+#module-content .index ol{columns:2;column-gap:2rem}
+#module-content .index li{break-inside:avoid}
+#module-content a{color:var(--m6-accent);overflow-wrap:anywhere}
+#module-content .table-wrap{width:100%;max-width:100%;overflow-x:auto;margin:1rem 0 1.5rem}
+#module-content table{width:100%;min-width:580px;border-collapse:collapse;font-size:.94rem}
+#module-content th,#module-content td{border:1px solid var(--m6-line);padding:.65rem .75rem;text-align:left;vertical-align:top}
+#module-content th{background:color-mix(in srgb,var(--m6-accent) 12%,transparent)}
+#module-content .diagram{width:100%;max-width:100%;overflow-x:auto;border:1px dashed var(--m6-line);border-radius:10px;padding:1rem;margin:1rem 0;text-align:center}
+#module-content .diagram svg{display:block;max-width:100%;height:auto;margin:auto}
+#module-content .caption,#module-content .muted{font-size:.87rem;color:var(--m6-muted)}
+#module-content .video,#module-content .reference{border:1px solid var(--m6-line);border-left:3px solid var(--m6-accent);border-radius:8px;padding:.8rem 1rem;margin:.8rem 0}
+#module-content .two-col{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:1rem}
+#module-content .two-col>div{min-width:0;border:1px solid var(--m6-line);border-radius:8px;padding:.9rem}
+#module-content pre{white-space:pre;overflow-x:auto;padding:1rem;border:1px solid var(--m6-line);border-radius:8px;background:color-mix(in srgb,var(--m6-ink) 5%,transparent)}
+#module-content code{font-family:ui-monospace,Consolas,monospace}
+#module-content .tag{display:inline-block;border:1px solid var(--m6-line);border-radius:20px;padding:.1rem .55rem;margin:.15rem;font:700 .72rem system-ui,sans-serif;color:var(--m6-muted)}
+#module-content .question-list li{margin:.55rem 0}
+#module-content .flow{font-family:ui-monospace,Consolas,monospace;text-align:center;padding:.8rem;border:1px solid var(--m6-line);border-radius:8px;overflow-x:auto}
+@media(max-width:650px){#module-content .index ol{columns:1}#module-content .two-col{grid-template-columns:1fr}#module-content table{font-size:.88rem}}
+@media print{#module-content .index{display:none}#module-content h2{break-after:avoid}#module-content table,#module-content .diagram{break-inside:avoid}}
+</style>
+</head>
+<body>
+<section id="module-content">
+<p class="eyebrow">PAPER. / COMPUTER NETWORKS / MODULE 06</p>
+<h1>Emerging Network Technologies and Security</h1>
+<p class="lead">This module covers Multiprotocol Label Switching (MPLS), the radio-spectrum landscape and technologies used for 5G, the 5G architecture, and the fundamentals of cybersecurity and cybercrime. The notes follow the uploaded University of Mumbai syllabus for Module VI.</p>
+
+<div class="callout"><strong>Official syllabus scope — Module VI:</strong> 6.1 MPLS: introduction, header, working, advantages and disadvantages. 6.2 Radio Spectrum: 5G spectrum landscape and requirements, spectrum access modes and sharing scenarios, 5G spectrum technologies, and 5G architecture. 6.3 Introduction and need to study cybersecurity; cybercrime definition and types.<br><strong>Self-learning topics:</strong> Cyber-attacks, vulnerabilities and precautions.</div>
+
+<div class="index"><strong>In this module</strong><ol>
+<li><a href="#mpls">MPLS: introduction and purpose</a></li>
+<li><a href="#mpls-header">MPLS header structure</a></li>
+<li><a href="#mpls-working">Working of MPLS</a></li>
+<li><a href="#mpls-proscons">Advantages and disadvantages</a></li>
+<li><a href="#spectrum">5G radio-spectrum landscape and requirements</a></li>
+<li><a href="#sharing">Spectrum access modes and sharing scenarios</a></li>
+<li><a href="#technologies">5G spectrum technologies</a></li>
+<li><a href="#architecture">5G architecture</a></li>
+<li><a href="#cybersecurity">Cybersecurity: introduction and need</a></li>
+<li><a href="#cybercrime">Cybercrime: definition and types</a></li>
+<li><a href="#selflearning">Self-learning: attacks, vulnerabilities and precautions</a></li>
+<li><a href="#revision">Quick revision and references</a></li>
+</ol></div>
+
+<h2 id="mpls">1. Multiprotocol Label Switching (MPLS)</h2>
+<div class="note"><strong>Definition:</strong> <strong>MPLS (Multiprotocol Label Switching)</strong> is a packet-forwarding technique that directs packets through a network using short labels rather than requiring every intermediate router to make a forwarding decision using the packet's full network-layer destination address.</div>
+<h3>Why MPLS is used</h3>
+<p>In ordinary IP forwarding, a router examines the destination IP address and consults its forwarding table to choose the next hop. MPLS adds a label-based forwarding mechanism. At the edge of an MPLS network, packets are classified and assigned labels. Core routers then use those labels to forward packets along a pre-established label-switched path.</p>
+<h3>Important MPLS terms</h3>
+<div class="table-wrap"><table><thead><tr><th>Term</th><th>Meaning</th></tr></thead><tbody>
+<tr><td><strong>Label</strong></td><td>A short identifier carried with a packet. It is used by MPLS routers to select the next forwarding action.</td></tr>
+<tr><td><strong>FEC — Forwarding Equivalence Class</strong></td><td>A group of packets that are forwarded in the same way, for example along the same path and with similar forwarding treatment.</td></tr>
+<tr><td><strong>LER — Label Edge Router</strong></td><td>An edge router that adds an MPLS label when traffic enters the MPLS domain and removes the label when traffic leaves.</td></tr>
+<tr><td><strong>LSR — Label Switching Router</strong></td><td>A router inside the MPLS domain that forwards packets based on their labels.</td></tr>
+<tr><td><strong>LSP — Label Switched Path</strong></td><td>The sequence of MPLS routers followed by packets carrying a particular label or label-switched forwarding state.</td></tr>
+<tr><td><strong>Label stack</strong></td><td>One or more MPLS labels carried together. Multiple labels can support hierarchical forwarding or services such as VPNs.</td></tr>
+</tbody></table></div>
+<div class="diagram">
+<svg viewBox="0 0 820 190" role="img" aria-label="MPLS forwarding from ingress edge router through label switching routers to egress edge router">
+<defs><marker id="m6mplsArrow" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0 0L8 4L0 8Z" fill="currentColor"/></marker></defs>
+<g fill="none" stroke="currentColor" stroke-width="1.7">
+<rect x="15" y="38" width="145" height="76" rx="9"/><rect x="225" y="38" width="145" height="76" rx="9"/><rect x="435" y="38" width="145" height="76" rx="9"/><rect x="645" y="38" width="160" height="76" rx="9"/>
+<path d="M160 76H225M370 76H435M580 76H645" marker-end="url(#m6mplsArrow)"/>
+</g>
+<g fill="currentColor" text-anchor="middle" font-size="13">
+<text x="87" y="63">Ingress LER</text><text x="87" y="86">Adds label</text>
+<text x="297" y="63">LSR 1</text><text x="297" y="86">Swaps label</text>
+<text x="507" y="63">LSR 2</text><text x="507" y="86">Swaps label</text>
+<text x="725" y="63">Egress LER</text><text x="725" y="86">Removes label</text>
+<text x="192" y="57" font-size="11">Labelled packet</text><text x="402" y="57" font-size="11">Labelled packet</text><text x="612" y="57" font-size="11">Labelled packet</text>
+<text x="410" y="153" font-size="12">The core forwards using labels; the edge routers handle label imposition and removal.</text>
+</g></svg>
+<p class="caption">Simplified MPLS path. The exact label operations depend on the MPLS forwarding configuration.</p>
+</div>
+
+<h2 id="mpls-header">2. MPLS Header Structure</h2>
+<p>An MPLS label stack entry is commonly called the <strong>MPLS shim header</strong>. It is 32 bits (4 bytes) long and is placed between the data-link header and the encapsulated network-layer packet in the common Ethernet/MPLS arrangement.</p>
+<div class="diagram">
+<svg viewBox="0 0 820 190" role="img" aria-label="MPLS shim header with label, traffic class, bottom of stack and time to live fields">
+<g fill="none" stroke="currentColor" stroke-width="1.5">
+<rect x="20" y="35" width="780" height="70"/>
+<path d="M520 35V105M610 35V105M650 35V105"/>
+<path d="M20 70H800" stroke-dasharray="3 4" opacity=".25"/>
+</g>
+<g fill="currentColor" text-anchor="middle">
+<text x="270" y="61" font-size="16">Label</text><text x="270" y="86" font-size="13">20 bits</text>
+<text x="565" y="61" font-size="14">TC</text><text x="565" y="86" font-size="12">3 bits</text>
+<text x="630" y="61" font-size="13">S</text><text x="630" y="86" font-size="11">1 bit</text>
+<text x="725" y="61" font-size="14">TTL</text><text x="725" y="86" font-size="12">8 bits</text>
+<text x="410" y="143" font-size="13">Total: 32 bits (4 bytes)</text>
+</g></svg>
+<p class="caption">MPLS shim-header fields and widths.</p>
+</div>
+<div class="table-wrap"><table><thead><tr><th>Field</th><th>Size</th><th>Function</th></tr></thead><tbody>
+<tr><td><strong>Label</strong></td><td>20 bits</td><td>Identifies the forwarding label used by the receiving MPLS router.</td></tr>
+<tr><td><strong>Traffic Class (TC)</strong></td><td>3 bits</td><td>Used for traffic-class marking and quality-of-service treatment. Older descriptions may call this the EXP field.</td></tr>
+<tr><td><strong>Bottom of Stack (S)</strong></td><td>1 bit</td><td>Indicates whether this is the last (bottom) label in the label stack. A value of 1 marks the bottom entry.</td></tr>
+<tr><td><strong>Time to Live (TTL)</strong></td><td>8 bits</td><td>Limits packet lifetime and helps prevent packets from circulating indefinitely.</td></tr>
+</tbody></table></div>
+<div class="callout"><strong>Remember:</strong> 20 + 3 + 1 + 8 = <strong>32 bits</strong>. The label is the largest field. The S bit identifies the bottom of a label stack; it is not a general packet-start flag.</div>
+
+<h2 id="mpls-working">3. Working of MPLS</h2>
+<ol>
+<li><strong>Packet enters the MPLS domain:</strong> The ingress Label Edge Router (LER) receives an IP packet.</li>
+<li><strong>Classification:</strong> The ingress router determines the packet's Forwarding Equivalence Class (FEC).</li>
+<li><strong>Label imposition:</strong> The ingress router attaches the appropriate MPLS label (or label stack) to the packet.</li>
+<li><strong>Label switching:</strong> Each Label Switching Router (LSR) examines the incoming label, consults its label-forwarding information and forwards the packet. It commonly replaces the incoming label with an outgoing label; this is called label swapping.</li>
+<li><strong>Label removal:</strong> At the egress edge, the MPLS label is removed and the packet is forwarded toward its destination using the appropriate network-layer forwarding process.</li>
+</ol>
+<div class="flow">IP packet → Ingress LER (push label) → Core LSRs (swap label) → Egress LER (pop label) → Destination</div>
+<h3>Label operations</h3>
+<div class="table-wrap"><table><thead><tr><th>Operation</th><th>Meaning</th><th>Usually performed by</th></tr></thead><tbody>
+<tr><td><strong>Push</strong></td><td>Adds a label to the packet or label stack.</td><td>Ingress LER; may also occur within a network for nested label stacks.</td></tr>
+<tr><td><strong>Swap</strong></td><td>Replaces the top label with another label and forwards the packet.</td><td>Transit LSR.</td></tr>
+<tr><td><strong>Pop</strong></td><td>Removes the top label from the label stack.</td><td>Egress LER or a penultimate-hop router, depending on configuration.</td></tr>
+</tbody></table></div>
+<div class="note"><strong>Important clarification:</strong> MPLS is often described as operating between Layer 2 and Layer 3, sometimes called “Layer 2.5”. This is an informal teaching description, not a separate layer in the OSI reference model. MPLS can carry multiple network-layer protocols and is not limited to IPv4.</div>
+
+<h2 id="mpls-proscons">4. Advantages and Disadvantages of MPLS</h2>
+<div class="two-col">
+<div><h3>Advantages</h3><ul>
+<li><strong>Efficient forwarding:</strong> Core routers can use compact labels to make forwarding decisions.</li>
+<li><strong>Traffic engineering:</strong> Traffic can be directed along selected paths rather than relying only on ordinary destination-based routing.</li>
+<li><strong>QoS support:</strong> Traffic classes can receive different forwarding treatment.</li>
+<li><strong>VPN support:</strong> MPLS can support provider-managed Layer 3 and Layer 2 VPN services.</li>
+<li><strong>Protocol flexibility:</strong> It can transport different kinds of network-layer traffic.</li>
+<li><strong>Scalable service delivery:</strong> Providers can build multiple logical services over a shared MPLS infrastructure.</li>
+</ul></div>
+<div><h3>Disadvantages</h3><ul>
+<li><strong>Complexity:</strong> Label distribution, path management and troubleshooting require specialized knowledge.</li>
+<li><strong>Cost:</strong> Deployment and operation can be expensive, particularly for smaller networks.</li>
+<li><strong>Provider dependence:</strong> A managed MPLS service may create dependence on the service provider's network and policies.</li>
+<li><strong>Configuration risk:</strong> Incorrect label or routing configuration can disrupt traffic.</li>
+<li><strong>Not encryption:</strong> MPLS VPN separation does not, by itself, encrypt the traffic payload.</li>
+</ul></div></div>
+
+<h2 id="spectrum">5. 5G Radio-Spectrum Landscape and Requirements</h2>
+<div class="note"><strong>Radio spectrum</strong> is the range of electromagnetic frequencies used for wireless communication. Mobile networks use assigned or otherwise authorized frequency bands to transmit signals between user devices and cellular base stations.</div>
+<h3>Why spectrum matters in 5G</h3>
+<p>5G is designed to support a mix of services, including high data rates, large numbers of connected devices, and applications that require responsive and reliable connectivity. No single frequency range is ideal for every requirement. 5G networks therefore use a range of spectrum bands and combine them with radio technologies and network deployment choices.</p>
+<h3>Broad spectrum ranges</h3>
+<div class="table-wrap"><table><thead><tr><th>Range (general description)</th><th>Typical strengths</th><th>Typical limitations</th><th>Common role</th></tr></thead><tbody>
+<tr><td><strong>Low-band</strong></td><td>Wide-area coverage; generally better propagation and indoor reach.</td><td>Limited bandwidth may constrain peak capacity.</td><td>Broad coverage, rural areas and improved reach indoors.</td></tr>
+<tr><td><strong>Mid-band</strong></td><td>Balances coverage and capacity; can provide substantial bandwidth.</td><td>Coverage and building penetration are generally less extensive than lower bands.</td><td>Important capacity layer in many 5G deployments.</td></tr>
+<tr><td><strong>High-band / mmWave</strong></td><td>Can provide very wide bandwidth and very high peak data rates.</td><td>Shorter range and greater sensitivity to obstacles; dense deployments may be needed.</td><td>High-capacity hotspots, venues and selected dense urban locations.</td></tr>
+</tbody></table></div>
+<p class="muted">These are broad engineering tendencies, not fixed guarantees. Actual coverage and performance depend on frequency, bandwidth, transmit power, antenna design, terrain, buildings, interference and network deployment.</p>
+<h3>5G spectrum requirements</h3>
+<ul>
+<li><strong>High capacity:</strong> Enough spectrum and efficient use of it to support high traffic demand.</li>
+<li><strong>Wide coverage:</strong> Coverage across urban, suburban and rural environments.</li>
+<li><strong>Low latency:</strong> Radio and network design that can support responsive services.</li>
+<li><strong>Reliability:</strong> Consistent communication under expected operating conditions.</li>
+<li><strong>Massive connectivity:</strong> Support for large numbers of mobile and machine-type devices.</li>
+<li><strong>Mobility:</strong> Continuity as users move between cells and frequency layers.</li>
+<li><strong>Coexistence:</strong> Management of interference and compatibility with other spectrum users and services.</li>
+<li><strong>Efficient utilization:</strong> Flexible allocation and sharing where permitted by regulation.</li>
+</ul>
+
+<h2 id="sharing">6. Spectrum Access Modes and Sharing Scenarios</h2>
+<p>Spectrum access describes the regulatory and technical arrangement under which operators or services are allowed to use a frequency band. The exact licensing model varies by country and by frequency band.</p>
+<h3>Common spectrum access modes</h3>
+<div class="table-wrap"><table><thead><tr><th>Access mode</th><th>Description</th><th>Key point</th></tr></thead><tbody>
+<tr><td><strong>Licensed / exclusive access</strong></td><td>A license grants an operator defined rights to use specified spectrum under stated conditions.</td><td>Provides predictable access and regulatory protection, subject to license terms.</td></tr>
+<tr><td><strong>Shared licensed access</strong></td><td>Multiple eligible users or operators share a band under coordinated rules or priority arrangements.</td><td>Sharing rules help manage interference and access priority.</td></tr>
+<tr><td><strong>Unlicensed access</strong></td><td>Devices may use a designated band without an individual exclusive spectrum license, provided they follow technical rules.</td><td>Access is generally shared and interference cannot be excluded.</td></tr>
+</tbody></table></div>
+<h3>Spectrum-sharing scenarios</h3>
+<ul>
+<li><strong>Static sharing:</strong> Spectrum portions are divided in advance among users, operators or services.</li>
+<li><strong>Dynamic sharing:</strong> Access to spectrum changes according to demand, availability, policy or coordination decisions.</li>
+<li><strong>Geographical sharing:</strong> Different users may use the same frequencies in different locations when interference conditions and rules allow it.</li>
+<li><strong>Time-based sharing:</strong> Users access the same spectrum at different times or according to scheduled access.</li>
+<li><strong>Priority-based sharing:</strong> A higher-priority user may receive access before a lower-priority user, according to the sharing framework.</li>
+<li><strong>Coexistence with existing services:</strong> 5G systems may need to operate while protecting incumbent or adjacent-band services from harmful interference.</li>
+</ul>
+<div class="callout">Do not treat “licensed”, “shared” and “unlicensed” as radio technologies. They are spectrum access or authorization arrangements. Technologies such as beamforming and massive MIMO are ways to use radio resources more effectively.</div>
+
+<h2 id="technologies">7. 5G Spectrum Technologies</h2>
+<h3>A. Massive MIMO</h3>
+<p><strong>Massive MIMO (Multiple-Input Multiple-Output)</strong> uses a large number of antenna elements at a base station to communicate with multiple users and improve spectral efficiency and capacity. The system can use spatial processing to separate users or improve signal quality.</p>
+<h3>B. Beamforming</h3>
+<p><strong>Beamforming</strong> uses antenna-array processing to focus radio energy in a chosen direction or toward a user rather than transmitting equally in all directions. It can improve signal strength and help manage interference, especially at higher frequencies.</p>
+<h3>C. Small cells and dense deployment</h3>
+<p><strong>Small cells</strong> are low-power cellular access points used to add coverage or capacity in targeted areas. Deploying more cells can increase spatial reuse of spectrum, but requires careful planning, backhaul and interference coordination.</p>
+<h3>D. Carrier aggregation</h3>
+<p><strong>Carrier aggregation</strong> combines multiple component carriers so that a device can use a wider effective bandwidth. The component carriers may be in the same band or different bands, depending on the supported configuration.</p>
+<h3>E. Dynamic Spectrum Sharing (DSS)</h3>
+<p><strong>Dynamic Spectrum Sharing</strong> allows 4G LTE and 5G NR to use the same spectrum band through coordinated resource allocation. It can help operators introduce 5G without immediately refarming an entire band, although sharing introduces overhead and the benefit depends on traffic and implementation.</p>
+<h3>F. OFDM-based radio access</h3>
+<p><strong>Orthogonal Frequency-Division Multiplexing (OFDM)</strong> divides a channel into many closely spaced orthogonal subcarriers. 5G NR uses OFDM-based waveforms, with flexible numerology to support different frequency ranges and deployment requirements.</p>
+<div class="table-wrap"><table><thead><tr><th>Technology</th><th>Main idea</th><th>Benefit</th></tr></thead><tbody>
+<tr><td>Massive MIMO</td><td>Many antenna elements and spatial processing.</td><td>Higher capacity and improved spectral efficiency.</td></tr>
+<tr><td>Beamforming</td><td>Directs radio energy toward a target direction or user.</td><td>Improved link quality and spatial interference management.</td></tr>
+<tr><td>Small cells</td><td>Adds localized low-power radio sites.</td><td>More capacity and targeted coverage.</td></tr>
+<tr><td>Carrier aggregation</td><td>Uses multiple component carriers together.</td><td>Greater effective bandwidth.</td></tr>
+<tr><td>DSS</td><td>Coordinates LTE and NR use of the same band.</td><td>Supports gradual migration to 5G.</td></tr>
+<tr><td>OFDM</td><td>Transmits data over orthogonal subcarriers.</td><td>Flexible and efficient use of radio channels.</td></tr>
+</tbody></table></div>
+
+<h2 id="architecture">8. 5G Architecture</h2>
+<p>A 5G system is commonly described using three broad parts: the <strong>User Equipment (UE)</strong>, the <strong>5G Radio Access Network (5G RAN)</strong>, and the <strong>5G Core (5GC)</strong>. The radio access network connects devices over the air, while the core manages registration, mobility, sessions, policy and data forwarding.</p>
+<div class="diagram">
+<svg viewBox="0 0 820 300" role="img" aria-label="Simplified 5G architecture showing user equipment, gNB radio access network, 5G core control plane and user plane, and data network">
+<defs><marker id="m6archArrow" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0 0L8 4L0 8Z" fill="currentColor"/></marker></defs>
+<g fill="none" stroke="currentColor" stroke-width="1.6">
+<rect x="20" y="95" width="145" height="90" rx="9"/>
+<rect x="215" y="95" width="150" height="90" rx="9"/>
+<rect x="420" y="25" width="220" height="125" rx="9"/>
+<rect x="420" y="180" width="220" height="90" rx="9"/>
+<rect x="690" y="95" width="115" height="90" rx="9"/>
+<path d="M165 140H215M365 120L420 90M365 160L420 225M640 225H690M640 90L690 125" marker-end="url(#m6archArrow)"/>
+</g>
+<g fill="currentColor" text-anchor="middle" font-size="13">
+<text x="92" y="128">User Equipment</text><text x="92" y="151">(UE)</text>
+<text x="290" y="128">5G RAN</text><text x="290" y="151">gNB</text>
+<text x="530" y="55">5G Core — Control Plane</text><text x="530" y="82" font-size="11">AMF • SMF • AUSF • UDM • PCF</text><text x="530" y="112" font-size="11">Registration, mobility,</text><text x="530" y="130" font-size="11">session and policy control</text>
+<text x="530" y="211">5G Core — User Plane</text><text x="530" y="236">UPF forwards user data</text>
+<text x="747" y="128">Data Network</text><text x="747" y="151">(Internet / services)</text>
+</g></svg>
+<p class="caption">Conceptual 5G system view. The drawing groups functions for readability; actual deployments contain additional interfaces and network functions.</p>
+</div>
+<h3>Main components</h3>
+<div class="table-wrap"><table><thead><tr><th>Component</th><th>Meaning / role</th></tr></thead><tbody>
+<tr><td><strong>UE — User Equipment</strong></td><td>The user's device, such as a smartphone, modem or connected machine.</td></tr>
+<tr><td><strong>gNB — next-generation Node B</strong></td><td>The 5G base station that provides the radio connection between the UE and the network.</td></tr>
+<tr><td><strong>AMF — Access and Mobility Management Function</strong></td><td>Handles access, registration and mobility-related control functions.</td></tr>
+<tr><td><strong>SMF — Session Management Function</strong></td><td>Manages PDU sessions and controls relevant user-plane resources.</td></tr>
+<tr><td><strong>UPF — User Plane Function</strong></td><td>Forwards user data between the 5G access network and data networks.</td></tr>
+<tr><td><strong>AUSF — Authentication Server Function</strong></td><td>Supports authentication procedures.</td></tr>
+<tr><td><strong>UDM — Unified Data Management</strong></td><td>Manages subscriber-related data used by the 5G system.</td></tr>
+<tr><td><strong>PCF — Policy Control Function</strong></td><td>Provides policy rules for network behavior and services.</td></tr>
+<tr><td><strong>Data Network (DN)</strong></td><td>An external network or service, such as the Internet or an enterprise network.</td></tr>
+</tbody></table></div>
+<h3>Control plane and user plane</h3>
+<div class="two-col"><div><h4>Control plane</h4><p>Handles signalling and decisions needed to register devices, manage mobility, establish sessions, authenticate users and apply policies.</p></div><div><h4>User plane</h4><p>Carries the actual user traffic, such as web pages, video, voice packets and application data, toward the relevant data network.</p></div></div>
+<h3>Standalone (SA) and Non-Standalone (NSA)</h3>
+<div class="table-wrap"><table><thead><tr><th>5G Standalone (SA)</th><th>5G Non-Standalone (NSA)</th></tr></thead><tbody>
+<tr><td>Uses a 5G New Radio access network with a 5G Core.</td><td>Uses 5G NR together with existing 4G LTE/EPC infrastructure in common early deployment arrangements.</td></tr>
+<tr><td>Enables the full 5G Core architecture and its service capabilities.</td><td>Allows operators to add 5G radio capacity while retaining parts of the 4G core infrastructure.</td></tr>
+<tr><td>Does not require LTE as the anchor for the 5G access connection.</td><td>LTE commonly acts as an anchor in the radio/core arrangement.</td></tr>
+</tbody></table></div>
+
+<h2 id="cybersecurity">9. Cybersecurity: Introduction and Need</h2>
+<div class="note"><strong>Cybersecurity</strong> is the practice of protecting computers, networks, applications, devices and data from unauthorized access, misuse, disruption, modification or destruction.</div>
+<h3>Why cybersecurity is important</h3>
+<ul>
+<li><strong>Confidentiality:</strong> Information should be accessible only to authorized people or systems.</li>
+<li><strong>Integrity:</strong> Data should remain accurate and should not be altered without authorization.</li>
+<li><strong>Availability:</strong> Systems and information should remain accessible when required.</li>
+<li><strong>Privacy:</strong> Personal and sensitive information should be collected, processed and shared appropriately.</li>
+<li><strong>Business continuity:</strong> Security controls help reduce downtime, financial loss and operational disruption.</li>
+<li><strong>Trust:</strong> Users need confidence that digital services and communications are dependable.</li>
+</ul>
+<h3>Common security objectives — CIA triad</h3>
+<div class="diagram">
+<svg viewBox="0 0 650 235" role="img" aria-label="Cybersecurity CIA triad: confidentiality, integrity and availability">
+<g fill="none" stroke="currentColor" stroke-width="2">
+<path d="M325 35L155 190H495Z"/>
+<circle cx="325" cy="35" r="29"/><circle cx="155" cy="190" r="29"/><circle cx="495" cy="190" r="29"/>
+</g>
+<g fill="currentColor" text-anchor="middle" font-size="13">
+<text x="325" y="31">C</text><text x="325" y="48" font-size="10">Confidentiality</text>
+<text x="155" y="186">I</text><text x="155" y="203" font-size="10">Integrity</text>
+<text x="495" y="186">A</text><text x="495" y="203" font-size="10">Availability</text>
+<text x="325" y="125" font-size="13">CIA Triad</text>
+</g></svg>
+<p class="caption">The CIA triad is a foundational model for information security.</p>
+</div>
+<h3>Basic cybersecurity measures</h3>
+<ul>
+<li>Use strong, unique passwords and multi-factor authentication.</li>
+<li>Keep operating systems, applications and network devices updated.</li>
+<li>Use firewalls, endpoint protection and secure network configurations.</li>
+<li>Encrypt sensitive information in transit and at rest where appropriate.</li>
+<li>Back up important data and test restoration procedures.</li>
+<li>Limit user permissions according to the principle of least privilege.</li>
+<li>Train users to recognize suspicious links, attachments and requests.</li>
+<li>Monitor systems and prepare an incident-response process.</li>
+</ul>
+
+<h2 id="cybercrime">10. Cybercrime: Definition and Types</h2>
+<div class="note"><strong>Definition:</strong> <strong>Cybercrime</strong> refers to unlawful activities in which computers, digital devices, networks or online services are used as tools, targets or environments for committing an offence.</div>
+<h3>Types of cybercrime</h3>
+<div class="table-wrap"><table><thead><tr><th>Type</th><th>Description</th><th>Simple example</th></tr></thead><tbody>
+<tr><td><strong>Hacking / unauthorized access</strong></td><td>Accessing a computer, account or network without permission.</td><td>Entering another person's account by bypassing access controls.</td></tr>
+<tr><td><strong>Phishing</strong></td><td>Using deceptive messages or websites to trick people into revealing credentials or sensitive information.</td><td>A fake bank message linking to a fraudulent login page.</td></tr>
+<tr><td><strong>Identity theft</strong></td><td>Misusing another person's personal information to impersonate them or commit fraud.</td><td>Using stolen identity details to open an account.</td></tr>
+<tr><td><strong>Online financial fraud</strong></td><td>Deceiving people or organizations to obtain money or financial information online.</td><td>A fraudulent payment request or fake shopping website.</td></tr>
+<tr><td><strong>Malware attacks</strong></td><td>Using malicious software to damage systems, steal information or gain unauthorized control.</td><td>A Trojan disguised as a legitimate application.</td></tr>
+<tr><td><strong>Ransomware</strong></td><td>Malware that blocks access to data or systems, often by encrypting files, and demands payment.</td><td>Files become inaccessible and a ransom note appears.</td></tr>
+<tr><td><strong>DoS / DDoS attacks</strong></td><td>Overwhelming a service with traffic or requests so legitimate users cannot access it. DDoS uses multiple sources.</td><td>A website becomes unavailable due to a flood of malicious traffic.</td></tr>
+<tr><td><strong>Data theft / data breach</strong></td><td>Stealing or exposing confidential or personal information.</td><td>Copying customer records from an improperly protected database.</td></tr>
+<tr><td><strong>Cyberstalking / online harassment</strong></td><td>Repeatedly using digital channels to threaten, monitor, intimidate or harass a person.</td><td>Persistent threatening messages or unwanted tracking.</td></tr>
+<tr><td><strong>Software piracy / intellectual-property offences</strong></td><td>Unauthorized copying, distribution or use of protected software or digital content.</td><td>Distributing paid software without authorization.</td></tr>
+</tbody></table></div>
+<div class="callout">A cybercrime may involve more than one category. For example, phishing can be used to steal credentials, which may then be used for unauthorized access or financial fraud.</div>
+
+<h2 id="selflearning">11. Self-Learning: Cyber-Attacks, Vulnerabilities and Precautions</h2>
+<h3>Cyber-attack vs vulnerability vs threat</h3>
+<div class="table-wrap"><table><thead><tr><th>Term</th><th>Meaning</th></tr></thead><tbody>
+<tr><td><strong>Threat</strong></td><td>A potential cause of harm to a system, organization or user.</td></tr>
+<tr><td><strong>Vulnerability</strong></td><td>A weakness in software, hardware, configuration, process or human behavior that could be exploited.</td></tr>
+<tr><td><strong>Exploit</strong></td><td>A method or code that takes advantage of a vulnerability.</td></tr>
+<tr><td><strong>Cyber-attack</strong></td><td>An attempt to compromise confidentiality, integrity or availability, or to gain an unauthorized advantage.</td></tr>
+<tr><td><strong>Risk</strong></td><td>The possibility and impact of harm when a threat exploits a vulnerability.</td></tr>
+</tbody></table></div>
+<h3>Common cyber-attacks</h3>
+<ul>
+<li><strong>Malware:</strong> Malicious software such as viruses, worms, Trojans, spyware and ransomware.</li>
+<li><strong>Phishing and social engineering:</strong> Manipulating people into disclosing information or performing unsafe actions.</li>
+<li><strong>Password attacks:</strong> Attempts to guess, reuse, steal or otherwise compromise passwords.</li>
+<li><strong>Denial-of-Service:</strong> Making a service unavailable by exhausting its resources or network capacity.</li>
+<li><strong>Man-in-the-Middle (MitM):</strong> Intercepting or altering communication between parties, often when communication is not properly protected.</li>
+<li><strong>Injection attacks:</strong> Supplying malicious input that an application incorrectly treats as commands or queries.</li>
+<li><strong>Insider threats:</strong> Harm caused by a person with legitimate access, intentionally or accidentally.</li>
+<li><strong>Zero-day exploitation:</strong> Exploiting a vulnerability before an effective fix is available or widely deployed.</li>
+</ul>
+<h3>Common vulnerabilities</h3>
+<ul>
+<li>Outdated operating systems, applications and firmware.</li>
+<li>Weak, reused or default passwords.</li>
+<li>Unnecessary open ports and exposed services.</li>
+<li>Incorrect access permissions or excessive privileges.</li>
+<li>Unencrypted or poorly protected communication.</li>
+<li>Misconfigured cloud storage, routers, servers or databases.</li>
+<li>Unsafe application input handling and insecure software design.</li>
+<li>Lack of backups, monitoring or security awareness.</li>
+</ul>
+<h3>Precautions and prevention</h3>
+<ol>
+<li><strong>Patch regularly:</strong> Apply security updates to operating systems, applications, firmware and network equipment.</li>
+<li><strong>Use strong authentication:</strong> Use unique passwords, a password manager and multi-factor authentication.</li>
+<li><strong>Back up data:</strong> Keep protected backups and periodically test recovery.</li>
+<li><strong>Use defensive controls:</strong> Configure firewalls, endpoint protection, secure DNS and network segmentation as appropriate.</li>
+<li><strong>Encrypt information:</strong> Protect sensitive data during transmission and storage.</li>
+<li><strong>Apply least privilege:</strong> Give users and applications only the access they need.</li>
+<li><strong>Be alert to social engineering:</strong> Verify unexpected requests, links, attachments and payment instructions.</li>
+<li><strong>Secure Wi-Fi:</strong> Use modern Wi-Fi security, change default router credentials and update router firmware.</li>
+<li><strong>Monitor and respond:</strong> Review logs, detect unusual activity and have a plan for reporting and responding to incidents.</li>
+<li><strong>Dispose of data safely:</strong> Securely erase or destroy storage media before reuse or disposal.</li>
+</ol>
+<div class="note"><strong>Exam distinction:</strong> A vulnerability is a weakness; a threat is a possible source of harm; an attack is an attempt to cause harm or exploit a weakness; a precaution is a measure that reduces the likelihood or impact.</div>
+
+<h2 id="revision">12. Quick Revision</h2>
+<h3>One-line answers</h3>
+<ul>
+<li><strong>MPLS:</strong> A label-based forwarding technique that sends packets along label-switched paths.</li>
+<li><strong>FEC:</strong> A group of packets that receive the same forwarding treatment.</li>
+<li><strong>LER:</strong> Edge router that adds or removes MPLS labels.</li>
+<li><strong>LSR:</strong> Core router that forwards packets using labels.</li>
+<li><strong>LSP:</strong> The path followed by labelled packets through an MPLS network.</li>
+<li><strong>Low-band 5G:</strong> Emphasizes broad coverage and propagation.</li>
+<li><strong>Mid-band 5G:</strong> Balances coverage and capacity.</li>
+<li><strong>High-band 5G:</strong> Offers wide bandwidth and high capacity over more localized areas.</li>
+<li><strong>Massive MIMO:</strong> Uses many antenna elements for spatial processing.</li>
+<li><strong>Beamforming:</strong> Focuses radio transmission toward a direction or user.</li>
+<li><strong>5G Core:</strong> Performs control and user-plane network functions.</li>
+<li><strong>Cybersecurity:</strong> Protects systems, networks and data from digital threats.</li>
+<li><strong>CIA triad:</strong> Confidentiality, Integrity and Availability.</li>
+<li><strong>Cybercrime:</strong> Unlawful activity involving computers, devices, networks or online services.</li>
+</ul>
+<h3>Likely exam questions from the syllabus topics</h3>
+<ol class="question-list">
+<li>What is MPLS? Explain its header structure with a neat diagram.</li>
+<li>Explain the working of MPLS with the roles of LER, LSR, FEC and LSP.</li>
+<li>State the advantages and disadvantages of MPLS.</li>
+<li>Explain the 5G radio-spectrum landscape and the requirements of 5G spectrum.</li>
+<li>Explain licensed, shared and unlicensed spectrum access modes.</li>
+<li>Describe spectrum-sharing scenarios.</li>
+<li>Explain the 5G spectrum technologies: Massive MIMO, beamforming, small cells, carrier aggregation and DSS.</li>
+<li>Draw and explain the 5G architecture. Differentiate the control plane and user plane.</li>
+<li>What is cybersecurity? Explain why it is important.</li>
+<li>Define cybercrime and explain its different types.</li>
+<li>Explain common cyber-attacks, vulnerabilities and precautions.</li>
+</ol>
+
+<h3>Question-bank alignment</h3>
+<div class="callout">The uploaded <strong>QUESTION BANK new.pdf</strong> contains questions on Modules 1–3 (network fundamentals, data link layer and network layer). It does not list dedicated Module VI questions. The questions above are therefore derived from the official Module VI syllabus headings, not copied from the uploaded question bank.</div>
+
+<h3>References and further learning</h3>
+<div class="reference"><strong>Primary course reference:</strong> University of Mumbai, Course Code 2115112 — Computer Network, Detailed Syllabus, Module VI: Emerging Network Technologies and Security. Use this syllabus as the boundary for exam preparation.</div>
+<div class="reference"><strong>Textbook:</strong> Andrew S. Tanenbaum and David J. Wetherall, <em>Computer Networks</em>, 5th Edition, Pearson. Useful for networking foundations and protocol concepts; the uploaded edition is not a dedicated 5G/cybersecurity reference.</div>
+<div class="reference"><strong>Supplementary standards and learning resources:</strong>
+<ul>
+<li><a href="https://www.3gpp.org/" target="_blank" rel="noopener">3GPP</a> — specifications and technical information for 5G systems and radio access.</li>
+<li><a href="https://www.itu.int/" target="_blank" rel="noopener">International Telecommunication Union (ITU)</a> — international spectrum and telecommunications information.</li>
+<li><a href="https://www.nist.gov/cyberframework" target="_blank" rel="noopener">NIST Cybersecurity Framework</a> — cybersecurity risk-management concepts.</li>
+<li><a href="https://www.cert-in.org.in/" target="_blank" rel="noopener">CERT-In</a> — Indian cybersecurity advisories and incident-response information.</li>
+</ul></div>
+<div class="video"><strong>NetworkChuck playlist:</strong> <a href="https://youtube.com/playlist?list=PLIhvC56v63IJVXv0GJcl9vO5Z6znCVb1P" target="_blank" rel="noopener">FREE CCNA 200-301 Complete Course</a>. Treat this as supplementary networking background. It can reinforce routing and general network concepts, but it is not a complete Module VI course and should not replace the syllabus topics on MPLS, 5G spectrum/architecture and cybersecurity.</div>
+
+<p class="muted">End of Module VI notes. Prioritize the syllabus headings and diagrams, then use the supplementary references to deepen understanding.</p>
+</section>
+</body>
+</html>

@@ -1,0 +1,508 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>PAPER.</title>
+  <link rel="stylesheet" href="style.css">
+  <script>
+  /* Shared light/dark theme, stored across visits. */
+  (function () {
+    "use strict";
+    var key = "paper-theme", root = document.documentElement;
+    function stored() { try { var v = localStorage.getItem(key); return v === "dark" || v === "light" ? v : null; } catch (_) { return null; } }
+    function apply(value) {
+      root.setAttribute("data-theme", value);
+      var button = document.getElementById("theme-toggle");
+      if (button) {
+        var label = value === "dark" ? "Switch to light mode" : "Switch to dark mode";
+        button.setAttribute("aria-label", label); button.setAttribute("title", label);
+      }
+    }
+    var media = window.matchMedia ? window.matchMedia("(prefers-color-scheme: dark)") : null;
+    apply(stored() || (media && media.matches ? "dark" : "light"));
+    function addButton() {
+      var button = document.createElement("button");
+      button.id = "theme-toggle"; button.type = "button"; button.className = "theme-toggle";
+      button.innerHTML = '<svg class="icon-sun" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg><svg class="icon-moon" viewBox="0 0 24 24" aria-hidden="true"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg>';
+      button.addEventListener("click", function () {
+        var next = root.getAttribute("data-theme") === "dark" ? "light" : "dark";
+        try { localStorage.setItem(key, next); } catch (_) {}
+        apply(next);
+      });
+      document.body.appendChild(button); apply(root.getAttribute("data-theme"));
+    }
+    if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", addButton); else addButton();
+    if (media && media.addEventListener) media.addEventListener("change", function (event) { if (!stored()) apply(event.matches ? "dark" : "light"); });
+  })();
+  </script>
+</head>
+<body>
+  <main id="app"><noscript>PAPER. needs JavaScript to show this page.</noscript></main>
+  <script>
+  /* Hash router and shared rendering for the five subject apps. */
+  (function () {
+    "use strict";
+    var app = document.getElementById("app");
+    var base = new URL(".", location.href);
+    var subjects = {
+      SE: "Software Engineering",
+      CN: "Computer Network",
+      AISC: "Artificial Intelligence & Soft Computing",
+      DWM: "Datawarehouse & Mining",
+      WMC: "Wireless and Mobile Communication"
+    };
+    var currentStyle = null, renderId = 0;
+    var searchStyleAdded = false;
+    function addSearchStyles() {
+      if (searchStyleAdded) return;
+      var style = document.createElement("style");
+      style.id = "paper-search-style";
+      style.textContent = `
+        .paper-search{margin:1.2rem 0 1.5rem;padding:1rem;border:1px solid var(--rule,#c9c3b8);border-radius:12px;background:var(--surface,var(--paper,#fff))}
+        .paper-search label{display:block;font-weight:700;margin:0 0 .55rem}
+        .paper-search input{display:block;width:100%;min-width:0;box-sizing:border-box;padding:.8rem .95rem;border:1px solid var(--rule,#aaa);border-radius:8px;background:var(--paper,#fff);color:var(--ink,inherit);font:inherit}
+        .paper-search .search-meta{font-size:.9rem;color:var(--muted,#777);margin:.55rem 0 0}
+        .paper-search .search-results{list-style:none;padding:0;margin:.75rem 0 0;display:grid;gap:.55rem}
+        .paper-search .search-result{min-width:0;border:1px solid var(--rule,#c9c3b8);border-radius:8px;padding:.7rem .85rem}
+        .paper-search .search-result a,.paper-search .search-result button{font:inherit;font-weight:700}
+        .paper-search .search-result p{margin:.3rem 0 0;overflow-wrap:anywhere}
+        .paper-search mark{background:#f3d77b;color:#171717}
+        .paper-search .search-empty{color:var(--muted,#777);padding:.4rem 0}
+      `;
+      document.head.append(style); searchStyleAdded = true;
+    }
+    function makeSearchBox(labelText, placeholder, id) {
+      addSearchStyles();
+      var box = el("section", { class: "paper-search", "aria-label": labelText });
+      var label = el("label", { for: id, text: labelText });
+      var input = el("input", { id: id, type: "search", placeholder: placeholder, autocomplete: "off" });
+      var meta = el("p", { class: "search-meta", text: "Type at least 2 characters to search." });
+      var results = el("ul", { class: "search-results", "aria-live": "polite" });
+      box.append(label, input, meta, results);
+      return { box: box, input: input, meta: meta, results: results };
+    }
+    function getPlainText(html) {
+      var doc = new DOMParser().parseFromString(html, "text/html");
+      doc.querySelectorAll("script,style,noscript,svg").forEach(function (node) { node.remove(); });
+      var root = doc.querySelector("#module-content") || doc.body;
+      return (root.innerText || root.textContent || "").replace(/\s+/g, " ").trim();
+    }
+    function makeExcerpt(text, term) {
+      var at = text.toLowerCase().indexOf(term.toLowerCase());
+      if (at < 0) return text.slice(0, 180) + (text.length > 180 ? "…" : "");
+      var start = Math.max(0, at - 65), end = Math.min(text.length, at + term.length + 100);
+      return (start ? "…" : "") + text.slice(start, end) + (end < text.length ? "…" : "");
+    }
+    function escapeText(text) {
+      return text.replace(/[&<>"']/g, function (c) { return ({ "&":"&amp;", "<":"&lt;", ">":"&gt;", "\"":"&quot;", "'":"&#39;" })[c]; });
+    }
+    function highlighted(text, term) {
+      var safe = escapeText(text);
+      var escaped = term.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+      return safe.replace(new RegExp("(" + escaped + ")", "ig"), "<mark>$1</mark>");
+    }
+    function termsMatch(text, terms) {
+      var lower = text.toLowerCase();
+      return terms.every(function (term) { return lower.includes(term); });
+    }
+    function installSubjectSearch(config, host, sid) {
+      var ui = makeSearchBox(
+        "Search across all " + config.abbr + " modules",
+        "Search definitions, topics, formulas…",
+        "paper-" + sid.toLowerCase() + "-global-search"
+      );
+      host.append(ui.box);
+
+      var cache = null, pending = null, timer;
+
+      async function getIndex() {
+        if (cache) return cache;
+        if (pending) return pending;
+
+        pending = Promise.all(config.modules.map(async function (module) {
+          try {
+            var response = await fetch(
+              rootPath("subs/mods/" + sid + " mods/" + module.file)
+            );
+            if (!response.ok) throw new Error("HTTP " + response.status);
+            return { module: module, text: getPlainText(await response.text()) };
+          } catch (_) {
+            return { module: module, text: "", failed: true };
+          }
+        }));
+
+        cache = await pending;
+        return cache;
+      }
+
+      ui.input.addEventListener("input", function () {
+        clearTimeout(timer);
+        var query = ui.input.value.trim();
+        ui.results.replaceChildren();
+
+        if (query.length < 2) {
+          ui.meta.textContent = "Type at least 2 characters to search.";
+          return;
+        }
+
+        ui.meta.textContent = "Searching " + sid + " modules…";
+
+        timer = setTimeout(async function () {
+          var entries = await getIndex();
+          var terms = query.toLowerCase().split(/\s+/).filter(Boolean);
+          var matches = entries.filter(function (entry) {
+            return entry.text && termsMatch(entry.text, terms);
+          });
+
+          matches.forEach(function (entry) {
+            var li = el("li", { class: "search-result" });
+            var a = el("a", {
+              href: route(sid, entry.module.id),
+              text: entry.module.id + " · " + entry.module.name
+            });
+            var p = el("p");
+            p.innerHTML = highlighted(makeExcerpt(entry.text, terms[0]), terms[0]);
+            li.append(a, p);
+            ui.results.append(li);
+          });
+
+          if (!matches.length) {
+            ui.results.append(el("li", {
+              class: "search-empty",
+              text: "No matching content found. Try a shorter keyword."
+            }));
+          }
+
+          var failed = entries.filter(function (entry) { return entry.failed; }).length;
+          ui.meta.textContent =
+            matches.length + " matching module" +
+            (matches.length === 1 ? "" : "s") + " found" +
+            (failed ? " · " + failed + " module file(s) could not be indexed" : "") + ".";
+        }, 160);
+      });
+    }
+
+    function installModuleSearch(config, module, content, sid) {
+      var ui = makeSearchBox(
+        "Search within " + module.id,
+        "Find a topic or keyword in this module…",
+        "paper-" + sid.toLowerCase() + "-module-search"
+      );
+
+      var blocks = Array.from(content.querySelectorAll("h2,h3,h4,p,li,td,th,article"));
+      var searchable = blocks.filter(function (node) {
+        return (node.innerText || node.textContent || "").trim().length >= 3;
+      });
+
+      var idCounter = 0;
+      searchable.forEach(function (node) {
+        if (!node.id) node.id = "paper-search-hit-" + (++idCounter);
+      });
+
+      var timer;
+      ui.input.addEventListener("input", function () {
+        clearTimeout(timer);
+        var query = ui.input.value.trim();
+        ui.results.replaceChildren();
+
+        if (query.length < 2) {
+          ui.meta.textContent = "Type at least 2 characters to search this module.";
+          return;
+        }
+
+        timer = setTimeout(function () {
+          var terms = query.toLowerCase().split(/\s+/).filter(Boolean);
+          var matches = searchable.filter(function (node) {
+            return termsMatch(node.innerText || node.textContent || "", terms);
+          }).slice(0, 30);
+
+          matches.forEach(function (node) {
+            var text = (node.innerText || node.textContent || "").replace(/\s+/g, " ").trim();
+            var li = el("li", { class: "search-result" });
+            var a = el("a", {
+              href: "#" + node.id,
+              text: (node.matches("h2,h3,h4") ? "Section: " : "Match: ") +
+                text.slice(0, 105) + (text.length > 105 ? "…" : "")
+            });
+            var p = el("p");
+            p.innerHTML = highlighted(makeExcerpt(text, terms[0]), terms[0]);
+            li.append(a, p);
+            ui.results.append(li);
+          });
+
+          if (!matches.length) {
+            ui.results.append(el("li", {
+              class: "search-empty",
+              text: "No matching content found in this module."
+            }));
+          }
+
+          ui.meta.textContent =
+            matches.length + " matching section/content block" +
+            (matches.length === 1 ? "" : "s") +
+            (matches.length === 30 ? " (showing first 30)" : "") + ".";
+        }, 120);
+      });
+
+      return ui.box;
+    }
+
+    function routeParts() { return location.hash.replace(/^#\/?/, "").split("/").filter(Boolean); }
+    function route(subject, module) { return "#/" + [subject, module].filter(Boolean).join("/"); }
+
+    /* Remember the last reading position locally on this device/browser. */
+    var readingStorageKey = "paper-reading-progress-v1";
+    var activeReading = null;
+    var readingSaveTimer = null;
+    var readingRestorePending = false;
+
+    function readReadingProgress() {
+      try {
+        var value = JSON.parse(localStorage.getItem(readingStorageKey) || "{}");
+        return value && typeof value === "object" ? value : {};
+      } catch (_) {
+        return {};
+      }
+    }
+
+    function writeReadingProgress(data) {
+      try { localStorage.setItem(readingStorageKey, JSON.stringify(data)); } catch (_) {}
+    }
+
+    function saveReadingPosition() {
+      if (!activeReading) return;
+      var data = readReadingProgress();
+      if (!data.positions || typeof data.positions !== "object") data.positions = {};
+
+      var position = Math.max(0, Math.round(window.scrollY || window.pageYOffset || 0));
+      var key = activeReading.sid + "/" + activeReading.mid;
+
+      data.positions[key] = {
+        scrollY: position,
+        updatedAt: Date.now()
+      };
+      data.last = {
+        sid: activeReading.sid,
+        mid: activeReading.mid,
+        subjectName: activeReading.subjectName,
+        moduleName: activeReading.moduleName,
+        scrollY: position,
+        updatedAt: Date.now()
+      };
+      writeReadingProgress(data);
+    }
+
+    function scheduleReadingSave() {
+      if (!activeReading || readingRestorePending) {
+        clearTimeout(readingSaveTimer);
+        return;
+      }
+      clearTimeout(readingSaveTimer);
+      readingSaveTimer = setTimeout(saveReadingPosition, 180);
+    }
+
+    function restoreReadingPosition(sid, mid) {
+      var data = readReadingProgress();
+      var saved = data.positions && data.positions[sid + "/" + mid];
+      if (!saved && data.last && data.last.sid === sid && data.last.mid === mid) {
+        saved = data.last;
+      }
+      var y = saved && Number.isFinite(Number(saved.scrollY))
+        ? Math.max(0, Number(saved.scrollY))
+        : 0;
+
+      readingRestorePending = true;
+      requestAnimationFrame(function () {
+        requestAnimationFrame(function () {
+          window.scrollTo({ top: y, left: 0, behavior: "auto" });
+          requestAnimationFrame(function () {
+            readingRestorePending = false;
+          });
+        });
+      });
+    }
+
+    window.addEventListener("scroll", scheduleReadingSave, { passive: true });
+    window.addEventListener("pagehide", saveReadingPosition);
+    function el(tag, props, children) {
+      var node = document.createElement(tag);
+      Object.entries(props || {}).forEach(function (entry) {
+        var key = entry[0], value = entry[1];
+        if (key === "class") node.className = value;
+        else if (key === "text") node.textContent = value;
+        else node.setAttribute(key, value);
+      });
+      (children || []).forEach(function (child) { node.append(child); });
+      return node;
+    }
+    function button(href, text) { return el("a", { class: "btn", href: href, text: text }); }
+    function card(tag, title, href) {
+      var cardClass = tag === "CONTINUE READING" ? "card continue-card" : "card";
+      return el("li", {}, [el("a", { class: cardClass, href: href }, [
+        el("span", { class: "card-tag", text: tag }), el("span", { class: "card-title", text: title })
+      ])]);
+    }
+    function breadcrumbs(items) {
+      var list = el("ol");
+      items.forEach(function (item, index) {
+        var last = index === items.length - 1;
+        list.append(el("li", {}, [last
+          ? el("span", { text: item.label, "aria-current": "page" })
+          : el("a", { href: item.href, text: item.label })]));
+      });
+      return el("nav", { class: "breadcrumbs", "aria-label": "Breadcrumb" }, [list]);
+    }
+    function fail(title, message) {
+      app.classList.add("has-floating-controls");
+      app.replaceChildren(
+        el("div", { class: "notice", role: "alert" }, [el("strong", { text: title }), el("p", { text: message })]),
+        el("div", { class: "actions floating-controls" }, [button(route(), "Back to Home")])
+      );
+    }
+    function rootPath(path) { return new URL(path.split("/").map(encodeURIComponent).join("/"), base); }
+    function loadStyle(href) {
+      return new Promise(function (resolve, reject) {
+        if (currentStyle) currentStyle.remove();
+        var link = document.createElement("link");
+        link.rel = "stylesheet"; link.href = href.href; link.id = "subject-style";
+        link.onload = function () { currentStyle = link; resolve(); };
+        link.onerror = reject; document.head.append(link);
+      });
+    }
+    app.addEventListener("click", function (event) {
+      var link = event.target.closest && event.target.closest('#module-content a[href^="#"], .paper-search a[href^="#se-search-hit-"]');
+      if (!link) return;
+      var targetId;
+      try { targetId = decodeURIComponent(link.getAttribute("href").slice(1)); } catch (_) { return; }
+      var target = document.getElementById(targetId);
+      if (!target) return;
+      event.preventDefault();
+      var reduceMotion = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+      target.scrollIntoView({ behavior: reduceMotion ? "auto" : "smooth", block: "start" });
+    });
+    async function render() {
+      var request = ++renderId, parts = routeParts(), sid = parts[0], mid = parts[1];
+      app.classList.remove("has-floating-controls");
+      document.head.querySelectorAll("style[data-module-inline]").forEach(function (style) { style.remove(); });
+      if (!sid) {
+        if (currentStyle) { currentStyle.remove(); currentStyle = null; }
+        activeReading = null;
+        app.replaceChildren(el("h1", { class: "brand", text: "PAPER." }), el("p", { class: "lead", text: "Select a subject" }));
+        var progress = readReadingProgress();
+        if (progress.last && subjects[progress.last.sid]) {
+          var resumeList = el("ul", { class: "card-list" });
+          resumeList.append(card(
+            "CONTINUE READING",
+            (progress.last.subjectName || subjects[progress.last.sid]) +
+              " · " + (progress.last.moduleName || progress.last.mid),
+            route(progress.last.sid, progress.last.mid)
+          ));
+          app.append(resumeList);
+        }
+        var list = el("ul", { class: "card-list" });
+        Object.keys(subjects).forEach(function (id) { list.append(card(id, subjects[id], route(id))); });
+        app.append(list); document.title = "PAPER."; return;
+      }
+      if (!Object.prototype.hasOwnProperty.call(subjects, sid)) { fail("Page not found", "The requested subject or module does not exist."); return; }
+      try {
+        var subjectResponse = await fetch(rootPath("subs/" + sid + ".html"));
+        if (!subjectResponse.ok) throw new Error("Subject page unavailable");
+        var subjectDoc = new DOMParser().parseFromString(await subjectResponse.text(), "text/html");
+        var configNode = subjectDoc.getElementById("subject-config");
+        if (!configNode) throw new Error("Subject configuration missing");
+        var config = JSON.parse(configNode.textContent);
+        if (request !== renderId) return;
+        var style = rootPath("subs/mods/" + sid + " mods/assets/style.css");
+        await loadStyle(style);
+        if (request !== renderId) return;
+        if (!mid) {
+          var modules = el("ul", { class: "card-list" });
+          config.modules.forEach(function (module) { modules.append(card(module.id, module.name, route(sid, module.id))); });
+          var subjectHeader = el("header", { class: "page-head" }, [breadcrumbs([{ label: "Home", href: route() }]), el("h1", { text: config.name })]);
+          var subjectSearchHost = el("div");
+          installSubjectSearch(config, subjectSearchHost, sid);
+          var subjectChildren = [subjectHeader, subjectSearchHost];
+          var savedProgress = readReadingProgress().last;
+          if (savedProgress && savedProgress.sid === sid &&
+              config.modules.some(function (entry) { return entry.id === savedProgress.mid; })) {
+            subjectChildren.push(el("div", { class: "actions" }, [
+              button(route(sid, savedProgress.mid), "Continue reading · " +
+                (savedProgress.moduleName || savedProgress.mid))
+            ]));
+          }
+          subjectChildren.push(
+            el("h2", { class: "section-title", text: "Modules" }),
+            modules,
+            el("div", { class: "actions floating-controls" }, [button(route(), "Back to Home")])
+          );
+          app.classList.add("has-floating-controls");
+          app.replaceChildren.apply(app, subjectChildren);
+          document.title = config.name + " | PAPER."; return;
+        }
+        var module = config.modules.find(function (entry) { return entry.id === mid; });
+        if (!module) { fail("Module not found", "This module is not available."); return; }
+        app.replaceChildren(el("header", { class: "page-head" }, [breadcrumbs([
+          { label: "Home", href: route() }, { label: config.name, href: route(sid) }, { label: module.name }
+        ]), el("p", { class: "subtitle", text: config.name })]));
+        var area = el("section", { id: "module-content", class: "content-area", "aria-label": "Module content" });
+        app.append(area);
+        var moduleResponse = await fetch(rootPath("subs/mods/" + sid + " mods/" + module.file));
+        if (!moduleResponse.ok) throw new Error("Module content unavailable");
+        var moduleDoc = new DOMParser().parseFromString(await moduleResponse.text(), "text/html");
+        var content = moduleDoc.querySelector("#module-content");
+        if (!content) throw new Error("Module content missing");
+        if (request !== renderId) return;
+        moduleDoc.querySelectorAll("style").forEach(function (sourceStyle) {
+          var style = document.createElement("style");
+          style.dataset.moduleInline = "true";
+          style.textContent = sourceStyle.textContent;
+          document.head.append(style);
+        });
+        var loadedContent = document.importNode(content, true);
+        if (!loadedContent.querySelector("h1")) loadedContent.prepend(el("h1", { text: module.name }));
+        var moduleSearch = installModuleSearch(config, module, loadedContent, sid);
+        area.replaceWith(moduleSearch, loadedContent);
+
+        activeReading = {
+          sid: sid,
+          mid: mid,
+          subjectName: config.name,
+          moduleName: module.name
+        };
+
+        var bookmarkButton = el("button", {
+          class: "btn",
+          type: "button",
+          text: "Bookmark this spot"
+        });
+        bookmarkButton.addEventListener("click", function () {
+          saveReadingPosition();
+          var originalText = "Bookmark this spot";
+          bookmarkButton.textContent = "✓ Reading spot saved";
+          setTimeout(function () {
+            bookmarkButton.textContent = originalText;
+          }, 1800);
+        });
+
+        app.classList.add("has-floating-controls");
+        app.append(el("div", { class: "actions floating-controls" }, [
+          bookmarkButton,
+          button(route(), "Back to Home")
+        ]));
+
+        restoreReadingPosition(sid, mid);
+        document.title = module.name + " | " + config.name + " | PAPER.";
+      } catch (_) {
+        if (request === renderId) fail("Page could not be loaded", "Subject or module files are missing or unavailable.");
+      }
+    }
+    window.addEventListener("hashchange", function () {
+      saveReadingPosition();
+      render();
+    });
+    render();
+  })();
+  </script>
+</body>
+</html>

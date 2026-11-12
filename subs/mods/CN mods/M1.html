@@ -1,0 +1,1425 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Module 1 | Fundamentals of Computer Networks</title>
+    <style>
+        #module-content {
+            --m1-line: var(--rule, #394355);
+            --m1-ink: var(--ink, #e6e9f0);
+            --m1-muted: var(--muted, #98a2b5);
+            --m1-accent: var(--accent, #8fb0ee);
+            width: 100%;
+            max-width: none;
+            color: var(--m1-ink);
+            line-height: 1.72
+        }
+
+        #module-content * {
+            box-sizing: border-box
+        }
+
+        #module-content h1 {
+            font-size: clamp(1.8rem, 3vw, 2.5rem);
+            line-height: 1.2
+        }
+
+        #module-content h2 {
+            margin-top: 2.7rem;
+            padding-bottom: .5rem;
+            border-bottom: 1px solid var(--m1-line);
+            font-size: clamp(1.35rem, 2.2vw, 1.8rem)
+        }
+
+        #module-content h3 {
+            margin-top: 1.5rem;
+            font-size: 1.12rem
+        }
+
+        #module-content p {
+            margin: .55rem 0 1rem
+        }
+
+        #module-content li {
+            margin: .35rem 0
+        }
+
+        #module-content strong {
+            color: var(--m1-accent)
+        }
+
+        #module-content .lead {
+            color: var(--m1-muted);
+            max-width: 85ch
+        }
+
+        #module-content .eyebrow {
+            color: var(--m1-accent);
+            font: 800 .75rem system-ui, sans-serif;
+            letter-spacing: .14em
+        }
+
+        #module-content .callout {
+            padding: 1rem;
+            margin: 1rem 0;
+            border-left: 3px solid var(--m1-accent);
+            background: color-mix(in srgb, var(--m1-accent) 9%, transparent)
+        }
+
+        #module-content .note {
+            padding: .85rem 1rem;
+            border: 1px solid var(--m1-line);
+            border-radius: 9px;
+            margin: 1rem 0
+        }
+
+        #module-content .diagram {
+            border: 1px dashed var(--m1-line);
+            border-radius: 10px;
+            padding: 1.1rem;
+            margin: 1.2rem 0;
+            overflow-x: auto;
+            text-align: center
+        }
+
+        #module-content .diagram svg {
+            max-width: 100%;
+            height: auto
+        }
+
+        #module-content .caption {
+            color: var(--m1-muted);
+            font-size: .85rem;
+            margin-top: .7rem
+        }
+
+        #module-content table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1rem 0 1.5rem;
+            font-size: .94rem
+        }
+
+        #module-content th,
+        #module-content td {
+            border: 1px solid var(--m1-line);
+            padding: .7rem;
+            text-align: left;
+            vertical-align: top
+        }
+
+        #module-content th {
+            background: color-mix(in srgb, var(--m1-accent) 12%, transparent)
+        }
+
+        #module-content .module-index {
+            margin: 2rem 0;
+            padding: 1.2rem;
+            border: 1px solid var(--m1-line);
+            border-radius: 12px
+        }
+
+        #module-content .module-index ol {
+            columns: 2;
+            column-gap: 2rem
+        }
+
+        #module-content .module-index li {
+            break-inside: avoid
+        }
+
+        #module-content a {
+            color: var(--m1-accent);
+            overflow-wrap: anywhere
+        }
+
+        #module-content .tag {
+            display: inline-block;
+            border: 1px solid var(--m1-line);
+            border-radius: 20px;
+            padding: .12rem .55rem;
+            margin: .15rem;
+            font: 700 .72rem system-ui, sans-serif;
+            color: var(--m1-muted)
+        }
+
+        #module-content .reference {
+            padding: .85rem 1rem;
+            border: 1px solid var(--m1-line);
+            border-radius: 9px;
+            margin: .7rem 0
+        }
+
+        #module-content .reference p {
+            margin: .25rem 0
+        }
+
+        #module-content .two-col {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 1rem
+        }
+
+        #module-content .two-col>div {
+            min-width: 0;
+            border: 1px solid var(--m1-line);
+            border-radius: 9px;
+            padding: 1rem
+        }
+
+        #module-content .layers {
+            max-width: 620px;
+            margin: auto;
+            display: grid;
+            gap: 5px
+        }
+
+        #module-content .layers div {
+            padding: .55rem .8rem;
+            border: 1px solid var(--m1-accent);
+            background: color-mix(in srgb, var(--m1-accent) 9%, transparent);
+            font-weight: 650
+        }
+
+        #module-content .layers div:nth-child(1) {
+            margin: 0 18%
+        }
+
+        #module-content .layers div:nth-child(2) {
+            margin: 0 14%
+        }
+
+        #module-content .layers div:nth-child(3) {
+            margin: 0 10%
+        }
+
+        #module-content .layers div:nth-child(4) {
+            margin: 0 6%
+        }
+
+        #module-content .layers div:nth-child(5) {
+            margin: 0 2%
+        }
+
+        #module-content .layers div:nth-child(6) {
+            margin: 0 0
+        }
+
+        #module-content .layers div:nth-child(7) {
+            margin: 0 -2%
+        }
+
+        #module-content .layers small {
+            display: block;
+            color: var(--m1-muted);
+            font-weight: 400
+        }
+
+        #module-content .video {
+            border-left: 3px solid var(--m1-accent);
+            padding: .65rem .9rem;
+            margin: .8rem 0;
+            background: color-mix(in srgb, var(--m1-accent) 7%, transparent)
+        }
+
+        #module-content .question-list li {
+            margin: .55rem 0
+        }
+
+        #module-content .topology {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            align-items: center;
+            justify-content: center
+        }
+
+        #module-content .topology svg {
+            width: min(100%, 330px);
+            height: auto;
+            border: 1px solid var(--m1-line);
+            border-radius: 8px
+        }
+
+        #module-content .small {
+            font-size: .88rem;
+            color: var(--m1-muted)
+        }
+
+        @media(max-width:650px) {
+            #module-content .module-index ol {
+                columns: 1
+            }
+
+            #module-content table {
+                display: block;
+                overflow-x: auto
+            }
+
+            #module-content .two-col {
+                grid-template-columns: 1fr
+            }
+        }
+
+        @media print {
+            #module-content .module-index {
+                display: none
+            }
+
+            #module-content h2 {
+                break-after: avoid
+            }
+
+            #module-content table,
+            #module-content .diagram {
+                break-inside: avoid
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <section id="module-content">
+        <p class="eyebrow">PAPER. / COMPUTER NETWORKS / MODULE 01</p>
+        <h1>Fundamentals of Computer Networks</h1>
+        <p class="lead">This module introduces computer networks, network categories, network software and protocols,
+            layered network models, network topologies, transmission media, client-server and peer-to-peer
+            architectures, and common network devices. The coverage follows Module I of the uploaded University of
+            Mumbai syllabus for course 2115112.</p>
+        <div class="callout"><strong>Module scope:</strong> 1.1 LAN, MAN, WAN, wireless networks, network software and
+            protocols; 1.2 design issues for network layers and network models; 1.3 OSI and TCP/IP models, topologies,
+            transmission media and network architectures; 1.4 bridge, switch, router, gateway and access point.
+            <br><strong>Self-learning:</strong> Encodings, Frequency Hopping Spread Spectrum (FHSS) and Direct Sequence
+            Spread Spectrum (DSSS).</div>
+        <div class="module-index"><strong>In this module</strong>
+            <ol>
+                <li><a href="#network">Computer networks and uses</a></li>
+                <li><a href="#types">LAN, MAN, WAN and wireless networks</a></li>
+                <li><a href="#software">Network software, protocols and services</a></li>
+                <li><a href="#design">Design issues for network layers</a></li>
+                <li><a href="#models">OSI reference model</a></li>
+                <li><a href="#tcpip">TCP/IP model and comparison</a></li>
+                <li><a href="#topologies">Network topologies</a></li>
+                <li><a href="#media">Transmission media</a></li>
+                <li><a href="#architecture">Client-server and peer-to-peer</a></li>
+                <li><a href="#devices">Network devices</a></li>
+                <li><a href="#encoding">Self-learning: encodings, FHSS and DSSS</a></li>
+                <li><a href="#qb">Question-bank coverage and references</a></li>
+            </ol>
+        </div>
+
+        <h2 id="network">1. Computer Network</h2>
+        <h3>Definition</h3>
+        <p>A <strong>computer network</strong> is a collection of two or more autonomous computing devices
+            interconnected through communication links so that they can exchange data and share resources. The devices
+            may include computers, servers, printers, smartphones, switches and routers. Communication takes place
+            according to agreed rules called protocols.</p>
+        <h3>Basic components</h3>
+        <ol>
+            <li><strong>End devices / hosts:</strong> Computers, phones, servers and other devices that send or receive
+                information.</li>
+            <li><strong>Network Interface Card (NIC):</strong> Provides a device with an interface to connect to a
+                network.</li>
+            <li><strong>Transmission medium:</strong> The wired or wireless path over which signals travel.</li>
+            <li><strong>Interconnecting devices:</strong> Switches, routers, bridges and access points that connect
+                network segments or networks.</li>
+            <li><strong>Network software and protocols:</strong> Control communication, addressing, delivery and
+                resource sharing.</li>
+        </ol>
+        <h3>Objectives and advantages</h3>
+        <ul>
+            <li><strong>Resource sharing:</strong> Sharing printers, storage, applications and internet connections.
+            </li>
+            <li><strong>Communication:</strong> Email, messaging, voice calls, video conferencing and file transfer.
+            </li>
+            <li><strong>Information sharing:</strong> Access to common databases and centrally stored information.</li>
+            <li><strong>Reliability:</strong> Alternative resources or paths can help maintain service when a component
+                fails, depending on network design.</li>
+            <li><strong>Scalability:</strong> New devices and services can be added as requirements grow.</li>
+            <li><strong>Cost efficiency:</strong> Shared resources can reduce duplication of hardware and services.</li>
+            <li><strong>Centralized management:</strong> User accounts, security policies, backups and software can be
+                administered centrally.</li>
+        </ul>
+        <div class="callout"><strong>Example:</strong> In a college computer laboratory, all computers may use a common
+            switch to access a shared server, network printer and internet connection.</div>
+
+        <h2 id="types">2. Types of Networks</h2>
+        <h3>2.1 Local Area Network (LAN)</h3>
+        <p>A <strong>LAN</strong> connects computers and other devices within a limited geographical area such as a
+            room, office, building, laboratory or campus block. It is generally owned, managed and maintained by one
+            organization or individual.</p>
+        <ul>
+            <li>Usually offers high data rates and relatively low delay.</li>
+            <li>Commonly uses Ethernet (IEEE 802.3) or Wi-Fi (IEEE 802.11).</li>
+            <li>Allows sharing of files, printers, applications and internet access.</li>
+            <li>Example: a college laboratory network or an office floor network.</li>
+        </ul>
+        <h3>2.2 Metropolitan Area Network (MAN)</h3>
+        <p>A <strong>MAN</strong> connects multiple LANs across a city or a large metropolitan region. It covers a
+            larger area than a LAN but is generally smaller than a WAN.</p>
+        <ul>
+            <li>May connect offices, campuses, government buildings or branches located across a city.</li>
+            <li>Can be operated by a service provider, public authority or large organization.</li>
+            <li>Often uses high-capacity fibre-optic links or service-provider infrastructure.</li>
+            <li>Example: a network connecting the branches of a bank across Mumbai.</li>
+        </ul>
+        <h3>2.3 Wide Area Network (WAN)</h3>
+        <p>A <strong>WAN</strong> connects networks over large geographical distances, such as across states, countries
+            or continents. It commonly uses infrastructure supplied by telecommunications operators or internet service
+            providers.</p>
+        <ul>
+            <li>Connects geographically distant LANs and MANs.</li>
+            <li>Uses technologies such as leased lines, optical fibre, cellular networks and satellite links.</li>
+            <li>Usually involves service-provider infrastructure and routing between networks.</li>
+            <li>Example: a company network connecting offices in Mumbai, Delhi, London and Singapore.</li>
+        </ul>
+        <h3>LAN, MAN and WAN — comparison</h3>
+        <table>
+            <thead>
+                <tr>
+                    <th>Parameter</th>
+                    <th>LAN</th>
+                    <th>MAN</th>
+                    <th>WAN</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Coverage</td>
+                    <td>Room, building or campus area</td>
+                    <td>City or metropolitan area</td>
+                    <td>Country, continent or global area</td>
+                </tr>
+                <tr>
+                    <td>Ownership</td>
+                    <td>Usually one person or organization</td>
+                    <td>May be private or service-provider operated</td>
+                    <td>Often uses infrastructure of multiple service providers</td>
+                </tr>
+                <tr>
+                    <td>Typical performance</td>
+                    <td>High speed, low local delay</td>
+                    <td>Varies with design and provider</td>
+                    <td>Varies with distance and access technology</td>
+                </tr>
+                <tr>
+                    <td>Cost</td>
+                    <td>Usually lower within a limited site</td>
+                    <td>Higher than a typical LAN</td>
+                    <td>Often higher due to long-distance connectivity</td>
+                </tr>
+                <tr>
+                    <td>Example</td>
+                    <td>Office network</td>
+                    <td>City-wide institutional network</td>
+                    <td>Global enterprise network</td>
+                </tr>
+            </tbody>
+        </table>
+        <h3>2.4 Wireless Networks</h3>
+        <p>A <strong>wireless network</strong> transfers information through electromagnetic waves rather than requiring
+            a physical cable for the radio link. Devices communicate using wireless technologies such as Wi-Fi,
+            Bluetooth, cellular networks or satellite communication.</p>
+        <ul>
+            <li>Provides mobility and convenient installation.</li>
+            <li>Can connect devices where cabling is difficult or expensive.</li>
+            <li>Performance may be affected by distance, obstacles, interference and shared radio capacity.</li>
+            <li>Requires suitable security controls, such as strong authentication and encryption.</li>
+        </ul>
+        <p>Wireless networks can operate at different scales: a personal-area wireless connection, a Wi-Fi LAN, a
+            metropolitan wireless network or a wide-area cellular network.</p>
+        <div class="reference"><strong>Video companion — NetworkChuck</strong>
+            <p>Start with <a href="https://www.youtube.com/playlist?list=PLIhvC56v63IJVXv0GJcl9vO5Z6znCVb1P"
+                    target="_blank" rel="noopener">FREE CCNA 200-301 Complete Course (2025)</a>. The playlist screenshot
+                supplied with this project shows <em>“FREE CCNA // What is a Network? // Day 0”</em>. Use it alongside
+                this section.</p>
+        </div>
+
+        <h2 id="software">3. Network Software, Protocols and Services</h2>
+        <h3>3.1 Network software</h3>
+        <p><strong>Network software</strong> is the collection of programs and system components that enable devices to
+            communicate and share resources. It includes protocol implementations, network operating-system services,
+            device drivers, applications and management tools.</p>
+        <ul>
+            <li><strong>Protocol implementations:</strong> Implement communication rules such as Ethernet, IP, TCP and
+                HTTP.</li>
+            <li><strong>Network operating-system services:</strong> Provide file sharing, user authentication, directory
+                services and printer sharing.</li>
+            <li><strong>Network applications:</strong> Provide user-facing services such as web browsing, email and file
+                transfer.</li>
+            <li><strong>Network management software:</strong> Monitors devices, performance, faults and configuration.
+            </li>
+        </ul>
+        <h3>3.2 Protocol</h3>
+        <p>A <strong>protocol</strong> is a set of rules that governs communication between entities in a network. It
+            specifies the format and meaning of messages and the actions taken when messages are sent or received.</p>
+        <h3>Elements of a protocol</h3>
+        <ol>
+            <li><strong>Syntax:</strong> The structure or format of data, including field order, encoding and message
+                layout.</li>
+            <li><strong>Semantics:</strong> The meaning of each field and the actions required when a message is
+                received.</li>
+            <li><strong>Timing:</strong> When data should be transmitted and at what rate, including sequencing and
+                synchronization requirements.</li>
+        </ol>
+        <h3>Why are protocols required?</h3>
+        <ul>
+            <li>They allow devices made by different manufacturers to communicate.</li>
+            <li>They define how data is formatted, addressed, transmitted and interpreted.</li>
+            <li>They coordinate the sender and receiver and establish communication procedures.</li>
+            <li>They support error handling, flow control and reliable delivery where required.</li>
+            <li>They enable interoperability through standardized communication rules.</li>
+        </ul>
+        <h3>Examples of protocols</h3>
+        <table>
+            <thead>
+                <tr>
+                    <th>Protocol</th>
+                    <th>Purpose (overview)</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>HTTP / HTTPS</td>
+                    <td>Transfers web resources between clients and web servers.</td>
+                </tr>
+                <tr>
+                    <td>TCP</td>
+                    <td>Provides connection-oriented, reliable byte-stream transport.</td>
+                </tr>
+                <tr>
+                    <td>IP</td>
+                    <td>Provides logical addressing and packet forwarding between networks.</td>
+                </tr>
+                <tr>
+                    <td>Ethernet</td>
+                    <td>Defines wired LAN communication at the data-link and physical layers.</td>
+                </tr>
+                <tr>
+                    <td>DNS</td>
+                    <td>Maps domain names to information such as IP addresses.</td>
+                </tr>
+                <tr>
+                    <td>Wi-Fi (IEEE 802.11)</td>
+                    <td>Defines wireless LAN communication.</td>
+                </tr>
+            </tbody>
+        </table>
+        <h3>3.3 Protocols and services</h3>
+        <p>A <strong>service</strong> describes what a layer offers to the layer above it. A <strong>protocol</strong>
+            describes the rules used by peer entities at the same layer to communicate. A layer uses the services of the
+            layer below it and provides services to the layer above it.</p>
+        <div class="diagram">
+            <div class="two-col">
+                <div><strong>Service</strong>
+                    <p>What a layer makes available to the next higher layer.</p>
+                    <p class="small">Focus: the interface and functionality offered.</p>
+                </div>
+                <div><strong>Protocol</strong>
+                    <p>How corresponding peer layers exchange control and data information.</p>
+                    <p class="small">Focus: message formats and communication rules.</p>
+                </div>
+            </div>
+        </div>
+
+        <h2 id="design">4. Design Issues for Network Layers</h2>
+        <p>Layered network architecture divides the complex task of communication into smaller functions. While
+            designing layers and protocols, several common issues must be considered.</p>
+        <ol>
+            <li><strong>Addressing:</strong> A sender must identify the intended receiver or destination. Different
+                layers may use different forms of addressing.</li>
+            <li><strong>Error control:</strong> Data may be damaged, lost or duplicated. A protocol may detect errors
+                and, where required, recover through acknowledgements or retransmission.</li>
+            <li><strong>Flow control:</strong> A fast sender should not overwhelm a slower receiver. Flow-control
+                mechanisms regulate the amount or rate of data sent.</li>
+            <li><strong>Sequencing:</strong> Data may arrive out of order. Sequence information can help the receiver
+                arrange data in the correct order.</li>
+            <li><strong>Fragmentation and reassembly:</strong> Large messages may need to be divided into smaller units
+                for transmission and reassembled at the destination.</li>
+            <li><strong>Multiplexing and demultiplexing:</strong> Multiple conversations may share a communication
+                facility; the receiver must deliver incoming data to the correct conversation or application.</li>
+            <li><strong>Routing:</strong> In an internetwork, a suitable path must be selected to carry packets toward
+                their destinations.</li>
+            <li><strong>Connection establishment and release:</strong> Some communication services establish state
+                before data transfer and release resources after communication ends.</li>
+            <li><strong>Quality of service:</strong> Some applications require particular performance characteristics,
+                such as bounded delay, throughput or loss.</li>
+            <li><strong>Security:</strong> Communication may require confidentiality, integrity, authentication and
+                access control.</li>
+        </ol>
+        <div class="callout"><strong>Exam point:</strong> The exact set of functions implemented at a layer depends on
+            the architecture and service being provided. Do not assume every layer performs every function.</div>
+
+        <h2 id="models">5. OSI Reference Model</h2>
+        <h3>Introduction</h3>
+        <p>The <strong>Open Systems Interconnection (OSI) reference model</strong>, developed by the International
+            Organization for Standardization (ISO), is a seven-layer conceptual framework used to describe and
+            standardize the functions involved in network communication. Each layer performs a defined set of functions,
+            provides services to the layer above it and uses services from the layer below it.</p>
+        <div class="diagram">
+            <div class="layers">
+                <div>7. Application<small>Network services for user applications</small></div>
+                <div>6. Presentation<small>Translation, format, compression, encryption</small></div>
+                <div>5. Session<small>Dialog control and synchronization</small></div>
+                <div>4. Transport<small>End-to-end delivery, segmentation, reliability</small></div>
+                <div>3. Network<small>Logical addressing and routing</small></div>
+                <div>2. Data Link<small>Framing, link addressing and error detection</small></div>
+                <div>1. Physical<small>Transmission of raw bits over the medium</small></div>
+            </div>
+            <p class="caption">Figure: Seven layers of the OSI reference model, from the user-facing Application layer
+                to the transmission-oriented Physical layer.</p>
+        </div>
+        <h3>Functions of the seven layers</h3>
+        <h3>1. Physical Layer</h3>
+        <p>The <strong>Physical layer</strong> is the lowest layer. It transmits raw bits over a physical communication
+            medium.</p>
+        <ul>
+            <li>Defines electrical, optical, radio and mechanical characteristics of the interface and medium.</li>
+            <li>Specifies signal representation, bit timing, data rate and physical connectors.</li>
+            <li>Defines transmission mode and physical topology-related characteristics.</li>
+            <li>Deals with the activation, maintenance and deactivation of the physical link.</li>
+        </ul>
+        <p><strong>Examples:</strong> cables, connectors, radio transmission and physical signalling specifications.</p>
+        <h3>2. Data Link Layer</h3>
+        <p>The <strong>Data Link layer</strong> provides node-to-node delivery over a single link and organizes bits
+            into frames.</p>
+        <ul>
+            <li>Framing: divides the bit stream into manageable frames.</li>
+            <li>Physical / link addressing: identifies devices on the local link where applicable.</li>
+            <li>Error detection and, in some protocols, error correction or retransmission.</li>
+            <li>Flow control between directly connected nodes where supported.</li>
+            <li>Media access control on shared communication media.</li>
+        </ul>
+        <p><strong>Examples:</strong> Ethernet framing and the MAC sublayer of IEEE 802.11.</p>
+        <h3>3. Network Layer</h3>
+        <p>The <strong>Network layer</strong> is responsible for delivering packets across multiple interconnected
+            networks.</p>
+        <ul>
+            <li>Logical addressing, such as IP addressing.</li>
+            <li>Routing and path selection.</li>
+            <li>Packet forwarding between networks.</li>
+            <li>Internetworking and, depending on the protocol, fragmentation-related functions.</li>
+        </ul>
+        <p><strong>Example:</strong> IP. Routers primarily operate at this layer for packet forwarding.</p>
+        <h3>4. Transport Layer</h3>
+        <p>The <strong>Transport layer</strong> provides communication between processes running on end systems.</p>
+        <ul>
+            <li>Segmentation and reassembly of application data.</li>
+            <li>Process-to-process delivery using port numbers in transport protocols such as TCP and UDP.</li>
+            <li>Connection management.</li>
+            <li>Reliability, sequencing, acknowledgements and retransmission when provided by the protocol.</li>
+            <li>Flow control and congestion control in protocols that support them.</li>
+        </ul>
+        <p><strong>Examples:</strong> TCP and UDP.</p>
+        <h3>5. Session Layer</h3>
+        <p>The <strong>Session layer</strong> establishes, manages and terminates logical sessions between communicating
+            applications.</p>
+        <ul>
+            <li>Dialog control, including coordination of communication.</li>
+            <li>Synchronization through checkpoints in long data exchanges.</li>
+            <li>Session establishment, maintenance and termination.</li>
+        </ul>
+        <h3>6. Presentation Layer</h3>
+        <p>The <strong>Presentation layer</strong> deals with the representation of information exchanged between
+            systems.</p>
+        <ul>
+            <li>Data translation between different formats or character representations.</li>
+            <li>Data compression and decompression.</li>
+            <li>Encryption and decryption as presentation-related functions in the model.</li>
+        </ul>
+        <h3>7. Application Layer</h3>
+        <p>The <strong>Application layer</strong> provides network services to application processes and acts as the
+            interface between network functions and user-facing software.</p>
+        <ul>
+            <li>Supports services such as web access, file transfer, email and name resolution.</li>
+            <li>Defines application-level message exchanges and service requests.</li>
+        </ul>
+        <p><strong>Examples:</strong> HTTP, FTP, DNS and SMTP are commonly associated with this layer in the OSI model.
+        </p>
+        <h3>Data encapsulation in the OSI model</h3>
+        <p>At the sender, each layer passes data to the layer below and may add its own control information. At the
+            receiver, the corresponding layers process and remove that information in reverse order. This is called
+            <strong>encapsulation</strong> at the sender and <strong>decapsulation</strong> at the receiver.</p>
+        <div class="diagram">
+            <div class="flow" style="display:flex;flex-wrap:wrap;gap:.45rem;justify-content:center"><span>Application
+                    data</span><b>→</b><span>Segment</span><b>→</b><span>Packet</span><b>→</b><span>Frame</span><b>→</b><span>Bits</span>
+            </div>
+            <p class="caption">Simplified data-unit progression while moving down the stack. Exact protocol data-unit
+                names vary by layer and protocol.</p>
+        </div>
+        <div class="video"><strong>NetworkChuck video reference:</strong> The supplied playlist screenshot identifies
+            <em>“what is TCP/IP and OSI? // FREE CCNA // EP 3”</em> and <em>“REAL LIFE example!! (TCP/IP and OSI layers)
+                // FREE CCNA // EP 4”</em>. Watch these with the seven-layer explanation above. <a
+                href="https://www.youtube.com/playlist?list=PLIhvC56v63IJVXv0GJcl9vO5Z6znCVb1P" target="_blank"
+                rel="noopener">Open the NetworkChuck playlist</a>.</div>
+
+        <h2 id="tcpip">6. TCP/IP Reference Model</h2>
+        <h3>Introduction</h3>
+        <p>The <strong>TCP/IP model</strong> is the protocol architecture used by the Internet. It organizes
+            communication functions into layers and is based on the protocols that enable communication across
+            interconnected networks.</p>
+        <div class="diagram">
+            <div class="layers">
+                <div>Application<small>HTTP, FTP, DNS, SMTP</small></div>
+                <div>Transport<small>TCP, UDP</small></div>
+                <div>Internet<small>IP, ICMP</small></div>
+                <div>Link / Network Access<small>Ethernet, Wi-Fi and physical access technologies</small></div>
+            </div>
+            <p class="caption">Four-layer TCP/IP model used in this comparison. Some textbooks present a five-layer
+                teaching model by separating the physical and data-link functions.</p>
+        </div>
+        <h3>Functions of TCP/IP layers</h3>
+        <ol>
+            <li><strong>Application layer:</strong> Provides network services to application programs. It includes
+                application protocols such as HTTP, FTP, DNS and SMTP. It combines functions represented by the OSI
+                Application, Presentation and Session layers.</li>
+            <li><strong>Transport layer:</strong> Provides end-to-end communication between application processes. TCP
+                offers a reliable, connection-oriented byte stream; UDP provides connectionless datagram delivery.</li>
+            <li><strong>Internet layer:</strong> Handles logical addressing and packet forwarding across interconnected
+                networks. IP is the central protocol of this layer.</li>
+            <li><strong>Link / Network Access layer:</strong> Handles delivery over the local network link and the
+                interface with the transmission medium. Technologies include Ethernet and Wi-Fi.</li>
+        </ol>
+        <h3>OSI and TCP/IP — comparison</h3>
+        <table>
+            <thead>
+                <tr>
+                    <th>Basis</th>
+                    <th>OSI model</th>
+                    <th>TCP/IP model</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Origin</td>
+                    <td>Reference model developed by ISO.</td>
+                    <td>Protocol architecture developed around the TCP/IP protocol suite.</td>
+                </tr>
+                <tr>
+                    <td>Number of layers</td>
+                    <td>Seven layers.</td>
+                    <td>Four layers in the common model shown here.</td>
+                </tr>
+                <tr>
+                    <td>Upper layers</td>
+                    <td>Application, Presentation and Session are separate.</td>
+                    <td>These functions are grouped in the Application layer.</td>
+                </tr>
+                <tr>
+                    <td>Lower layers</td>
+                    <td>Data Link and Physical are separate.</td>
+                    <td>Combined in the Link / Network Access layer in the four-layer model.</td>
+                </tr>
+                <tr>
+                    <td>Network layer service</td>
+                    <td>Can describe connection-oriented and connectionless services conceptually.</td>
+                    <td>Internet layer is based on connectionless IP datagrams.</td>
+                </tr>
+                <tr>
+                    <td>Protocol dependence</td>
+                    <td>Protocol-independent reference framework.</td>
+                    <td>Closely associated with the TCP/IP protocol suite.</td>
+                </tr>
+                <tr>
+                    <td>Primary use</td>
+                    <td>Useful for learning, design and describing network functions.</td>
+                    <td>Forms the practical architecture of the Internet.</td>
+                </tr>
+            </tbody>
+        </table>
+        <div class="callout"><strong>Important distinction:</strong> OSI is a reference model; TCP/IP is both a protocol
+            suite and the architecture commonly used to explain Internet communication. Do not describe the OSI model as
+            the protocol used by the Internet.</div>
+        <div class="video"><strong>NetworkChuck video references:</strong> <em>“what is TCP/IP and OSI? // FREE CCNA //
+                EP 3”</em> and <em>“REAL LIFE example!! (TCP/IP and OSI layers) // FREE CCNA // EP 4”</em> are visible
+            in the playlist screenshot provided. <a
+                href="https://www.youtube.com/playlist?list=PLIhvC56v63IJVXv0GJcl9vO5Z6znCVb1P" target="_blank"
+                rel="noopener">Watch in playlist</a>.</div>
+
+        <h2 id="topologies">7. Network Topologies</h2>
+        <p><strong>Network topology</strong> refers to the physical or logical arrangement of nodes and communication
+            links in a network. Physical topology describes how devices and cables are arranged; logical topology
+            describes how data moves between devices.</p>
+        <h3>7.1 Bus topology</h3>
+        <p>All devices share a common main cable called the backbone. Data transmitted on the bus is available to
+            connected devices, and the intended receiver accepts the frame.</p>
+        <ul>
+            <li><strong>Advantages:</strong> Simple layout, less cable than some alternatives, low initial cost for
+                small networks.</li>
+            <li><strong>Disadvantages:</strong> Backbone failure can stop the entire network; performance can degrade as
+                traffic increases; fault isolation can be difficult; cable length and node count are limited.</li>
+        </ul>
+        <div class="diagram"><svg viewBox="0 0 620 125" role="img" aria-label="Bus topology diagram">
+                <line x1="55" y1="66" x2="565" y2="66" stroke="currentColor" stroke-width="5" />
+                <g stroke="currentColor" stroke-width="2" fill="none">
+                    <path d="M110 66V28 M235 66V28 M360 66V28 M485 66V28" />
+                </g>
+                <g fill="none" stroke="var(--m1-accent,#8fb0ee)" stroke-width="2">
+                    <rect x="78" y="8" width="64" height="20" rx="4" />
+                    <rect x="203" y="8" width="64" height="20" rx="4" />
+                    <rect x="328" y="8" width="64" height="20" rx="4" />
+                    <rect x="453" y="8" width="64" height="20" rx="4" />
+                </g>
+                <g fill="currentColor" font-size="12" text-anchor="middle"><text x="110" y="22">Node 1</text><text
+                        x="235" y="22">Node 2</text><text x="360" y="22">Node 3</text><text x="485" y="22">Node
+                        4</text><text x="310" y="100">Shared backbone cable</text></g>
+            </svg></div>
+        <h3>7.2 Star topology</h3>
+        <p>Every device has a separate point-to-point connection to a central device, usually a switch or hub.</p>
+        <ul>
+            <li><strong>Advantages:</strong> Easy to install, expand and troubleshoot; failure of one end-device cable
+                usually affects only that device.</li>
+            <li><strong>Disadvantages:</strong> Failure of the central device can disrupt the network; requires more
+                cable than a bus layout.</li>
+        </ul>
+        <div class="diagram"><svg viewBox="0 0 620 220" role="img" aria-label="Star topology diagram">
+                <g stroke="currentColor" stroke-width="2">
+                    <path d="M310 105L120 35 M310 105L310 25 M310 105L500 35 M310 105L120 180 M310 105L500 180" />
+                </g>
+                <rect x="260" y="82" width="100" height="46" rx="8" fill="none" stroke="var(--m1-accent,#8fb0ee)"
+                    stroke-width="2" />
+                <g fill="currentColor" font-size="14" text-anchor="middle"><text x="310" y="110">Switch</text><text
+                        x="120" y="24">Node 1</text><text x="310" y="16">Node 2</text><text x="500" y="24">Node
+                        3</text><text x="120" y="202">Node 4</text><text x="500" y="202">Node 5</text></g>
+            </svg></div>
+        <h3>7.3 Ring topology</h3>
+        <p>Each device is connected to two neighboring devices, forming a closed loop. Data travels around the ring, in
+            one direction or in both directions depending on the technology.</p>
+        <ul>
+            <li><strong>Advantages:</strong> Orderly access can be provided; predictable transmission behaviour in some
+                ring systems.</li>
+            <li><strong>Disadvantages:</strong> A break or failed node can disrupt a simple unprotected ring; adding or
+                removing devices may interrupt operation.</li>
+        </ul>
+        <h3>7.4 Mesh topology</h3>
+        <p>Devices are interconnected through multiple links. In a <strong>full mesh</strong>, every node has a direct
+            link to every other node. A <strong>partial mesh</strong> connects only selected node pairs.</p>
+        <ul>
+            <li><strong>Advantages:</strong> Multiple paths improve redundancy and fault tolerance; a single link
+                failure may not disconnect the network.</li>
+            <li><strong>Disadvantages:</strong> Full mesh requires many links and ports; installation and management can
+                be expensive and complex.</li>
+        </ul>
+        <h3>7.5 Tree topology</h3>
+        <p>A tree topology organizes devices in a hierarchy, often by connecting multiple star networks to a central
+            backbone or higher-level device.</p>
+        <ul>
+            <li><strong>Advantages:</strong> Scalable and suitable for hierarchical expansion; faults can sometimes be
+                isolated to a branch.</li>
+            <li><strong>Disadvantages:</strong> Failure of a higher-level device or backbone can affect a large part of
+                the network; cabling and configuration are more complex.</li>
+        </ul>
+        <h3>7.6 Hybrid topology</h3>
+        <p>A hybrid topology combines two or more topology types, such as star-bus or star-ring. It can be designed to
+            meet the needs of a large organization.</p>
+        <ul>
+            <li><strong>Advantages:</strong> Flexible, scalable and adaptable to different departments or locations.
+            </li>
+            <li><strong>Disadvantages:</strong> Design, implementation and troubleshooting may be complex and costly.
+            </li>
+        </ul>
+        <table>
+            <thead>
+                <tr>
+                    <th>Topology</th>
+                    <th>Structure</th>
+                    <th>Main strength</th>
+                    <th>Main limitation</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Bus</td>
+                    <td>Shared backbone</td>
+                    <td>Simple and economical for small layouts</td>
+                    <td>Backbone failure affects all nodes</td>
+                </tr>
+                <tr>
+                    <td>Star</td>
+                    <td>Central switch / hub</td>
+                    <td>Easy management and fault isolation</td>
+                    <td>Central device is a critical point</td>
+                </tr>
+                <tr>
+                    <td>Ring</td>
+                    <td>Closed loop</td>
+                    <td>Orderly access in suitable ring systems</td>
+                    <td>Break may disrupt a simple ring</td>
+                </tr>
+                <tr>
+                    <td>Mesh</td>
+                    <td>Multiple interconnections</td>
+                    <td>Redundancy and alternate paths</td>
+                    <td>Cost and complexity</td>
+                </tr>
+                <tr>
+                    <td>Tree</td>
+                    <td>Hierarchical branches</td>
+                    <td>Structured expansion</td>
+                    <td>Upper-level failure has broad impact</td>
+                </tr>
+                <tr>
+                    <td>Hybrid</td>
+                    <td>Combination</td>
+                    <td>Flexible design</td>
+                    <td>More complex to manage</td>
+                </tr>
+            </tbody>
+        </table>
+        <div class="note"><strong>Exam tip:</strong> For a topology question, draw a labelled diagram and explain its
+            structure, advantages and disadvantages. The MUSA question bank explicitly includes a short note on
+            different network topologies.</div>
+
+        <h2 id="media">8. Transmission Media</h2>
+        <h3>Definition</h3>
+        <p><strong>Transmission media</strong> are the physical paths or channels through which data signals travel from
+            a sender to a receiver. They are broadly classified into guided (wired) and unguided (wireless) media.</p>
+        <div class="diagram">
+            <div class="two-col">
+                <div>
+                    <h3>Guided media</h3>
+                    <p>Signals travel through a physical path such as copper cable or optical fibre.</p>
+                    <p><strong>Examples:</strong> twisted-pair cable, coaxial cable, optical fibre.</p>
+                </div>
+                <div>
+                    <h3>Unguided media</h3>
+                    <p>Signals propagate through free space using electromagnetic waves.</p>
+                    <p><strong>Examples:</strong> radio waves, microwaves, infrared and satellite links.</p>
+                </div>
+            </div>
+        </div>
+        <h3>8.1 Guided transmission media</h3>
+        <h3>A. Twisted-pair cable</h3>
+        <p>Twisted-pair cable consists of two insulated copper wires twisted around each other. Twisting helps reduce
+            electromagnetic interference and crosstalk. It is widely used in telephone systems and Ethernet LAN cabling.
+        </p>
+        <ul>
+            <li><strong>UTP (Unshielded Twisted Pair):</strong> Does not have additional metallic shielding around the
+                pairs; widely used in LANs and relatively inexpensive.</li>
+            <li><strong>STP (Shielded Twisted Pair):</strong> Includes shielding to reduce interference; typically costs
+                more and requires proper grounding and installation.</li>
+            <li><strong>Advantages:</strong> Low cost, flexible, easy to install and widely available.</li>
+            <li><strong>Limitations:</strong> More susceptible to noise and attenuation than fibre; distance and
+                performance depend on cable category and installation.</li>
+        </ul>
+        <h3>B. Coaxial cable</h3>
+        <p>Coaxial cable has a central copper conductor surrounded by an insulating dielectric, a metallic shield and an
+            outer protective jacket. The conductor and shield share a common axis, giving the cable its name.</p>
+        <ul>
+            <li><strong>Advantages:</strong> Better shielding against external interference than basic unshielded
+                twisted pair; suitable for radio-frequency signals.</li>
+            <li><strong>Limitations:</strong> Bulkier and less flexible than twisted pair; installation and connectors
+                can be more involved.</li>
+            <li><strong>Applications:</strong> Cable television, broadband access and some radio-frequency systems.</li>
+        </ul>
+        <h3>C. Optical fibre</h3>
+        <p>Optical fibre carries information as pulses of light through a thin glass or plastic fibre. Its main parts
+            are the <strong>core</strong>, <strong>cladding</strong> and protective coating. Light is guided along the
+            core by the optical properties of the core and cladding.</p>
+        <ul>
+            <li><strong>Single-mode fibre:</strong> Has a very small core and supports one principal propagation mode;
+                suitable for high-capacity, long-distance links.</li>
+            <li><strong>Multimode fibre:</strong> Has a larger core and supports multiple propagation modes; commonly
+                used over shorter distances.</li>
+            <li><strong>Advantages:</strong> High bandwidth, low attenuation over long distances, immunity to
+                electromagnetic interference and electrical isolation.</li>
+            <li><strong>Limitations:</strong> Requires optical transceivers and specialized joining/testing equipment;
+                fibre can be damaged by excessive bending or poor handling.</li>
+            <li><strong>Applications:</strong> Internet backbone, data centres, submarine cables and fibre-to-the-home
+                networks.</li>
+        </ul>
+        <h3>8.2 Unguided transmission media</h3>
+        <h3>A. Radio waves</h3>
+        <p>Radio waves can propagate over broad areas and may penetrate some obstacles. They are used in broadcasting,
+            Wi-Fi, Bluetooth and cellular communication. Their behaviour depends on frequency, power, antenna and
+            environment.</p>
+        <h3>B. Microwaves</h3>
+        <p>Microwave communication commonly uses directional antennas and often requires a clear line of sight between
+            stations. It is used in point-to-point terrestrial links and satellite communication.</p>
+        <h3>C. Infrared</h3>
+        <p>Infrared communication is commonly used for short-range links and generally does not pass through opaque
+            walls. It can be useful where communication is confined to a room or a limited area.</p>
+        <h3>D. Satellite communication</h3>
+        <p>A satellite acts as a relay station: it receives an uplink signal, processes or amplifies it, and retransmits
+            it on a downlink frequency. Satellite links provide wide geographical coverage but may introduce propagation
+            delay, particularly with geostationary satellites.</p>
+        <h3>Guided and unguided media — comparison</h3>
+        <table>
+            <thead>
+                <tr>
+                    <th>Basis</th>
+                    <th>Guided media</th>
+                    <th>Unguided media</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Transmission path</td>
+                    <td>Physical cable or fibre guides the signal.</td>
+                    <td>Signal propagates through air, vacuum or space.</td>
+                </tr>
+                <tr>
+                    <td>Examples</td>
+                    <td>Twisted pair, coaxial cable, optical fibre.</td>
+                    <td>Radio, microwave, infrared, satellite.</td>
+                </tr>
+                <tr>
+                    <td>Mobility</td>
+                    <td>Devices are physically connected to the medium.</td>
+                    <td>Can support mobility and wireless access.</td>
+                </tr>
+                <tr>
+                    <td>Interference</td>
+                    <td>Depends on medium; fibre is immune to electromagnetic interference.</td>
+                    <td>May be affected by interference, obstacles and shared spectrum.</td>
+                </tr>
+                <tr>
+                    <td>Installation</td>
+                    <td>Requires cable routing and physical installation.</td>
+                    <td>Requires radio equipment, antennas and spectrum planning.</td>
+                </tr>
+                <tr>
+                    <td>Security exposure</td>
+                    <td>Physical access to the cable may be required to intercept signals, though wired networks are not
+                        automatically secure.</td>
+                    <td>Signals may be receivable beyond the intended coverage area, so strong wireless security is
+                        important.</td>
+                </tr>
+            </tbody>
+        </table>
+        <div class="video"><strong>NetworkChuck playlist:</strong> Use the <a
+                href="https://www.youtube.com/playlist?list=PLIhvC56v63IJVXv0GJcl9vO5Z6znCVb1P" target="_blank"
+                rel="noopener">complete course playlist</a> as an additional learning source. The supplied screenshot
+            confirms the first networking fundamentals episodes, but does not show a verifiable exact video title for
+            every cable and wireless-medium subsection. Those subsections are therefore supported primarily by the
+            prescribed textbook reference below rather than by invented video titles.</div>
+
+        <h2 id="architecture">9. Network Architectures: Client-Server and Peer-to-Peer</h2>
+        <h3>9.1 Client-server architecture</h3>
+        <p>In a <strong>client-server architecture</strong>, one or more server computers provide services or resources,
+            and client computers request and use those services. The server listens for requests, processes them and
+            returns responses.</p>
+        <div class="diagram"><svg viewBox="0 0 620 210" role="img" aria-label="Client server architecture diagram">
+                <rect x="235" y="12" width="150" height="52" rx="8" fill="none" stroke="var(--m1-accent,#8fb0ee)"
+                    stroke-width="2" /><text x="310" y="43" fill="currentColor" text-anchor="middle"
+                    font-size="16">Server</text>
+                <g stroke="currentColor" stroke-width="2" fill="none">
+                    <path d="M310 64V92M105 92H515M105 92V130M310 92V130M515 92V130" />
+                </g>
+                <g fill="none" stroke="var(--m1-accent,#8fb0ee)" stroke-width="2">
+                    <rect x="50" y="130" width="110" height="48" rx="7" />
+                    <rect x="255" y="130" width="110" height="48" rx="7" />
+                    <rect x="460" y="130" width="110" height="48" rx="7" />
+                </g>
+                <g fill="currentColor" font-size="14" text-anchor="middle"><text x="105" y="159">Client 1</text><text
+                        x="310" y="159">Client 2</text><text x="515" y="159">Client 3</text><text x="310" y="202"
+                        font-size="12">Clients send requests; server provides responses</text></g>
+            </svg></div>
+        <h4>Characteristics</h4>
+        <ul>
+            <li>Servers provide centralized services and resources.</li>
+            <li>Clients initiate requests to access server resources.</li>
+            <li>Administration, backup and security policies can be centrally managed.</li>
+            <li>Servers may be scaled or replicated to handle increased demand.</li>
+        </ul>
+        <h4>Advantages</h4>
+        <ul>
+            <li>Centralized data and administration.</li>
+            <li>Improved control over access and permissions.</li>
+            <li>Convenient backup and maintenance.</li>
+            <li>Suitable for organizations requiring shared services.</li>
+        </ul>
+        <h4>Disadvantages</h4>
+        <ul>
+            <li>Server failure can interrupt the services it provides unless redundancy is designed.</li>
+            <li>Requires server hardware, administration and maintenance.</li>
+            <li>Heavy demand may overload a server or network link.</li>
+        </ul>
+        <h4>Examples</h4>
+        <p>Web browsing (browser and web server), email services, database applications and centralized file servers.
+        </p>
+        <h3>9.2 Peer-to-peer (P2P) architecture</h3>
+        <p>In a <strong>peer-to-peer architecture</strong>, participating computers (peers) can communicate and share
+            resources directly. A peer may act as both a client and a provider of resources. A dedicated central server
+            is not required for every exchange, although some P2P systems use coordination or indexing servers.</p>
+        <div class="diagram"><svg viewBox="0 0 620 210" role="img" aria-label="Peer to peer architecture diagram">
+                <g stroke="currentColor" stroke-width="2">
+                    <path
+                        d="M120 60L310 35L500 60L500 155L310 180L120 155Z M120 60L310 180 M310 35L120 155 M310 35L500 155 M500 60L310 180" />
+                </g>
+                <g fill="var(--paper,transparent)" stroke="var(--m1-accent,#8fb0ee)" stroke-width="2">
+                    <circle cx="120" cy="60" r="28" />
+                    <circle cx="310" cy="35" r="28" />
+                    <circle cx="500" cy="60" r="28" />
+                    <circle cx="500" cy="155" r="28" />
+                    <circle cx="310" cy="180" r="28" />
+                    <circle cx="120" cy="155" r="28" />
+                </g>
+                <g fill="currentColor" text-anchor="middle" font-size="12"><text x="120" y="64">Peer</text><text x="310"
+                        y="39">Peer</text><text x="500" y="64">Peer</text><text x="500" y="159">Peer</text><text x="310"
+                        y="184">Peer</text><text x="120" y="159">Peer</text></g>
+            </svg></div>
+        <h4>Characteristics</h4>
+        <ul>
+            <li>Peers can share files, processing capacity or other resources directly.</li>
+            <li>Each peer may request and provide services.</li>
+            <li>Management can be distributed among participants.</li>
+            <li>Performance and availability may depend on participating peers.</li>
+        </ul>
+        <h4>Advantages</h4>
+        <ul>
+            <li>Can avoid dependence on one central service host for every exchange.</li>
+            <li>Resources and workload can be distributed among peers.</li>
+            <li>Can be economical for suitable small or distributed sharing tasks.</li>
+        </ul>
+        <h4>Disadvantages</h4>
+        <ul>
+            <li>Security, access control and backup can be harder to manage consistently.</li>
+            <li>Availability depends on peers being online and sharing resources.</li>
+            <li>Management and data consistency can become difficult as the system grows.</li>
+        </ul>
+        <h3>Client-server vs peer-to-peer</h3>
+        <table>
+            <thead>
+                <tr>
+                    <th>Basis</th>
+                    <th>Client-server</th>
+                    <th>Peer-to-peer</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Organization</td>
+                    <td>Central server provides services to clients.</td>
+                    <td>Peers share resources directly and may act as both requester and provider.</td>
+                </tr>
+                <tr>
+                    <td>Control</td>
+                    <td>Generally centralized.</td>
+                    <td>Generally distributed.</td>
+                </tr>
+                <tr>
+                    <td>Management</td>
+                    <td>Central administration is easier.</td>
+                    <td>Administration is distributed and may be harder.</td>
+                </tr>
+                <tr>
+                    <td>Failure impact</td>
+                    <td>Server failure may affect dependent services.</td>
+                    <td>Failure of one peer generally affects that peer's contribution; availability depends on system
+                        design.</td>
+                </tr>
+                <tr>
+                    <td>Security</td>
+                    <td>Policies can be enforced centrally.</td>
+                    <td>Consistent security enforcement can be more difficult.</td>
+                </tr>
+                <tr>
+                    <td>Examples</td>
+                    <td>Web application with a web server; centralized file server.</td>
+                    <td>Direct file sharing and distributed content-sharing systems.</td>
+                </tr>
+            </tbody>
+        </table>
+        <div class="video"><strong>Playlist note:</strong> The provided screenshot shows NetworkChuck's <em>“FREE CCNA
+                // What is a Network? // Day 0”</em>, <em>“What is a SWITCH? // FREE CCNA // Day 1”</em>, <em>“What is a
+                ROUTER? // FREE CCNA // EP 2”</em>, and the OSI/TCP-IP episodes. Use the playlist for fundamentals; no
+            exact client-server/P2P episode title is claimed from the screenshot.</div>
+
+        <h2 id="devices">10. Network Devices</h2>
+        <h3>10.1 Bridge</h3>
+        <p>A <strong>bridge</strong> is a data-link-layer device used to connect LAN segments. It examines MAC addresses
+            and learns which devices are reachable through which ports. It forwards or filters frames based on its
+            forwarding information.</p>
+        <ul>
+            <li>Operates primarily at OSI Layer 2.</li>
+            <li>Learns source MAC addresses from incoming frames.</li>
+            <li>Forwards frames toward the segment containing the destination, when known.</li>
+            <li>Can reduce unnecessary traffic between network segments.</li>
+        </ul>
+        <h3>10.2 Switch</h3>
+        <p>A <strong>network switch</strong> is a multiport device that connects devices within a LAN. A typical
+            Ethernet switch operates at the Data Link layer and forwards frames using a MAC address table.</p>
+        <ul>
+            <li>Learns source MAC addresses and associates them with switch ports.</li>
+            <li>Forwards known unicast frames to the appropriate port.</li>
+            <li>Floods certain frames, such as broadcasts and unknown unicasts, within the relevant VLAN.</li>
+            <li>Each switch port creates a separate collision domain in typical full-duplex Ethernet operation.</li>
+            <li>Supports efficient communication among many LAN devices.</li>
+        </ul>
+        <h3>10.3 Router</h3>
+        <p>A <strong>router</strong> connects different IP networks and forwards packets between them. It examines
+            destination IP addresses and uses a routing table to select a next hop or outgoing interface.</p>
+        <ul>
+            <li>Operates primarily at OSI Layer 3.</li>
+            <li>Connects separate networks, such as a home LAN and an ISP network.</li>
+            <li>Uses static routes or routing protocols to learn routes.</li>
+            <li>Separates broadcast domains by default.</li>
+        </ul>
+        <h3>10.4 Gateway</h3>
+        <p>A <strong>gateway</strong> is a device or software function that provides an entry or exit point between
+            networks or systems. In the broad sense, a gateway may connect networks that use different protocols or
+            architectures and may perform protocol translation. In common IP networking, the term <strong>default
+                gateway</strong> usually refers to the router (or Layer 3 device) to which a host sends traffic destined
+            for other networks.</p>
+        <h3>10.5 Access Point (AP)</h3>
+        <p>A <strong>wireless access point</strong> provides Wi-Fi devices with access to a wired LAN. It bridges
+            wireless clients onto the local network and manages wireless association and radio communication.</p>
+        <ul>
+            <li>Allows wireless devices to join a network.</li>
+            <li>Connects wireless stations to the wired distribution network.</li>
+            <li>Provides wireless network identification and security mechanisms.</li>
+            <li>Multiple access points can be deployed to extend wireless coverage.</li>
+        </ul>
+        <h3>10.6 Hub</h3>
+        <p>A <strong>hub</strong> is a basic multiport repeater that operates at the Physical layer. It repeats incoming
+            electrical signals to its other ports rather than examining MAC or IP addresses.</p>
+        <ul>
+            <li>Does not learn MAC addresses or make forwarding decisions.</li>
+            <li>All connected devices share the same collision domain.</li>
+            <li>Typically operates in half-duplex environments and is largely obsolete in modern Ethernet LANs.</li>
+        </ul>
+        <h3>Hub, switch and router — comparison</h3>
+        <table>
+            <thead>
+                <tr>
+                    <th>Basis</th>
+                    <th>Hub</th>
+                    <th>Switch</th>
+                    <th>Router</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>OSI layer</td>
+                    <td>Physical (Layer 1)</td>
+                    <td>Usually Data Link (Layer 2); multilayer switches can also route</td>
+                    <td>Network (Layer 3)</td>
+                </tr>
+                <tr>
+                    <td>Address used</td>
+                    <td>No address-based forwarding</td>
+                    <td>MAC address</td>
+                    <td>IP address</td>
+                </tr>
+                <tr>
+                    <td>Forwarding</td>
+                    <td>Repeats signal to other ports</td>
+                    <td>Forwards frames using MAC table</td>
+                    <td>Forwards packets using routing table</td>
+                </tr>
+                <tr>
+                    <td>Collision domains</td>
+                    <td>One shared collision domain</td>
+                    <td>Typically one per port</td>
+                    <td>Interfaces separate Layer 2 segments</td>
+                </tr>
+                <tr>
+                    <td>Broadcast domains</td>
+                    <td>One shared broadcast domain</td>
+                    <td>One per VLAN (without Layer 3 segmentation)</td>
+                    <td>Separates broadcast domains by default</td>
+                </tr>
+                <tr>
+                    <td>Main use</td>
+                    <td>Legacy connection of Ethernet devices</td>
+                    <td>Connects devices within a LAN</td>
+                    <td>Connects different IP networks</td>
+                </tr>
+            </tbody>
+        </table>
+        <h3>Bridge, switch, router, gateway and access point — quick comparison</h3>
+        <table>
+            <thead>
+                <tr>
+                    <th>Device</th>
+                    <th>Primary role</th>
+                    <th>Typical layer / basis</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Bridge</td>
+                    <td>Connects and filters traffic between LAN segments.</td>
+                    <td>Layer 2; MAC addresses</td>
+                </tr>
+                <tr>
+                    <td>Switch</td>
+                    <td>Connects multiple LAN devices and forwards frames.</td>
+                    <td>Usually Layer 2; MAC addresses</td>
+                </tr>
+                <tr>
+                    <td>Router</td>
+                    <td>Connects IP networks and forwards packets.</td>
+                    <td>Layer 3; IP addresses</td>
+                </tr>
+                <tr>
+                    <td>Gateway</td>
+                    <td>Connects networks or systems; may translate protocols. Default gateway forwards off-subnet
+                        traffic.</td>
+                    <td>Depends on function</td>
+                </tr>
+                <tr>
+                    <td>Access Point</td>
+                    <td>Connects wireless clients to a LAN.</td>
+                    <td>Typically Layer 2 bridging with radio access</td>
+                </tr>
+            </tbody>
+        </table>
+        <div class="video"><strong>NetworkChuck video references visible in your screenshot:</strong>
+            <ul>
+                <li><em>“What is a SWITCH? // FREE CCNA // Day 1”</em> — watch with the switch section.</li>
+                <li><em>“What is a ROUTER? // FREE CCNA // EP 2”</em> — watch with the router section.</li>
+            </ul><a href="https://www.youtube.com/playlist?list=PLIhvC56v63IJVXv0GJcl9vO5Z6znCVb1P" target="_blank"
+                rel="noopener">Open NetworkChuck playlist</a>.
+        </div>
+
+        <h2 id="encoding">11. Self-learning Topics</h2>
+        <h3>11.1 Encoding</h3>
+        <p><strong>Encoding</strong> is the process of representing information in a form suitable for storage,
+            processing or transmission. In data communication, digital data is represented by signal patterns so that a
+            receiver can recover the transmitted bits.</p>
+        <p>Line encoding maps a sequence of bits to signal elements. Common conceptual categories include:</p>
+        <ul>
+            <li><strong>Unipolar encoding:</strong> Uses one polarity for one signal state and a reference level for the
+                other.</li>
+            <li><strong>Polar encoding:</strong> Uses positive and negative voltage levels to represent signal states.
+                Examples include NRZ-L, NRZ-I and Manchester encoding.</li>
+            <li><strong>Bipolar encoding:</strong> Uses three levels, commonly positive, zero and negative. Alternate
+                Mark Inversion (AMI) is an example.</li>
+        </ul>
+        <p>Encoding schemes are evaluated based on synchronization, bandwidth requirement, baseline wandering, DC
+            components and error-detection properties. Detailed line-code waveforms are not expanded here because the
+            uploaded syllabus lists encodings as a self-learning topic without specifying a required set of schemes.</p>
+        <h3>11.2 Frequency Hopping Spread Spectrum (FHSS)</h3>
+        <p><strong>FHSS</strong> is a spread-spectrum technique in which the transmitter rapidly changes its carrier
+            frequency among a set of frequency channels according to a predetermined hopping sequence shared with the
+            receiver.</p>
+        <ol>
+            <li>The available frequency band is divided into multiple channels.</li>
+            <li>The transmitter and receiver agree on a hopping sequence and timing.</li>
+            <li>The transmitter sends data on one channel for a short interval.</li>
+            <li>Both sides hop to the next selected frequency according to the sequence.</li>
+            <li>The receiver follows the same sequence to recover the data.</li>
+        </ol>
+        <p><strong>Potential benefits:</strong> resistance to narrowband interference and reduced likelihood that a
+            persistent interferer will disrupt every hop. Both ends must remain synchronized.</p>
+        <h3>11.3 Direct Sequence Spread Spectrum (DSSS)</h3>
+        <p><strong>DSSS</strong> spreads a data signal over a wider frequency band by combining the data with a
+            higher-rate spreading code (often called a chip sequence). The receiver uses the corresponding code to
+            despread and recover the original information.</p>
+        <ol>
+            <li>The sender takes the original data bits.</li>
+            <li>Each data bit is combined with a faster spreading-code sequence.</li>
+            <li>The resulting signal occupies a wider bandwidth than the original data signal.</li>
+            <li>The receiver correlates the received signal with the same spreading code to recover the data.</li>
+        </ol>
+        <p><strong>Potential benefits:</strong> processing gain against certain forms of interference and the ability to
+            distinguish signals using different spreading codes in systems designed for that purpose.</p>
+        <h3>FHSS and DSSS — comparison</h3>
+        <table>
+            <thead>
+                <tr>
+                    <th>Basis</th>
+                    <th>FHSS</th>
+                    <th>DSSS</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Spreading method</td>
+                    <td>Changes carrier frequency according to a hopping sequence.</td>
+                    <td>Multiplies / combines data with a high-rate spreading code.</td>
+                </tr>
+                <tr>
+                    <td>Signal behaviour</td>
+                    <td>Uses different frequency channels at different times.</td>
+                    <td>Spreads signal energy over a wider band at the same time.</td>
+                </tr>
+                <tr>
+                    <td>Synchronization</td>
+                    <td>Transmitter and receiver must follow the same hopping pattern and timing.</td>
+                    <td>Receiver must know and synchronize to the spreading code.</td>
+                </tr>
+                <tr>
+                    <td>Interference response</td>
+                    <td>Can avoid a persistently interfered channel by hopping away.</td>
+                    <td>Can provide processing gain against some narrowband interference.</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <h2 id="qb">12. Question-bank Coverage</h2>
+        <p>The following questions are mapped to M1 because their subject matter falls within the official Module I
+            syllabus. Question wording is retained in concise form; the QB identifiers refer to the uploaded documents.
+        </p>
+        <h3>Original Computer Network Question Bank</h3>
+        <ol class="question-list">
+            <li><strong>Q1:</strong> What is a computer network? Explain LAN, MAN and WAN. <span class="tag">M1</span>
+            </li>
+            <li><strong>Q2:</strong> What is a protocol? Why is it required in computer networks? <span
+                    class="tag">M1</span></li>
+            <li><strong>Q3:</strong> Explain the OSI reference model with all seven layers. <span class="tag">M1</span>
+            </li>
+            <li><strong>Q4:</strong> Differentiate between OSI and TCP/IP models. <span class="tag">M1</span></li>
+            <li><strong>Q5:</strong> Explain different network topologies. <span class="tag">M1</span></li>
+            <li><strong>Q6:</strong> Explain transmission media. <span class="tag">M1</span></li>
+            <li><strong>Q7:</strong> Explain the Client-Server architecture. <span class="tag">M1</span></li>
+            <li><strong>Q8:</strong> Explain the functions of Bridge, Switch, Router and Gateway. <span
+                    class="tag">M1</span></li>
+            <li><strong>Q9:</strong> Differentiate between Hub, Switch and Router. <span class="tag">M1</span></li>
+        </ol>
+        <h3>MUSA Winter 2025 Question Bank</h3>
+        <ul>
+            <li><strong>Q7:</strong> OSI reference model and design issues of layers. <span class="tag">M1</span></li>
+            <li><strong>Q12:</strong> Transmission media; guided vs unguided media. <span class="tag">M1</span></li>
+            <li><strong>Q17:</strong> Bridge, Switch, Router, Gateway, Hub and Access Point. <span class="tag">M1</span>
+            </li>
+            <li><strong>Q25 (iii):</strong> Short note on different network topologies. <span class="tag">M1</span></li>
+            <li><strong>Q26 (ii):</strong> Client-server versus peer-to-peer network architecture. <span
+                    class="tag">M1</span></li>
+            <li><strong>Q26 (v):</strong> LAN, MAN and WAN (also prepare as a short note). <span class="tag">M1</span>
+            </li>
+        </ul>
+        <h3>MUSA Winter 2026 Top 15</h3>
+        <ul>
+            <li><strong>Q3:</strong> OSI reference model and design issues of layers. <span class="tag">M1</span></li>
+            <li><strong>Q6:</strong> Transmission media; guided vs unguided media. <span class="tag">M1</span></li>
+        </ul>
+        <div class="callout"><strong>Module 1 coverage status:</strong> All topics listed under official syllabus
+            sections 1.1–1.4 and the three self-learning headings are represented in this file. The question-bank items
+            mapped above are included as coverage prompts; this module file contains explanatory notes rather than
+            reproducing a separate full answer under every repeated QB wording.</div>
+
+        <h2>13. References</h2>
+        <div class="reference"><strong>Prescribed textbook — primary reference</strong>
+            <p>Andrew S. Tanenbaum and David J. Wetherall, <em>Computer Networks</em>, 5th Edition, Pearson, 2012.</p>
+            <p><strong>Chapter 1:</strong> Introduction — especially network hardware, network software, design issues
+                for layers, reference models and example networks.</p>
+            <p><strong>Chapter 2:</strong> The Physical Layer — especially guided transmission media and wireless
+                transmission.</p>
+        </div>
+        <div class="reference"><strong>Other syllabus-listed textbook</strong>
+            <p>Behrouz A. Forouzan, <em>Data Communications and Networking</em>, 5th Edition, Tata McGraw-Hill. Consult
+                the introductory networking, architecture, topologies and transmission-media sections.</p>
+        </div>
+        <div class="reference"><strong>Playlist — video companion</strong>
+            <p><a href="https://www.youtube.com/playlist?list=PLIhvC56v63IJVXv0GJcl9vO5Z6znCVb1P" target="_blank"
+                    rel="noopener">NetworkChuck — FREE CCNA 200-301 / Complete Course / NetworkChuck 2025</a>.</p>
+            <p>Exact titles explicitly matched from the screenshot supplied in this project: “What is a Network? / Day
+                0”, “What is a SWITCH? / Day 1”, “What is a ROUTER? / EP 2”, “what is TCP/IP and OSI? / EP 3”, and “REAL
+                LIFE example!! (TCP/IP and OSI layers) / EP 4”. No unverified video titles are attributed to the
+                playlist.</p>
+        </div>
+        <div class="reference"><strong>Academic sources used for question mapping</strong>
+            <p>Computer Network Question Bank (uploaded PDF); MUSA Computer Network Question Bank, Winter Session 2025
+                and Top 15, Winter Session 2026 (uploaded PDF); University of Mumbai Computer Network syllabus, course
+                code 2115112 (uploaded PDF).</p>
+        </div>
+        <p class="small">End of Module 1 — Fundamentals of Computer Networks.</p>
+    </section>
+</body>
+
+</html>

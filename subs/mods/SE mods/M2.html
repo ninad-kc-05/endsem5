@@ -1,0 +1,226 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Module 2 | Requirements Engineering and Modelling</title>
+<style>
+#module-content{--m2-line:var(--rule,#394253);--m2-ink:var(--ink,#e8eaf0);--m2-muted:var(--muted,#a5adbd);--m2-accent:var(--accent,#8fb0ee);width:100%;max-width:none;color:var(--m2-ink);line-height:1.68}
+#module-content *{box-sizing:border-box}
+#module-content h1,#module-content h2,#module-content h3{line-height:1.25}
+#module-content h1{font-size:clamp(1.8rem,3vw,2.5rem);margin:.2rem 0 .5rem}
+#module-content h2{font-size:clamp(1.35rem,2.2vw,1.8rem);margin:2.6rem 0 .8rem;padding-bottom:.45rem;border-bottom:1px solid var(--m2-line)}
+#module-content h3{font-size:1.12rem;margin:1.35rem 0 .45rem}
+#module-content p{margin:.45rem 0 .85rem}
+#module-content li{margin:.28rem 0}
+#module-content .eyebrow{font:700 .76rem/1.4 var(--sans,system-ui);letter-spacing:.12em;text-transform:uppercase;color:var(--m2-accent)}
+#module-content .lead{color:var(--m2-muted);max-width:78ch}
+#module-content .index{border:1px solid var(--m2-line);padding:1rem 1.2rem;margin:1.5rem 0 2rem}
+#module-content .index h2{margin:.1rem 0 .7rem;border:0;padding:0;font-size:1.15rem}
+#module-content .index nav{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:.15rem 1.2rem}
+#module-content .index a{color:var(--m2-accent);text-decoration:none;font: .92rem/1.55 var(--sans,system-ui);padding:.2rem 0}
+#module-content .index a:hover{text-decoration:underline}
+#module-content .callout{border-left:3px solid var(--m2-accent);padding:.75rem 1rem;margin:1rem 0;background:color-mix(in srgb,var(--m2-accent) 7%,transparent)}
+#module-content .definition{border:1px solid var(--m2-line);padding:.85rem 1rem;margin:1rem 0;border-radius:7px}
+#module-content .definition strong{color:var(--m2-accent)}
+#module-content .table-wrap{width:100%;overflow-x:auto;margin:1rem 0 1.5rem}
+#module-content table{width:100%;min-width:560px;border-collapse:collapse;font-size:.94rem}
+#module-content th,#module-content td{border:1px solid var(--m2-line);padding:.65rem .75rem;text-align:left;vertical-align:top}
+#module-content th{background:color-mix(in srgb,var(--m2-accent) 12%,transparent)}
+#module-content .diagram-wrap{display:block;width:100%;max-width:100%;min-width:0;overflow-x:auto;overflow-y:hidden;border:1px solid var(--m2-line);border-radius:8px;padding:1rem;margin:1rem 0 1.5rem;overscroll-behavior-x:contain;}
+#module-content .m2-static-diagram{display:block;max-width:none;flex:none;overflow:visible}
+#module-content .diagram-caption{font-size:.86rem;color:var(--m2-muted);margin:-.8rem 0 1.2rem}
+#module-content .two-col{display:grid;width:100%;grid-template-columns:repeat(2,minmax(0,1fr));gap:1rem;min-width:0}
+#module-content .two-col>.card{display:block;min-width:0;width:100%;border:1px solid var(--m2-line);border-radius:8px;padding:.85rem 1rem;overflow-wrap:break-word;word-break:normal}
+#module-content .two-col>.card h3{max-width:100%;margin:.1rem 0 .4rem;overflow-wrap:break-word;word-break:normal}
+#module-content .two-col>.card p{max-width:100%;width:auto;min-width:0}
+#module-content .tag{display:inline-block;border:1px solid var(--m2-line);border-radius:99px;padding:.1rem .55rem;font: .75rem var(--sans,system-ui);color:var(--m2-muted)}
+@media(max-width:680px){#module-content .index nav,#module-content .two-col{grid-template-columns:minmax(0,1fr)}#module-content .index{padding:.85rem}}
+
+#module-content svg.m2-static-diagram{display:block;max-width:none;flex:none;overflow:visible;color:var(--m2-ink);font-family:Arial,sans-serif}
+#module-content svg.diagram-requirements{width:1200px;height:470px;font-size:16px}
+#module-content svg.diagram-usecase{width:1000px;height:280px;font-size:16px}
+#module-content svg.diagram-scenario{width:1120px;height:570px;font-size:15px}
+#module-content svg.diagram-class{width:1300px;height:390px;font-size:16px}
+#module-content svg.diagram-state{width:900px;height:390px;font-size:14px}
+#module-content .diagram-requirements .node rect{fill:var(--paper);stroke:var(--m2-accent);stroke-width:2}
+#module-content .diagram-requirements .node .baseline{fill:color-mix(in srgb,var(--m2-accent) 10%,var(--paper))}
+#module-content .diagram-requirements .node .management{fill:color-mix(in srgb,var(--m2-accent) 6%,var(--paper));stroke-dasharray:6 4}
+#module-content .diagram-requirements .connector{fill:none;stroke:var(--m2-ink);stroke-width:2;marker-end:url(#m2-flow-arrow)}
+#module-content .diagram-requirements .stage-label{fill:var(--m2-ink);text-anchor:middle;font-size:16px}
+#module-content .diagram-requirements .branch-label{fill:var(--m2-muted);font-size:14px}
+#module-content .diagram-usecase .system-boundary,#module-content .diagram-usecase .usecase ellipse{fill:var(--paper);stroke:var(--m2-accent);stroke-width:2}
+#module-content .diagram-usecase .actor{fill:none;stroke:var(--m2-ink);stroke-width:2}
+#module-content .diagram-usecase text{fill:var(--m2-ink);text-anchor:middle;font-size:16px}
+#module-content .diagram-usecase .system-title{font-weight:700}
+#module-content .diagram-usecase .association{fill:none;stroke:var(--m2-ink);stroke-width:1.7}
+#module-content .diagram-scenario .node rect,#module-content .diagram-scenario .node polygon{fill:var(--paper);stroke:var(--m2-accent);stroke-width:2}
+#module-content .diagram-scenario .node .start{fill:color-mix(in srgb,var(--m2-accent) 8%,var(--paper))}
+#module-content .diagram-scenario .connector{fill:none;stroke:var(--m2-ink);stroke-width:1.8;marker-end:url(#m2-scenario-arrow)}
+#module-content .diagram-scenario .node-label{fill:var(--m2-ink);text-anchor:middle;font-size:15px}
+#module-content .diagram-scenario .branch-label{fill:var(--m2-muted);font-size:14px;font-weight:700}
+#module-content .diagram-class .class-box rect{fill:var(--paper);stroke:var(--m2-accent);stroke-width:2}
+#module-content .diagram-class .class-box path{fill:none;stroke:var(--m2-line);stroke-width:1.5}
+#module-content .diagram-class .association{fill:none;stroke:var(--m2-ink);stroke-width:1.8}
+#module-content .diagram-class .class-name{fill:var(--m2-ink);text-anchor:middle;font-weight:700;font-size:18px}
+#module-content .diagram-class .class-text{fill:var(--m2-ink);font-size:16px}
+#module-content .diagram-class .association-label{fill:var(--m2-muted);text-anchor:middle;font-size:14px;font-style:italic}
+#module-content .diagram-class .multiplicity{fill:var(--m2-ink);font-size:14px;font-weight:700}
+#module-content .diagram-state .transition{fill:none;stroke:var(--m2-ink);stroke-width:1.8;marker-end:url(#m2-state-arrow)}
+#module-content .diagram-state .initial{fill:var(--m2-ink)}
+#module-content .diagram-state .state-box rect{fill:var(--paper);stroke:var(--m2-accent);stroke-width:2}
+#module-content .diagram-state .state-label{fill:var(--m2-ink);text-anchor:middle;font-size:15px}
+#module-content .diagram-state .transition-label{fill:var(--m2-muted);text-anchor:middle;font-size:13px}
+</style>
+</head>
+<body>
+<section id="module-content">
+<header>
+  <div class="eyebrow">Software Engineering · Module 02</div>
+  <h1>Requirements Engineering and Modelling</h1>
+  <p class="lead">Requirements engineering establishes what a software system must do, the constraints under which it must operate, and the models used to understand and communicate the proposed system.</p>
+</header>
+
+<div class="index">
+  <h2>Module Contents</h2>
+  <nav>
+    <a href="#m2-1">02.1 Requirements Engineering</a>
+    <a href="#m2-2">02.2 Requirements Engineering Activities</a>
+    <a href="#m2-3">02.3 Requirements Elicitation</a>
+    <a href="#m2-4">02.4 Requirements Analysis</a>
+    <a href="#m2-5">02.5 Types of Requirements</a>
+    <a href="#m2-6">02.6 Software Requirement Specification</a>
+    <a href="#m2-7">02.7 Use Cases and UML</a>
+    <a href="#m2-8">02.8 Scenario-Based Modelling</a>
+    <a href="#m2-9">02.9 Class-Based Modelling</a>
+    <a href="#m2-10">02.10 Behavioural Modelling</a>
+  </nav>
+</div>
+
+<h2 id="m2-1">02.1 Requirements Engineering</h2>
+<div class="definition"><strong>Definition:</strong> Requirements engineering (RE) is the systematic process of discovering, analysing, documenting, validating and managing the services and constraints required from a software system.</div>
+<p>It acts as a bridge between the customer's needs and the technical solution developed by the software team. It reduces misunderstanding by making requirements explicit and verifiable.</p>
+<h3>Objectives</h3>
+<ul><li>Understand the needs and expectations of stakeholders.</li><li>Define the system's scope and boundaries.</li><li>Identify functional and non-functional requirements.</li><li>Resolve conflicts and ambiguities among requirements.</li><li>Provide a documented basis for design, implementation and testing.</li></ul>
+<div class="callout"><b>Exam point:</b> Requirements engineering is not limited to writing an SRS. It includes elicitation, analysis, specification, validation and ongoing requirements management.</div>
+
+<h2 id="m2-2">02.2 Activities of Requirements Engineering</h2>
+<p>The activities are commonly performed iteratively. Feedback from validation or changing stakeholder needs can send the process back to an earlier activity.</p>
+<div class="diagram-wrap"><svg class="m2-static-diagram diagram-requirements" viewBox="0 0 1200 470" preserveAspectRatio="xMidYMid meet" role="img" aria-label="Requirements engineering flow from inception through validation, with a success path to baseline and a feedback path to analysis and negotiation">
+<defs><marker id="m2-flow-arrow" markerWidth="9" markerHeight="9" refX="8" refY="4.5" orient="auto"><path d="M0 0L9 4.5L0 9Z" fill="currentColor"/></marker></defs>
+<g class="connector"><path d="M200 114H250M430 114H480M660 114H710M890 114H940"/><path d="M1030 148V255"/><path d="M1120 114H1170V350H570V148"/></g>
+<g class="node"><rect x="20" y="80" width="180" height="68" rx="9"/><rect x="250" y="80" width="180" height="68" rx="9"/><rect x="480" y="80" width="180" height="68" rx="9"/><rect x="710" y="80" width="180" height="68" rx="9"/><rect x="940" y="80" width="180" height="68" rx="9"/><rect class="baseline" x="930" y="255" width="200" height="58" rx="9"/><rect class="management" x="25" y="405" width="1145" height="48" rx="7"/></g>
+<g class="stage-label"><text x="110" y="119">Inception</text><text x="340" y="119">Elicitation</text><text x="570" y="105"><tspan x="570">Analysis and</tspan><tspan x="570" dy="21">Negotiation</tspan></text><text x="800" y="119">Specification</text><text x="1030" y="119">Validation</text><text x="1030" y="291">Requirements Baseline</text><text x="597" y="435">Requirements Management (ongoing throughout the process)</text></g>
+<g class="branch-label"><text x="1050" y="220">Success</text><text x="810" y="341">Problems found: return to Analysis and Negotiation</text></g>
+</svg></div>
+<p class="diagram-caption">Conceptual flow of requirements engineering. Validation may cause requirements to be revisited; management continues throughout the project.</p>
+<h3>1. Inception</h3><p>Establishes the basic understanding of the problem, stakeholders, business goals, system scope and feasibility.</p>
+<h3>2. Elicitation</h3><p>Collects requirements from stakeholders and other sources using interviews, observation, workshops, questionnaires and document study.</p>
+<h3>3. Elaboration / Analysis</h3><p>Organises and refines collected information, develops models, identifies conflicts, checks feasibility and prioritises requirements.</p>
+<h3>4. Negotiation</h3><p>Resolves conflicting stakeholder expectations and agrees on a realistic set of requirements within cost, schedule and technical constraints.</p>
+<h3>5. Specification</h3><p>Documents the agreed requirements in a structured form, commonly in a Software Requirement Specification (SRS).</p>
+<h3>6. Validation</h3><p>Checks that requirements describe the intended system, are consistent, complete, feasible, unambiguous and testable.</p>
+<h3>7. Requirements Management</h3><p>Controls requirement versions, changes, priorities, dependencies and traceability throughout the software life cycle.</p>
+
+<h2 id="m2-3">02.3 Requirements Elicitation</h2>
+<div class="definition"><strong>Definition:</strong> Requirements elicitation is the process of gathering information about the required system from customers, users, domain experts and other stakeholders.</div>
+<h3>Common elicitation techniques</h3>
+<div class="table-wrap"><table><thead><tr><th>Technique</th><th>Description</th><th>Use</th></tr></thead><tbody>
+<tr><td>Interview</td><td>Direct discussion with stakeholders using structured or open-ended questions.</td><td>Detailed understanding and clarification.</td></tr>
+<tr><td>Questionnaire</td><td>A prepared set of questions distributed to many users.</td><td>Collecting broad feedback efficiently.</td></tr>
+<tr><td>Observation</td><td>Watching users perform their actual tasks in the working environment.</td><td>Discovering implicit and practical needs.</td></tr>
+<tr><td>Workshop / JAD</td><td>Facilitated sessions involving users, customers and developers.</td><td>Building shared understanding and resolving differences.</td></tr>
+<tr><td>Document analysis</td><td>Studying existing forms, manuals, policies and legacy-system documents.</td><td>Understanding existing processes and constraints.</td></tr>
+<tr><td>Prototyping</td><td>Creating an early representation of the system for stakeholder feedback.</td><td>Clarifying unclear interface or workflow requirements.</td></tr>
+</tbody></table></div>
+<h3>Challenges in elicitation</h3><ul><li>Stakeholders may not know exactly what they need.</li><li>Different stakeholders may have conflicting expectations.</li><li>Requirements may be incomplete, ambiguous or inconsistent.</li><li>Communication gaps may arise because users and developers use different terminology.</li><li>Requirements may change as business conditions evolve.</li></ul>
+
+<h2 id="m2-4">02.4 Requirements Analysis</h2>
+<p>Requirements analysis examines elicited requirements to determine whether they are necessary, feasible, complete, consistent and sufficiently precise.</p>
+<h3>Main analysis tasks</h3><ul><li><b>Classification:</b> group requirements into categories such as functional, non-functional and domain requirements.</li><li><b>Prioritisation:</b> rank requirements according to business value, urgency, risk and cost.</li><li><b>Conflict resolution:</b> identify and negotiate incompatible requirements.</li><li><b>Modelling:</b> represent requirements using use-case, class, activity or behavioural models.</li><li><b>Feasibility analysis:</b> check technical, operational, economic and schedule feasibility.</li></ul>
+<div class="callout"><b>Remember:</b> Elicitation discovers requirements; analysis refines, classifies, prioritises and checks them.</div>
+
+<h2 id="m2-5">02.5 Types of Requirements</h2>
+<div class="two-col">
+ <div class="card"><h3>Functional requirements</h3><p>Describe the services, tasks or behaviours that the system must provide.</p><p><b>Example:</b> The library system shall allow a member to search for a book by title.</p></div>
+ <div class="card"><h3>Non-functional requirements</h3><p>Specify quality attributes, performance targets or constraints on how the system operates.</p><p><b>Example:</b> Search results shall be displayed within two seconds for 95% of requests under the stated load.</p></div>
+ <div class="card"><h3>Domain requirements</h3><p>Arise from the application domain, its rules, terminology, standards or regulations.</p><p><b>Example:</b> A banking system must apply the interest calculation rules defined by the bank.</p></div>
+ <div class="card"><h3>Interface / constraint requirements</h3><p>Specify required interactions with external systems, hardware, users or mandated technologies.</p><p><b>Example:</b> The application shall exchange payment status through the approved payment gateway API.</p></div>
+</div>
+<h3>Functional vs Non-functional requirements</h3>
+<div class="table-wrap"><table><thead><tr><th>Functional</th><th>Non-functional</th></tr></thead><tbody><tr><td>Defines what the system does.</td><td>Defines how well or under what constraints it operates.</td></tr><tr><td>Usually expressed as system services or behaviours.</td><td>Often expressed as measurable quality targets or restrictions.</td></tr><tr><td>Example: user can reset a password.</td><td>Example: password reset confirmation is sent within 30 seconds.</td></tr></tbody></table></div>
+
+<h2 id="m2-6">02.6 Software Requirement Specification (SRS)</h2>
+<div class="definition"><strong>Definition:</strong> A Software Requirement Specification is a formal document that describes the software system's functional requirements, non-functional requirements, interfaces and constraints.</div>
+<h3>Purpose of an SRS</h3><ul><li>Creates a common understanding between customer and developer.</li><li>Defines the scope and boundaries of the system.</li><li>Acts as a foundation for design, coding, testing and maintenance.</li><li>Supports project estimation, planning and change control.</li><li>Provides a basis for acceptance testing.</li></ul>
+<h3>Characteristics of a good SRS</h3>
+<div class="table-wrap"><table><thead><tr><th>Characteristic</th><th>Meaning</th></tr></thead><tbody>
+<tr><td>Correct</td><td>Every requirement represents an actual stakeholder need.</td></tr><tr><td>Unambiguous</td><td>Each requirement has only one interpretation.</td></tr><tr><td>Complete</td><td>All required functions, constraints and responses are included.</td></tr><tr><td>Consistent</td><td>No requirement contradicts another.</td></tr><tr><td>Verifiable</td><td>Each requirement can be checked by inspection, analysis, demonstration or testing.</td></tr><tr><td>Modifiable</td><td>Changes can be made without introducing confusion or inconsistency.</td></tr><tr><td>Traceable</td><td>Each requirement can be traced to its source and forward to design, code or tests.</td></tr><tr><td>Ranked</td><td>Requirements are prioritised by importance or stability.</td></tr></tbody></table></div>
+<h3>Typical SRS structure</h3>
+<ol><li><b>Introduction:</b> purpose, scope, definitions, references and document overview.</li><li><b>Overall description:</b> product perspective, product functions, user classes, operating environment, constraints and assumptions.</li><li><b>Specific requirements:</b> functional requirements, external interface requirements, performance requirements, logical database requirements, design constraints and quality attributes.</li><li><b>Appendices and supporting information:</b> glossary, models, references and supplementary details.</li></ol>
+<div class="callout"><b>Writing tip:</b> Prefer measurable statements. “The system shall be fast” is not verifiable; “The system shall display the dashboard within 3 seconds for 95% of requests under the specified load” is testable.</div>
+
+<h2 id="m2-7">02.7 Use Cases and UML</h2>
+<div class="definition"><strong>Use case:</strong> A description of how an external actor interacts with a system to achieve a particular goal.</div>
+<p><b>Actor:</b> a person, organisation, device or external system that interacts with the system. An actor represents a role, not necessarily one specific person.</p>
+<p><b>Use case diagram:</b> a UML diagram showing actors, use cases and their relationships within a system boundary.</p>
+<h3>Example: Library management system</h3>
+<div class="diagram-wrap"><svg class="m2-static-diagram diagram-usecase" viewBox="0 0 1000 280" preserveAspectRatio="xMidYMid meet" role="img" aria-label="Library use case diagram showing a Member associated with catalogue search, borrowing, returning, and catalogue management">
+<rect class="system-boundary" x="260" y="18" width="700" height="220" rx="8"/><text class="system-title" x="610" y="43">Library Management System</text>
+<g class="actor"><circle cx="100" cy="75" r="17"/><path d="M100 92V155M70 115H130M100 155L75 190M100 155L125 190"/></g><text class="actor-label" x="100" y="220">Member</text>
+<g class="association"><path d="M130 110L365 80M130 125H570M130 140L365 170M130 155L180 250H820V210"/></g>
+<g class="usecase"><ellipse cx="445" cy="80" rx="80" ry="25"/><ellipse cx="650" cy="125" rx="80" ry="25"/><ellipse cx="445" cy="170" rx="80" ry="25"/><ellipse cx="820" cy="185" rx="80" ry="25"/></g>
+<g class="usecase-label"><text x="445" y="85">Search catalogue</text><text x="650" y="130">Borrow book</text><text x="445" y="175">Return book</text><text x="820" y="190">Manage catalogue</text></g>
+</svg></div>
+<p class="diagram-caption">Conceptual actor-to-use-case view. This simplified flowchart-style representation illustrates interactions; a formal UML use-case diagram uses stick-figure actors, ovals and a system boundary.</p>
+<h3>Elements and relationships</h3><ul><li><b>Actor:</b> external role interacting with the system.</li><li><b>Use case:</b> goal-oriented service provided by the system.</li><li><b>System boundary:</b> defines what is inside the system being modelled.</li><li><b>Association:</b> communication link between an actor and a use case.</li><li><b>&lt;&lt;include&gt;&gt;:</b> required reuse of another use case's behaviour.</li><li><b>&lt;&lt;extend&gt;&gt;:</b> optional or conditional behaviour extending a base use case at an extension point.</li></ul>
+<h3>Use case description template</h3>
+<div class="table-wrap"><table><tbody><tr><th>Field</th><th>Description</th></tr><tr><td>Use case name</td><td>Short goal-oriented name.</td></tr><tr><td>Primary actor</td><td>Actor initiating the interaction.</td></tr><tr><td>Preconditions</td><td>Conditions that must be true before the use case starts.</td></tr><tr><td>Main success scenario</td><td>Normal sequence of actor-system interactions.</td></tr><tr><td>Alternative / exception flows</td><td>Other paths, including error conditions.</td></tr><tr><td>Postconditions</td><td>State of the system after completion.</td></tr></tbody></table></div>
+
+<h2 id="m2-8">02.8 Scenario-Based Modelling</h2>
+<p>Scenario-based modelling describes the system from the viewpoint of users and other external actors. It explains how users achieve goals through interactions with the proposed system.</p>
+<h3>Scenario example: Borrow a library book</h3>
+<ol><li>The member signs in to the library system.</li><li>The member searches for a book.</li><li>The system displays matching books and availability.</li><li>The member selects an available book and requests a borrow.</li><li>The system checks membership status and borrowing limits.</li><li>If eligible, the system records the loan and displays the due date.</li></ol>
+<h3>Scenario flow</h3>
+<div class="diagram-wrap"><svg class="m2-static-diagram diagram-scenario" viewBox="0 0 1120 570" preserveAspectRatio="xMidYMid meet" role="img" aria-label="Library borrowing scenario with clear book availability and member eligibility decisions">
+<defs><marker id="m2-scenario-arrow" markerWidth="9" markerHeight="9" refX="8" refY="4.5" orient="auto"><path d="M0 0L9 4.5L0 9Z" fill="currentColor"/></marker></defs>
+<g class="connector"><path d="M530 68V95M530 145V170M530 220V245M530 295V310M470 345H180V420M590 345H700"/><path d="M815 375V410M750 445H655V500M880 445H975V500"/></g>
+<g class="node"><rect class="start" x="430" y="20" width="200" height="48" rx="24"/><rect x="430" y="95" width="200" height="50" rx="8"/><rect x="430" y="170" width="200" height="50" rx="8"/><rect x="430" y="245" width="200" height="50" rx="8"/><polygon class="decision" points="530,310 590,345 530,380 470,345"/><rect x="50" y="420" width="260" height="60" rx="8"/><rect x="700" y="320" width="230" height="55" rx="8"/><polygon class="decision" points="815,410 880,445 815,480 750,445"/><rect x="520" y="500" width="270" height="55" rx="8"/><rect x="850" y="500" width="260" height="55" rx="8"/></g>
+<g class="node-label"><text x="530" y="50">Member starts</text><text x="530" y="126">Sign in</text><text x="530" y="201">Search for book</text><text x="530" y="276">Check availability</text><text x="530" y="350">Book available?</text><text x="180" y="456">Show unavailable</text><text x="815" y="344">Check member eligibility</text><text x="815" y="441"><tspan x="815">Member</tspan><tspan x="815" dy="17">eligible?</tspan></text><text x="655" y="534">Show borrowing limit</text><text x="980" y="534"><tspan x="980">Record loan /</tspan><tspan x="980" dy="18">show due date</tspan></text></g>
+<g class="branch-label"><text x="325" y="335">No</text><text x="645" y="335">Yes</text><text x="704" y="435">No</text><text x="925" y="435">Yes</text></g>
+</svg></div>
+<h3>Scenario model components</h3><ul><li><b>Actors:</b> users or external entities.</li><li><b>Goals:</b> outcomes actors want to achieve.</li><li><b>Preconditions:</b> conditions required before the scenario begins.</li><li><b>Main flow:</b> normal interaction sequence.</li><li><b>Alternative flows:</b> branches for optional, exceptional or failure conditions.</li><li><b>Postconditions:</b> outcomes after the scenario completes.</li></ul>
+
+<h2 id="m2-9">02.9 Class-Based Modelling</h2>
+<p>Class-based modelling represents the static structure of a system by identifying classes, their attributes, operations and relationships.</p>
+<h3>Main elements</h3><ul><li><b>Class:</b> a blueprint describing objects with common attributes and behaviour.</li><li><b>Attribute:</b> data maintained by a class.</li><li><b>Operation:</b> a service or behaviour provided by a class.</li><li><b>Association:</b> a structural relationship between classes.</li><li><b>Multiplicity:</b> indicates how many objects participate in a relationship.</li><li><b>Inheritance / generalisation:</b> a specialised class inherits features from a general class.</li></ul>
+<h3>Example: Library domain class model</h3>
+<div class="diagram-wrap"><svg class="m2-static-diagram diagram-class" viewBox="0 0 1300 390" preserveAspectRatio="xMidYMid meet" role="img" aria-label="UML class diagram with Member, Loan, and Book classes, each divided into name, attribute, and operation compartments">
+<g class="association"><path d="M320 175H490M790 175H960"/></g>
+<g class="class-box"><rect x="20" y="35" width="300" height="310"/><path d="M20 100H320M20 225H320"/><rect x="490" y="35" width="300" height="310"/><path d="M490 100H790M490 225H790"/><rect x="960" y="35" width="300" height="310"/><path d="M960 100H1260M960 225H1260"/></g>
+<g class="class-name"><text x="170" y="75">Member</text><text x="640" y="75">Loan</text><text x="1110" y="75">Book</text></g>
+<g class="class-text"><text x="40" y="135">+ memberId: String</text><text x="40" y="165">+ name: String</text><text x="40" y="195">+ status: String</text><text x="40" y="265">+ borrowBook()</text><text x="40" y="295">+ returnBook()</text><text x="510" y="135">+ loanId: String</text><text x="510" y="165">+ issueDate: Date</text><text x="510" y="195">+ dueDate: Date</text><text x="510" y="265">+ returnDate: Date</text><text x="510" y="295">+ closeLoan()</text><text x="980" y="135">+ isbn: String</text><text x="980" y="165">+ title: String</text><text x="980" y="195">+ author: String</text></g>
+<g class="association-label"><text x="405" y="151">makes</text><text x="875" y="151">for</text></g>
+<g class="multiplicity"><text x="332" y="199">1</text><text x="478" y="199" text-anchor="end">0..*</text><text x="802" y="199">0..*</text><text x="948" y="199" text-anchor="end">1</text></g>
+</svg></div>
+<p class="diagram-caption">A member can have multiple loan records over time; each loan record refers to one member and one book.</p>
+<h3>Steps in class-based modelling</h3><ol><li>Identify candidate classes from the problem description.</li><li>Identify attributes and operations for each class.</li><li>Determine associations and multiplicities.</li><li>Identify generalisation and whole-part relationships where applicable.</li><li>Review the model for missing, redundant or incorrectly assigned responsibilities.</li></ol>
+
+<h2 id="m2-10">02.10 Behavioural Modelling</h2>
+<p>Behavioural modelling describes how a system or object behaves in response to events. It focuses on states, transitions, events and the sequence of interactions over time.</p>
+<h3>State machine model example: Book loan</h3>
+<div class="diagram-wrap"><svg class="m2-static-diagram diagram-state" viewBox="0 0 900 390" preserveAspectRatio="xMidYMid meet" role="img" aria-label="Book loan state machine with valid reservation, issue, overdue, cancellation, and return transitions">
+<defs><marker id="m2-state-arrow" markerWidth="9" markerHeight="9" refX="8" refY="4.5" orient="auto"><path d="M0 0L9 4.5L0 9Z" fill="currentColor"/></marker></defs>
+<g class="transition"><path d="M70 140H100M250 140H320M470 140H540M690 140H760M395 170V220H135V170M615 170V280H175V170M825 170V350H215V170"/></g>
+<circle class="initial" cx="55" cy="140" r="9"/><g class="state-box"><rect x="100" y="110" width="150" height="60" rx="24"/><rect x="320" y="110" width="150" height="60" rx="24"/><rect x="540" y="110" width="150" height="60" rx="24"/><rect x="760" y="110" width="130" height="60" rx="24"/></g>
+<g class="state-label"><text x="175" y="146">Available</text><text x="395" y="146">Reserved</text><text x="615" y="146">Issued</text><text x="825" y="146">Overdue</text></g>
+<g class="transition-label"><text x="285" y="92">reservation placed</text><text x="505" y="92">book issued</text><text x="725" y="92">due date passed</text><text x="265" y="202">reservation cancelled / expires</text><text x="395" y="262">returned on time</text><text x="515" y="332">returned</text></g>
+</svg></div>
+<p class="diagram-caption">Illustrative states and transitions for a book's circulation status. A production model may add states such as lost, damaged or under maintenance.</p>
+<h3>Behavioural modelling concepts</h3><ul><li><b>State:</b> a condition of an object at a particular time.</li><li><b>Event:</b> an occurrence that may trigger a change of state.</li><li><b>Transition:</b> movement from one state to another due to an event and, where applicable, a guard condition.</li><li><b>Action:</b> activity performed during a transition or while in a state.</li></ul>
+<h3>Why behavioural models are useful</h3><ul><li>Clarify event-driven and state-dependent system behaviour.</li><li>Reveal missing transitions and exceptional cases.</li><li>Support design and test-case development.</li><li>Help stakeholders understand dynamic system behaviour.</li></ul>
+
+<div class="callout"><b>Module revision chain:</b> Elicit requirements → analyse and negotiate → specify in an SRS → model user goals with use cases and scenarios → model structure with classes → model dynamic behaviour with state-based views.</div>
+</section>
+</body>
+</html>

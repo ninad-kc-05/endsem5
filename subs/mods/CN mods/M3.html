@@ -1,0 +1,1500 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Module 3 | Network Layer and Routing Algorithms</title>
+    <style>
+        #module-content {
+            --m3-line: var(--rule, #394355);
+            --m3-ink: var(--ink, #e8eaf0);
+            --m3-muted: var(--muted, #a5adbd);
+            --m3-accent: var(--accent, #8fb0ee);
+            width: 100%;
+            max-width: none;
+            color: var(--m3-ink);
+            line-height: 1.72
+        }
+
+        #module-content * {
+            box-sizing: border-box
+        }
+
+        #module-content h1 {
+            font-size: clamp(1.8rem, 3vw, 2.5rem);
+            line-height: 1.2;
+            margin: .2rem 0 .6rem
+        }
+
+        #module-content h2 {
+            font-size: clamp(1.35rem, 2.2vw, 1.8rem);
+            line-height: 1.25;
+            margin: 2.6rem 0 .8rem;
+            padding-bottom: .45rem;
+            border-bottom: 1px solid var(--m3-line)
+        }
+
+        #module-content h3 {
+            font-size: 1.12rem;
+            line-height: 1.35;
+            margin: 1.4rem 0 .45rem
+        }
+
+        #module-content p {
+            margin: .5rem 0 .9rem
+        }
+
+        #module-content li {
+            margin: .3rem 0
+        }
+
+        #module-content strong {
+            color: var(--m3-accent)
+        }
+
+        #module-content .eyebrow {
+            font: 800 .75rem system-ui, sans-serif;
+            letter-spacing: .13em;
+            color: var(--m3-accent)
+        }
+
+        #module-content .lead {
+            color: var(--m3-muted);
+            max-width: 88ch
+        }
+
+        #module-content .callout,
+        #module-content .note {
+            padding: .9rem 1rem;
+            margin: 1rem 0;
+            border-left: 3px solid var(--m3-accent);
+            background: color-mix(in srgb, var(--m3-accent) 8%, transparent)
+        }
+
+        #module-content .note {
+            border: 1px solid var(--m3-line);
+            border-left: 3px solid var(--m3-accent);
+            border-radius: 8px
+        }
+
+        #module-content .index {
+            border: 1px solid var(--m3-line);
+            border-radius: 10px;
+            padding: 1rem 1.2rem;
+            margin: 1.5rem 0
+        }
+
+        #module-content .index ol {
+            columns: 2;
+            column-gap: 2rem
+        }
+
+        #module-content .index li {
+            break-inside: avoid
+        }
+
+        #module-content a {
+            color: var(--m3-accent);
+            overflow-wrap: anywhere
+        }
+
+        #module-content .table-wrap {
+            width: 100%;
+            max-width: 100%;
+            overflow-x: auto;
+            margin: 1rem 0 1.5rem
+        }
+
+        #module-content table {
+            width: 100%;
+            min-width: 580px;
+            border-collapse: collapse;
+            font-size: .94rem
+        }
+
+        #module-content th,
+        #module-content td {
+            border: 1px solid var(--m3-line);
+            padding: .65rem .75rem;
+            text-align: left;
+            vertical-align: top
+        }
+
+        #module-content th {
+            background: color-mix(in srgb, var(--m3-accent) 12%, transparent)
+        }
+
+        #module-content .diagram {
+            width: 100%;
+            max-width: 100%;
+            overflow-x: auto;
+            border: 1px dashed var(--m3-line);
+            border-radius: 10px;
+            padding: 1rem;
+            margin: 1rem 0;
+            text-align: center
+        }
+
+        #module-content .diagram svg {
+            display: block;
+            max-width: 100%;
+            height: auto;
+            margin: auto
+        }
+
+        #module-content .caption,
+        #module-content .muted {
+            font-size: .87rem;
+            color: var(--m3-muted)
+        }
+
+        #module-content .video,
+        #module-content .reference {
+            border: 1px solid var(--m3-line);
+            border-left: 3px solid var(--m3-accent);
+            border-radius: 8px;
+            padding: .8rem 1rem;
+            margin: .8rem 0
+        }
+
+        #module-content .two-col {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 1rem
+        }
+
+        #module-content .two-col>div {
+            min-width: 0;
+            border: 1px solid var(--m3-line);
+            border-radius: 8px;
+            padding: .9rem
+        }
+
+        #module-content pre {
+            white-space: pre;
+            overflow-x: auto;
+            padding: 1rem;
+            border: 1px solid var(--m3-line);
+            border-radius: 8px;
+            background: color-mix(in srgb, var(--m3-ink) 5%, transparent)
+        }
+
+        #module-content code {
+            font-family: ui-monospace, Consolas, monospace
+        }
+
+        #module-content .tag {
+            display: inline-block;
+            border: 1px solid var(--m3-line);
+            border-radius: 20px;
+            padding: .1rem .55rem;
+            margin: .15rem;
+            font: 700 .72rem system-ui, sans-serif;
+            color: var(--m3-muted)
+        }
+
+        #module-content .question-list li {
+            margin: .55rem 0
+        }
+
+        @media(max-width:650px) {
+            #module-content .index ol {
+                columns: 1
+            }
+
+            #module-content .two-col {
+                grid-template-columns: 1fr
+            }
+
+            #module-content table {
+                font-size: .88rem
+            }
+        }
+
+        @media print {
+            #module-content .index {
+                display: none
+            }
+
+            #module-content h2 {
+                break-after: avoid
+            }
+
+            #module-content table,
+            #module-content .diagram {
+                break-inside: avoid
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <section id="module-content">
+        <p class="eyebrow">PAPER. / COMPUTER NETWORKS / MODULE 03</p>
+        <h1>Network Layer and Routing Algorithms</h1>
+        <p class="lead">This module covers the Network Layer, logical addressing, IPv4 and IPv6, subnetting and
+            supernetting, routing concepts and algorithms, Internet routing protocols, congestion control and Quality of
+            Service (QoS). It follows Module III of the uploaded University of Mumbai syllabus for course 2115112.</p>
+        <div class="callout"><strong>Official syllabus scope:</strong> 3.1 Introduction to Network Layer, Network Layer
+            Protocols, Routing Concepts, IPv4 and IPv6, addressing, subnetting and supernetting; 3.2 Static Routing
+            Algorithms (Non-adaptive) and Dynamic Routing Algorithms (Adaptive); 3.3 Internet Routing Protocols,
+            Congestion Control and Quality of Service (QoS). <br><strong>Self-learning:</strong> QoS mechanisms and
+            parameters.</div>
+        <div class="index"><strong>In this module</strong>
+            <ol>
+                <li><a href="#intro">Network Layer and its functions</a></li>
+                <li><a href="#protocols">Network Layer protocols and packet delivery</a></li>
+                <li><a href="#routing">Routing concepts and routing tables</a></li>
+                <li><a href="#ipv4">IPv4 addressing and datagram header</a></li>
+                <li><a href="#ipv6">IPv6 addressing and header</a></li>
+                <li><a href="#subnet">Subnetting</a></li>
+                <li><a href="#supernet">Supernetting / CIDR</a></li>
+                <li><a href="#static">Static (non-adaptive) routing</a></li>
+                <li><a href="#dynamic">Dynamic (adaptive) routing</a></li>
+                <li><a href="#algorithms">Routing algorithms: distance vector and link state</a></li>
+                <li><a href="#internet">Internet routing protocols</a></li>
+                <li><a href="#congestion">Congestion and congestion control</a></li>
+                <li><a href="#qos">Quality of Service (QoS)</a></li>
+                <li><a href="#worked">Worked numerical examples</a></li>
+                <li><a href="#qb">Question-bank map and references</a></li>
+            </ol>
+        </div>
+        <h2 id="intro">1. Introduction to the Network Layer</h2>
+        <h3>Definition</h3>
+        <p>The <strong>Network Layer</strong> is Layer 3 of the OSI reference model. It is responsible for delivering
+            packets from a source host to a destination host across one or more interconnected networks. It provides
+            logical addressing and determines a route through intermediate routers. Unlike the Data Link Layer, which
+            provides delivery over a single link, the Network Layer supports source-to-destination delivery across
+            multiple links.</p>
+        <h3>Main functions</h3>
+        <ol>
+            <li><strong>Logical addressing:</strong> Uses network-layer addresses such as IPv4 or IPv6 addresses to
+                identify source and destination interfaces.</li>
+            <li><strong>Routing:</strong> Selects a suitable path through interconnected networks.</li>
+            <li><strong>Forwarding:</strong> Transfers a packet from an incoming interface to the selected outgoing
+                interface using a forwarding table.</li>
+            <li><strong>Internetworking:</strong> Connects networks that may use different link technologies.</li>
+            <li><strong>Fragmentation / packet-size handling:</strong> Deals with differences in link maximum
+                transmission units (MTUs). IPv4 routers may fragment packets when permitted; IPv6 routers do not
+                fragment packets in transit.</li>
+            <li><strong>Error reporting and diagnostics:</strong> Supporting protocols such as ICMP report selected
+                delivery and network conditions.</li>
+            <li><strong>Congestion and QoS support:</strong> Network mechanisms can manage traffic load and provide
+                differentiated service characteristics.</li>
+        </ol>
+        <div class="diagram"><svg viewBox="0 0 760 230" role="img"
+                aria-label="Network layer packet travelling across multiple routers">
+                <g fill="none" stroke="currentColor" stroke-width="2">
+                    <rect x="18" y="72" width="130" height="82" rx="8" />
+                    <rect x="235" y="72" width="115" height="82" rx="8" />
+                    <rect x="430" y="72" width="115" height="82" rx="8" />
+                    <rect x="612" y="72" width="130" height="82" rx="8" />
+                    <path d="M148 113H235M350 113H430M545 113H612" />
+                    <path d="M220 105l15 8-15 8M415 105l15 8-15 8M597 105l15 8-15 8" />
+                </g>
+                <g fill="currentColor" text-anchor="middle" font-size="15"><text x="83" y="105">Source</text><text
+                        x="83" y="127">Host</text><text x="292" y="105">Router 1</text><text x="487" y="105">Router
+                        2</text><text x="677" y="105">Destination</text><text x="677" y="127">Host</text><text x="380"
+                        y="43">Network-layer packet is routed hop by hop</text><text x="190" y="183"
+                        font-size="12">Network A</text><text x="390" y="183" font-size="12">Network B</text><text
+                        x="580" y="183" font-size="12">Network C</text></g>
+            </svg>
+            <p class="caption">Conceptual path: each router examines the destination network-layer address and forwards
+                the packet toward the next hop.</p>
+        </div>
+        <h3>Routing versus forwarding</h3>
+        <div class="table-wrap">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Routing</th>
+                        <th>Forwarding</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Determines the path or next hops through the network.</td>
+                        <td>Moves an arriving packet from an input interface to an output interface.</td>
+                    </tr>
+                    <tr>
+                        <td>Uses routing algorithms and routing protocols.</td>
+                        <td>Uses the forwarding table / forwarding information base.</td>
+                    </tr>
+                    <tr>
+                        <td>Usually a control-plane function.</td>
+                        <td>Per-packet data-plane function.</td>
+                    </tr>
+                    <tr>
+                        <td>May respond to topology or metric changes.</td>
+                        <td>Performs the immediate forwarding decision.</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <h2 id="protocols">2. Network Layer Protocols and Packet Delivery</h2>
+        <p>The principal Internet Network Layer protocol is <strong>Internet Protocol (IP)</strong>. IP provides
+            connectionless, best-effort datagram delivery: it does not itself guarantee delivery, ordering, duplicate
+            suppression or recovery from packet loss. Reliability, when required by an application, is provided by
+            higher-layer protocols such as TCP.</p>
+        <h3>Important protocols associated with the Network Layer</h3>
+        <div class="table-wrap">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Protocol</th>
+                        <th>Purpose</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>IPv4</td>
+                        <td>32-bit logical addressing and datagram delivery.</td>
+                    </tr>
+                    <tr>
+                        <td>IPv6</td>
+                        <td>128-bit addressing and updated IP packet format.</td>
+                    </tr>
+                    <tr>
+                        <td>ICMP</td>
+                        <td>Error reporting and diagnostic messages; used by tools such as ping.</td>
+                    </tr>
+                    <tr>
+                        <td>IGMP</td>
+                        <td>IPv4 multicast group membership management on local networks.</td>
+                    </tr>
+                    <tr>
+                        <td>ARP</td>
+                        <td>Maps an IPv4 address to a link-layer address on a local IPv4 network; it operates between
+                            link and network-layer functions.</td>
+                    </tr>
+                    <tr>
+                        <td>Routing protocols</td>
+                        <td>Exchange reachability and path information so routers can build routing information.</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <h3>Connectionless datagram delivery</h3>
+        <ol>
+            <li>The source host determines whether the destination is on its local subnet.</li>
+            <li>If local, it sends the packet directly over the local link; otherwise it sends it to a configured
+                next-hop router (commonly the default gateway).</li>
+            <li>Each router examines the destination IP address and consults its forwarding table.</li>
+            <li>The router selects the outgoing interface and next hop, then encapsulates the IP packet in a new
+                link-layer frame for the next link.</li>
+            <li>The destination host receives the packet and passes its payload to the appropriate upper-layer protocol.
+            </li>
+        </ol>
+        <div class="note"><strong>Remember:</strong> The IP source and destination addresses normally remain end-to-end
+            across the route, while the link-layer source and destination addresses change at each routed hop.</div>
+        <h2 id="routing">3. Routing Concepts</h2>
+        <h3>Basic terminology</h3>
+        <ul>
+            <li><strong>Router:</strong> A device that connects IP networks and forwards packets between them.</li>
+            <li><strong>Next hop:</strong> The next router or destination to which a packet is sent.</li>
+            <li><strong>Route:</strong> Information describing how to reach a destination prefix.</li>
+            <li><strong>Metric:</strong> A value used to compare candidate routes, such as hop count, cost, delay or
+                bandwidth-related cost.</li>
+            <li><strong>Convergence:</strong> The state reached after routers have updated their routing information
+                following a topology or reachability change.</li>
+            <li><strong>Default route:</strong> A route used when no more specific matching route exists; commonly
+                written as 0.0.0.0/0 in IPv4 and ::/0 in IPv6.</li>
+        </ul>
+        <h3>Routing table</h3>
+        <p>A routing table stores destination prefixes and the information needed to reach them. A typical entry can
+            include destination network/prefix, next-hop address, outgoing interface, metric and route source. Routers
+            generally use <strong>longest-prefix matching</strong>: among matching routes, the most specific (longest)
+            prefix is selected.</p>
+        <div class="table-wrap">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Destination prefix</th>
+                        <th>Next hop</th>
+                        <th>Interface</th>
+                        <th>Meaning</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>192.168.10.0/24</td>
+                        <td>Directly connected</td>
+                        <td>G0/0</td>
+                        <td>Destination belongs to a directly connected network.</td>
+                    </tr>
+                    <tr>
+                        <td>10.0.0.0/8</td>
+                        <td>192.168.10.1</td>
+                        <td>G0/0</td>
+                        <td>Send matching packets to the next-hop router.</td>
+                    </tr>
+                    <tr>
+                        <td>0.0.0.0/0</td>
+                        <td>192.168.10.254</td>
+                        <td>G0/0</td>
+                        <td>Default route for otherwise unmatched IPv4 destinations.</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <h3>Types of routing</h3>
+        <ul>
+            <li><strong>Static routing:</strong> Routes are manually configured by an administrator.</li>
+            <li><strong>Dynamic routing:</strong> Routers learn and update routes by exchanging information using
+                routing protocols.</li>
+        </ul>
+        <h2 id="ipv4">4. IPv4 Addressing and Datagram Header</h2>
+        <h3>IPv4 address</h3>
+        <p>An <strong>IPv4 address</strong> is a 32-bit logical address, usually written in dotted-decimal notation as
+            four 8-bit octets. Each octet ranges from 0 to 255. Example: <code>192.168.1.10</code>. A prefix length
+            identifies the network portion; for example, <code>192.168.1.10/24</code> means the first 24 bits are the
+            network prefix.</p>
+        <h3>Network and host portions</h3>
+        <p>The subnet mask or prefix length separates the network portion from the host portion. For a prefix of /24,
+            the mask is <code>255.255.255.0</code>; the first 24 bits identify the network and the remaining 8 bits
+            identify addresses within that subnet.</p>
+        <h3>IPv4 datagram header format</h3>
+        <div class="diagram"><svg viewBox="0 0 960 300" role="img"
+                aria-label="IPv4 header format showing all fields with their correct bit widths">
+
+                <g fill="none" stroke="currentColor" stroke-width="1.4">
+
+                    <!-- Row 1: Version, IHL, DSCP, ECN, Total Length -->
+                    <rect x="20" y="30" width="920" height="40" />
+                    <path d="
+            M135 30V70
+            M250 30V70
+            M422.5 30V70
+            M480 30V70
+        " />
+
+                    <!-- Row 2: Identification, Flags, Fragment Offset -->
+                    <rect x="20" y="70" width="920" height="40" />
+                    <path d="
+            M480 70V110
+            M566.25 70V110
+        " />
+
+                    <!-- Row 3: TTL, Protocol, Header Checksum -->
+                    <rect x="20" y="110" width="920" height="40" />
+                    <path d="
+            M250 110V150
+            M480 110V150
+        " />
+
+                    <!-- Row 4: Source Address -->
+                    <rect x="20" y="150" width="920" height="40" />
+
+                    <!-- Row 5: Destination Address -->
+                    <rect x="20" y="190" width="920" height="40" />
+
+                    <!-- Row 6: Options and Padding -->
+                    <rect x="20" y="230" width="920" height="40" />
+
+                </g>
+
+                <g fill="currentColor" text-anchor="middle" dominant-baseline="middle" font-size="15">
+
+                    <!-- Row 1 -->
+                    <text x="77.5" y="50">Version</text>
+                    <text x="192.5" y="50">IHL</text>
+                    <text x="336.25" y="50">DSCP</text>
+                    <text x="451.25" y="50">ECN</text>
+                    <text x="710" y="50">Total Length (16 bits)</text>
+
+                    <!-- Row 2 -->
+                    <text x="250" y="90">Identification (16 bits)</text>
+                    <text x="523.125" y="90">Flags (3 bits)</text>
+                    <text x="753.125" y="90">Fragment Offset (13 bits)</text>
+
+                    <!-- Row 3 -->
+                    <text x="135" y="130">Time to Live (8 bits)</text>
+                    <text x="365" y="130">Protocol (8 bits)</text>
+                    <text x="710" y="130">Header Checksum (16 bits)</text>
+
+                    <!-- Row 4 -->
+                    <text x="480" y="170">Source IPv4 Address (32 bits)</text>
+
+                    <!-- Row 5 -->
+                    <text x="480" y="210">Destination IPv4 Address (32 bits)</text>
+
+                    <!-- Row 6 -->
+                    <text x="480" y="250">Options (if present) + Padding</text>
+
+                </g>
+            </svg>
+            <p class="caption">Simplified field layout. The base IPv4 header is 20 bytes; options can extend it up to 60
+                bytes.</p>
+        </div>
+        <div class="table-wrap">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Field</th>
+                        <th>Purpose</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Version</td>
+                        <td>Identifies IP version; value 4 for IPv4.</td>
+                    </tr>
+                    <tr>
+                        <td>IHL</td>
+                        <td>Internet Header Length, measured in 32-bit words.</td>
+                    </tr>
+                    <tr>
+                        <td>DSCP / ECN</td>
+                        <td>Traffic-classification and explicit congestion notification bits.</td>
+                    </tr>
+                    <tr>
+                        <td>Total Length</td>
+                        <td>Total datagram length in bytes, including header and data.</td>
+                    </tr>
+                    <tr>
+                        <td>Identification</td>
+                        <td>Identifies fragments belonging to the same original datagram.</td>
+                    </tr>
+                    <tr>
+                        <td>Flags</td>
+                        <td>Controls and indicates fragmentation conditions.</td>
+                    </tr>
+                    <tr>
+                        <td>Fragment Offset</td>
+                        <td>Indicates a fragment's position in the original datagram.</td>
+                    </tr>
+                    <tr>
+                        <td>TTL</td>
+                        <td>Time To Live; decremented by routers to prevent indefinite circulation.</td>
+                    </tr>
+                    <tr>
+                        <td>Protocol</td>
+                        <td>Identifies the encapsulated upper-layer protocol, e.g. TCP or UDP.</td>
+                    </tr>
+                    <tr>
+                        <td>Header Checksum</td>
+                        <td>Error check for the IPv4 header only; recalculated when relevant header fields change.</td>
+                    </tr>
+                    <tr>
+                        <td>Source / Destination</td>
+                        <td>32-bit source and destination IPv4 addresses.</td>
+                    </tr>
+                    <tr>
+                        <td>Options and Padding</td>
+                        <td>Optional control information and alignment.</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <h3>IPv4 characteristics</h3>
+        <ul>
+            <li>32-bit address space.</li>
+            <li>Connectionless, best-effort datagram service.</li>
+            <li>Supports unicast, broadcast and multicast addressing.</li>
+            <li>Variable header length because of optional fields.</li>
+            <li>Uses TTL to limit packet lifetime.</li>
+        </ul>
+        <h2 id="ipv6">5. IPv6 Addressing and Header</h2>
+        <h3>Need for IPv6</h3>
+        <p>IPv6 was developed primarily to address the limitations of IPv4 address availability and to provide an
+            updated Internet Protocol. Its address length is 128 bits, creating a vastly larger address space. IPv6 also
+            uses a simplified fixed base header and supports extension headers for optional information.</p>
+        <h3>IPv6 address notation</h3>
+        <p>An IPv6 address contains eight groups of four hexadecimal digits separated by colons. Example:
+            <code>2001:0db8:0000:0000:0000:ff00:0042:8329</code>. Leading zeros within a group may be omitted, and one
+            consecutive run of zero groups may be compressed using <code>::</code> (only once in an address):
+            <code>2001:db8::ff00:42:8329</code>.
+        </p>
+        <h3>IPv6 base header</h3>
+        <div class="diagram"><svg viewBox="0 0 760 270" role="img" aria-label="IPv6 base header fields">
+                <g fill="none" stroke="currentColor" stroke-width="1.5">
+                    <rect x="20" y="20" width="720" height="220" />
+                    <path d="M110 20V70M200 20V70M380 20V70M20 70H740M200 70V120M20 120H740M20 180H740" />
+                </g>
+                <g fill="currentColor" text-anchor="middle" font-size="14"><text x="65" y="50">Version</text><text
+                        x="155" y="50">Traffic Class</text><text x="290" y="50">Flow Label</text><text x="560"
+                        y="50">Payload Length</text><text x="110" y="100">Next Header</text><text x="290" y="100">Hop
+                        Limit</text><text x="500" y="100">Source Address (128 bits)</text><text x="380"
+                        y="158">Destination Address (128 bits)</text><text x="380" y="215">Extension headers (optional)
+                        + upper-layer data</text></g>
+            </svg>
+            <p class="caption">The IPv6 base header has a fixed size of 40 bytes.</p>
+        </div>
+        <div class="table-wrap">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Field</th>
+                        <th>Purpose</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Version</td>
+                        <td>Value 6.</td>
+                    </tr>
+                    <tr>
+                        <td>Traffic Class</td>
+                        <td>Supports traffic classification and differentiated handling.</td>
+                    </tr>
+                    <tr>
+                        <td>Flow Label</td>
+                        <td>Labels packets belonging to a flow for special handling where supported.</td>
+                    </tr>
+                    <tr>
+                        <td>Payload Length</td>
+                        <td>Length of the payload following the fixed base header.</td>
+                    </tr>
+                    <tr>
+                        <td>Next Header</td>
+                        <td>Identifies the next extension header or upper-layer protocol.</td>
+                    </tr>
+                    <tr>
+                        <td>Hop Limit</td>
+                        <td>Decremented by each forwarding router; packet is discarded when it reaches zero.</td>
+                    </tr>
+                    <tr>
+                        <td>Source / Destination</td>
+                        <td>128-bit source and destination IPv6 addresses.</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <h3>IPv4 versus IPv6</h3>
+        <div class="table-wrap">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Basis</th>
+                        <th>IPv4</th>
+                        <th>IPv6</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Address length</td>
+                        <td>32 bits</td>
+                        <td>128 bits</td>
+                    </tr>
+                    <tr>
+                        <td>Notation</td>
+                        <td>Dotted decimal</td>
+                        <td>Colon-separated hexadecimal</td>
+                    </tr>
+                    <tr>
+                        <td>Base header</td>
+                        <td>Variable: 20–60 bytes</td>
+                        <td>Fixed: 40 bytes</td>
+                    </tr>
+                    <tr>
+                        <td>Checksum</td>
+                        <td>Header checksum present</td>
+                        <td>No base-header checksum</td>
+                    </tr>
+                    <tr>
+                        <td>Broadcast</td>
+                        <td>Supports broadcast</td>
+                        <td>No broadcast; multicast and anycast are used</td>
+                    </tr>
+                    <tr>
+                        <td>Fragmentation</td>
+                        <td>Source and routers can fragment, subject to flags and rules</td>
+                        <td>Performed by source using Fragment extension header; routers do not fragment in transit</td>
+                    </tr>
+                    <tr>
+                        <td>Address configuration</td>
+                        <td>Manual or DHCP commonly used</td>
+                        <td>Manual, SLAAC and DHCPv6 options</td>
+                    </tr>
+                    <tr>
+                        <td>Address resolution</td>
+                        <td>ARP on local IPv4 links</td>
+                        <td>Neighbor Discovery using ICMPv6</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <h2 id="subnet">6. Subnetting</h2>
+        <h3>Definition and purpose</h3>
+        <p><strong>Subnetting</strong> is the process of dividing one IP network into multiple smaller logical networks
+            by borrowing bits from the host portion and extending the network prefix. It improves address organization,
+            supports network segmentation, reduces broadcast-domain size in IPv4 LAN design and allows more efficient
+            allocation of address blocks.</p>
+        <h3>Important formulas for IPv4</h3>
+        <ul>
+            <li>Number of subnets created by borrowing <em>s</em> bits: <strong>2<sup>s</sup></strong>.</li>
+            <li>Number of host bits remaining: <strong>h = 32 − new prefix length</strong>.</li>
+            <li>Traditional usable host addresses per ordinary subnet: <strong>2<sup>h</sup> − 2</strong> (network and
+                directed broadcast addresses excluded; special cases such as /31 point-to-point links and /32 host
+                routes are exceptions).</li>
+            <li>Block size in an octet: <strong>256 − subnet-mask value in the relevant octet</strong>.</li>
+        </ul>
+        <h3>Subnetting procedure</h3>
+        <ol>
+            <li>Write the given network address and original prefix.</li>
+            <li>Determine the required number of subnets and/or hosts per subnet.</li>
+            <li>Choose the number of borrowed bits <em>s</em> so that 2<sup>s</sup> is at least the required subnet
+                count.</li>
+            <li>Calculate the new prefix: original prefix + borrowed bits.</li>
+            <li>Calculate remaining host bits and verify that the host capacity is sufficient.</li>
+            <li>Write the subnet mask, block size, subnet network IDs, usable host ranges and broadcast addresses.</li>
+        </ol>
+        <div class="note"><strong>Exam caution:</strong> Do not select a prefix using only the subnet-count requirement.
+            Check both requirements: enough subnets and enough usable hosts in every subnet.</div>
+        <h3>Worked example: divide 192.168.1.0/24 into at least 6 subnets with at least 30 hosts each</h3>
+        <p>We need 6 or more subnets. Borrow 3 bits because 2<sup>3</sup> = 8. The new prefix is /24 + 3 =
+            <strong>/27</strong>. Five host bits remain, so each subnet has 2<sup>5</sup> − 2 = <strong>30 usable host
+                addresses</strong>. The subnet mask is <code>255.255.255.224</code>; block size is 256 − 224 =
+            <strong>32</strong>.
+        </p>
+        <div class="table-wrap">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Subnet</th>
+                        <th>Network ID</th>
+                        <th>Usable host range</th>
+                        <th>Broadcast</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>1</td>
+                        <td>192.168.1.0/27</td>
+                        <td>192.168.1.1 – 192.168.1.30</td>
+                        <td>192.168.1.31</td>
+                    </tr>
+                    <tr>
+                        <td>2</td>
+                        <td>192.168.1.32/27</td>
+                        <td>192.168.1.33 – 192.168.1.62</td>
+                        <td>192.168.1.63</td>
+                    </tr>
+                    <tr>
+                        <td>3</td>
+                        <td>192.168.1.64/27</td>
+                        <td>192.168.1.65 – 192.168.1.94</td>
+                        <td>192.168.1.95</td>
+                    </tr>
+                    <tr>
+                        <td>4</td>
+                        <td>192.168.1.96/27</td>
+                        <td>192.168.1.97 – 192.168.1.126</td>
+                        <td>192.168.1.127</td>
+                    </tr>
+                    <tr>
+                        <td>5</td>
+                        <td>192.168.1.128/27</td>
+                        <td>192.168.1.129 – 192.168.1.158</td>
+                        <td>192.168.1.159</td>
+                    </tr>
+                    <tr>
+                        <td>6</td>
+                        <td>192.168.1.160/27</td>
+                        <td>192.168.1.161 – 192.168.1.190</td>
+                        <td>192.168.1.191</td>
+                    </tr>
+                    <tr>
+                        <td>7</td>
+                        <td>192.168.1.192/27</td>
+                        <td>192.168.1.193 – 192.168.1.222</td>
+                        <td>192.168.1.223</td>
+                    </tr>
+                    <tr>
+                        <td>8</td>
+                        <td>192.168.1.224/27</td>
+                        <td>192.168.1.225 – 192.168.1.254</td>
+                        <td>192.168.1.255</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <h3>Interactive IPv4 subnet calculator</h3>
+        <p>Enter an IPv4 network address and prefix to calculate the network ID, broadcast address, mask and host
+            capacity. This is a supplementary practice tool; show the calculation steps in examination answers.</p>
+        <div class="note"><label for="m3-ip">IPv4 address</label> <input id="m3-ip" type="text" value="192.168.1.10"
+                style="max-width:180px"> <label for="m3-prefix">Prefix</label> <input id="m3-prefix" type="number"
+                min="0" max="32" value="24" style="width:65px"> <button type="button" id="m3-calc">Calculate</button>
+            <div id="m3-result" aria-live="polite" style="margin-top:.7rem">Enter an address and prefix, then select
+                Calculate.</div>
+        </div>
+        <h2 id="supernet">7. Supernetting and CIDR</h2>
+        <h3>Definition</h3>
+        <p><strong>Supernetting</strong> combines multiple contiguous smaller network blocks into one larger address
+            block by moving the prefix boundary to the left. It is also called route aggregation or summarization when
+            used to represent multiple routes with one summary prefix. <strong>CIDR (Classless Inter-Domain
+                Routing)</strong> uses variable-length prefixes rather than fixed class A, B and C network boundaries.
+        </p>
+        <h3>Conditions for aggregation</h3>
+        <ol>
+            <li>The networks must be contiguous address blocks.</li>
+            <li>The number of equal-sized blocks combined is generally a power of two.</li>
+            <li>The first network must begin on the correct boundary for the aggregate prefix.</li>
+            <li>The network addresses must share the required common leading bits.</li>
+        </ol>
+        <h3>Worked example</h3>
+        <p>Combine <code>192.168.0.0/24</code> and <code>192.168.1.0/24</code>. Two adjacent /24 networks share the
+            first 23 bits, and the first block is correctly aligned. They can be summarized as
+            <strong>192.168.0.0/23</strong>, covering 192.168.0.0 through 192.168.1.255.
+        </p>
+        <div class="table-wrap">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Subnetting</th>
+                        <th>Supernetting</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Divides one larger network into smaller subnets.</td>
+                        <td>Combines contiguous smaller networks into a larger aggregate.</td>
+                    </tr>
+                    <tr>
+                        <td>Prefix length increases.</td>
+                        <td>Prefix length decreases.</td>
+                    </tr>
+                    <tr>
+                        <td>Creates more specific network prefixes.</td>
+                        <td>Creates a less-specific summary prefix.</td>
+                    </tr>
+                    <tr>
+                        <td>Used for segmentation and address allocation.</td>
+                        <td>Used to reduce routing-table entries and advertise aggregated routes.</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <h2 id="static">8. Static Routing Algorithms (Non-adaptive)</h2>
+        <p><strong>Static routing</strong> uses routes manually configured by a network administrator. The router does
+            not automatically calculate a new path in response to topology changes using a dynamic routing protocol.</p>
+        <h3>Characteristics</h3>
+        <ul>
+            <li>Routes are entered manually and remain until changed or removed.</li>
+            <li>Does not generate routing-protocol update traffic.</li>
+            <li>Provides predictable path selection and can be useful in small or stable networks.</li>
+            <li>Requires manual maintenance when network topology or addressing changes.</li>
+            <li>Does not automatically adapt to a failed link unless an alternative mechanism or configured backup route
+                is available.</li>
+        </ul>
+        <h3>Advantages and disadvantages</h3>
+        <div class="two-col">
+            <div>
+                <h4>Advantages</h4>
+                <ul>
+                    <li>Simple for small networks.</li>
+                    <li>Low control-plane overhead.</li>
+                    <li>Administrator has direct control over the path.</li>
+                    <li>Can improve predictability and reduce exposure to routing-update manipulation.</li>
+                </ul>
+            </div>
+            <div>
+                <h4>Disadvantages</h4>
+                <ul>
+                    <li>Does not scale well to large changing networks.</li>
+                    <li>Manual configuration is time-consuming.</li>
+                    <li>Configuration errors can cause unreachable networks or loops.</li>
+                    <li>Topology changes require administrator intervention.</li>
+                </ul>
+            </div>
+        </div>
+        <h2 id="dynamic">9. Dynamic Routing Algorithms (Adaptive)</h2>
+        <p><strong>Dynamic routing</strong> allows routers to exchange routing information using routing protocols.
+            Routers calculate routes and update their routing tables when network topology or reachability changes. The
+            algorithm is called adaptive because route decisions can respond to changes in the network.</p>
+        <h3>Characteristics</h3>
+        <ul>
+            <li>Routers exchange routing information with neighbours or other routers.</li>
+            <li>Routes are selected using protocol-specific metrics and rules.</li>
+            <li>Can adapt to link failures and topology changes.</li>
+            <li>Requires processing, memory and bandwidth for protocol operation.</li>
+            <li>Convergence time and stability depend on the protocol and network design.</li>
+        </ul>
+        <h3>Static versus dynamic routing</h3>
+        <div class="table-wrap">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Basis</th>
+                        <th>Static routing</th>
+                        <th>Dynamic routing</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Configuration</td>
+                        <td>Manually configured.</td>
+                        <td>Learned and updated through routing protocols.</td>
+                    </tr>
+                    <tr>
+                        <td>Adaptability</td>
+                        <td>Does not automatically adapt to topology changes.</td>
+                        <td>Can adapt after routing information converges.</td>
+                    </tr>
+                    <tr>
+                        <td>Overhead</td>
+                        <td>Little or no routing-protocol update overhead.</td>
+                        <td>Uses CPU, memory and bandwidth for protocol operation.</td>
+                    </tr>
+                    <tr>
+                        <td>Scalability</td>
+                        <td>Suitable for small, stable or stub networks.</td>
+                        <td>Suitable for larger and changing networks.</td>
+                    </tr>
+                    <tr>
+                        <td>Failure response</td>
+                        <td>Requires manual change or configured failover mechanism.</td>
+                        <td>Can select another route if one is available and convergence succeeds.</td>
+                    </tr>
+                    <tr>
+                        <td>Administration</td>
+                        <td>Manual maintenance.</td>
+                        <td>Protocol configuration and monitoring.</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <h2 id="algorithms">10. Routing Algorithms</h2>
+        <h3>10.1 Distance Vector Routing</h3>
+        <p>In <strong>Distance Vector Routing</strong>, each router maintains a vector of distances (costs) to
+            destination networks and the next hop for each destination. Routers periodically or when triggered share
+            routing information with their neighbours. A router updates its route using information received from a
+            neighbour and the cost of reaching that neighbour.</p>
+        <p>The Bellman–Ford update relation is commonly expressed as:</p>
+        <div class="callout"><strong>D<sub>x</sub>(y) = min<sub>v</sub> { c(x,v) + D<sub>v</sub>(y) }</strong><br>Here,
+            D<sub>x</sub>(y) is router x's current least cost to destination y; c(x,v) is the cost from x to neighbour
+            v; and D<sub>v</sub>(y) is neighbour v's advertised cost to y.</div>
+        <h3>Working</h3>
+        <ol>
+            <li>Every router initially knows the cost to directly connected neighbours.</li>
+            <li>Each router sends its distance vector to its neighbours.</li>
+            <li>On receiving a neighbour's vector, a router adds the cost of the link to that neighbour to each
+                advertised destination cost.</li>
+            <li>It compares the new calculated costs with its current entries and retains a lower-cost route.</li>
+            <li>Updates continue until the routing information stabilizes (converges).</li>
+        </ol>
+        <p><strong>Advantages:</strong> conceptually simple and distributed. <strong>Limitations:</strong> may converge
+            slowly and can suffer from routing loops and the count-to-infinity problem. Split horizon, route poisoning
+            and hold-down techniques are used by some protocols to reduce these problems.</p>
+        <h3>10.2 Link State Routing</h3>
+        <p>In <strong>Link State Routing</strong>, each router discovers its neighbours and link costs, creates
+            link-state information, and distributes that information through the routing domain. Each router builds a
+            topology database and independently runs Dijkstra's shortest-path-first algorithm to calculate the
+            shortest-path tree rooted at itself.</p>
+        <h3>Working steps</h3>
+        <ol>
+            <li><strong>Neighbour discovery:</strong> Discover directly connected routers.</li>
+            <li><strong>Cost measurement:</strong> Determine the cost of each link according to the protocol's metric.
+            </li>
+            <li><strong>Link-state advertisement:</strong> Create information describing the router's links and costs.
+            </li>
+            <li><strong>Flooding:</strong> Reliably distribute link-state information throughout the routing
+                area/domain.</li>
+            <li><strong>Database construction:</strong> Routers build a consistent link-state database.</li>
+            <li><strong>Shortest-path calculation:</strong> Run Dijkstra's algorithm to find shortest paths and install
+                appropriate routes.</li>
+        </ol>
+        <div class="diagram"><svg viewBox="0 0 680 290" role="img"
+                aria-label="Example weighted network graph for shortest path">
+                <g stroke="currentColor" stroke-width="2" fill="none">
+                    <path
+                        d="M100 75L280 45L490 90L570 230L320 240L100 210L100 75M100 75L320 240M280 45L320 240M280 45L570 230M490 90L320 240" />
+                </g>
+                <g fill="currentColor">
+                    <circle cx="100" cy="75" r="18" />
+                    <circle cx="280" cy="45" r="18" />
+                    <circle cx="490" cy="90" r="18" />
+                    <circle cx="570" cy="230" r="18" />
+                    <circle cx="320" cy="240" r="18" />
+                    <circle cx="100" cy="210" r="18" />
+                </g>
+                <g fill="Canvas" font-size="14" text-anchor="middle"><text x="100" y="80">A</text><text x="280"
+                        y="50">B</text><text x="490" y="95">C</text><text x="570" y="235">D</text><text x="320"
+                        y="245">E</text><text x="100" y="215">F</text></g>
+                <g fill="currentColor" font-size="13" text-anchor="middle"><text x="185" y="45">2</text><text x="385"
+                        y="48">3</text><text x="540" y="150">2</text><text x="445" y="245">1</text><text x="195"
+                        y="245">4</text><text x="65" y="145">3</text><text x="205" y="160">5</text><text x="300"
+                        y="140">2</text><text x="425" y="160">4</text></g>
+            </svg>
+            <p class="caption">Illustrative weighted graph. For a numerical question, use the exact graph and edge
+                weights supplied in the question paper.</p>
+        </div>
+        <h3>Dijkstra's shortest-path algorithm</h3>
+        <p>Dijkstra's algorithm finds shortest paths from one source vertex to all other vertices in a graph with
+            non-negative edge weights.</p>
+        <ol>
+            <li>Set the source distance to 0 and all other distances to infinity.</li>
+            <li>Mark all vertices unvisited.</li>
+            <li>Select the unvisited vertex with the smallest tentative distance.</li>
+            <li>For each unvisited neighbour, calculate: new distance = selected vertex distance + edge weight.</li>
+            <li>If the new distance is smaller, update the neighbour's distance and predecessor.</li>
+            <li>Mark the selected vertex visited and repeat until all reachable vertices are visited.</li>
+            <li>Use predecessor links to reconstruct the shortest path to each destination.</li>
+        </ol>
+        <div class="note"><strong>Important:</strong> Dijkstra's algorithm assumes non-negative edge weights. It is used
+            by link-state routing protocols such as OSPF and IS-IS. It is not the algorithm used by RIP.</div>
+        <h3>Distance Vector versus Link State</h3>
+        <div class="table-wrap">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Basis</th>
+                        <th>Distance Vector</th>
+                        <th>Link State</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Knowledge</td>
+                        <td>Receives distance information from neighbours.</td>
+                        <td>Builds a topology map from link-state information.</td>
+                    </tr>
+                    <tr>
+                        <td>Information exchanged</td>
+                        <td>Routes / distance vectors.</td>
+                        <td>Link-state advertisements.</td>
+                    </tr>
+                    <tr>
+                        <td>Algorithm</td>
+                        <td>Bellman–Ford family.</td>
+                        <td>Dijkstra shortest-path-first.</td>
+                    </tr>
+                    <tr>
+                        <td>Convergence</td>
+                        <td>Can be slower; loop/count-to-infinity issues can occur.</td>
+                        <td>Typically faster in well-designed areas, but requires database and SPF processing.</td>
+                    </tr>
+                    <tr>
+                        <td>Resource use</td>
+                        <td>Generally simpler; depends on protocol.</td>
+                        <td>More memory and processing for topology database and SPF calculations.</td>
+                    </tr>
+                    <tr>
+                        <td>Example</td>
+                        <td>RIP.</td>
+                        <td>OSPF, IS-IS.</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <h2 id="internet">11. Internet Routing Protocols</h2>
+        <p>Internet routing is commonly divided into routing <strong>within an Autonomous System (AS)</strong> and
+            routing <strong>between Autonomous Systems</strong>. An AS is a network or group of networks under a common
+            administrative routing policy.</p>
+        <div class="table-wrap">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Protocol</th>
+                        <th>Category / algorithm</th>
+                        <th>Purpose and key points</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>RIP (Routing Information Protocol)</td>
+                        <td>Interior Gateway Protocol (IGP); distance vector.</td>
+                        <td>Uses hop count as its metric. Maximum usable distance is 15 hops; 16 represents unreachable.
+                            Simple, but limited for large networks.</td>
+                    </tr>
+                    <tr>
+                        <td>OSPF (Open Shortest Path First)</td>
+                        <td>IGP; link state.</td>
+                        <td>Uses link-state advertisements and Dijkstra's SPF algorithm. Supports areas and cost-based
+                            path selection.</td>
+                    </tr>
+                    <tr>
+                        <td>IS-IS</td>
+                        <td>IGP; link state.</td>
+                        <td>Distributes link-state information and calculates shortest paths; widely used in
+                            service-provider and large networks.</td>
+                    </tr>
+                    <tr>
+                        <td>BGP (Border Gateway Protocol)</td>
+                        <td>Exterior Gateway Protocol (EGP); path vector.</td>
+                        <td>Exchanges reachability information between autonomous systems and supports policy-based
+                            inter-domain routing. Uses attributes such as AS_PATH and LOCAL_PREF in route selection.
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <h3>IGP versus EGP</h3>
+        <div class="table-wrap">
+            <table>
+                <thead>
+                    <tr>
+                        <th>IGP</th>
+                        <th>EGP</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Routes within one autonomous system.</td>
+                        <td>Exchanges routes between autonomous systems.</td>
+                    </tr>
+                    <tr>
+                        <td>Examples: RIP, OSPF, IS-IS.</td>
+                        <td>Internet inter-domain routing uses BGP.</td>
+                    </tr>
+                    <tr>
+                        <td>Often focuses on internal reachability and path cost.</td>
+                        <td>Strongly policy-oriented; path attributes and administrative policy matter.</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <h2 id="congestion">12. Congestion and Congestion Control</h2>
+        <h3>Definition</h3>
+        <p><strong>Network congestion</strong> occurs when the traffic offered to network resources exceeds their
+            available capacity. Routers may experience growing queues, increased delay, packet drops and reduced
+            throughput. If congestion is severe, retransmissions can add further traffic and worsen the condition.</p>
+        <h3>Causes</h3>
+        <ul>
+            <li>Too many packets arriving at a router or link at the same time.</li>
+            <li>Insufficient bandwidth or buffer space.</li>
+            <li>Speed mismatch between incoming and outgoing links.</li>
+            <li>Burst traffic and poorly controlled sending rates.</li>
+            <li>Unbalanced routing or bottleneck links.</li>
+        </ul>
+        <h3>Effects</h3>
+        <ul>
+            <li>Longer queueing delay and jitter.</li>
+            <li>Packet loss due to buffer overflow.</li>
+            <li>Retransmissions and unnecessary additional traffic.</li>
+            <li>Lower effective throughput and possible congestion collapse.</li>
+        </ul>
+        <h3>Congestion control approaches</h3>
+        <div class="table-wrap">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Open-loop (prevention)</th>
+                        <th>Closed-loop (feedback)</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Attempts to prevent congestion before it occurs, without depending on feedback about current
+                            congestion.</td>
+                        <td>Detects congestion and uses feedback to adjust traffic or network behaviour.</td>
+                    </tr>
+                    <tr>
+                        <td>Examples: traffic shaping, admission policy, retransmission policy, window policy and
+                            resource reservation.</td>
+                        <td>Examples: backpressure, choke packets, explicit congestion notification and adaptive
+                            rate/window control.</td>
+                    </tr>
+                    <tr>
+                        <td>Focuses on design and policies that reduce the likelihood of overload.</td>
+                        <td>Responds to congestion indications or measured network conditions.</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <h3>Open-loop techniques</h3>
+        <ol>
+            <li><strong>Retransmission policy:</strong> Use suitable timers and selective retransmission to avoid
+                unnecessary repeated packets.</li>
+            <li><strong>Window policy:</strong> Choose a flow-control window strategy that avoids injecting excessive
+                traffic.</li>
+            <li><strong>Acknowledgement policy:</strong> Reduce unnecessary acknowledgements where appropriate.</li>
+            <li><strong>Discard policy:</strong> Decide which packets may be discarded during overload.</li>
+            <li><strong>Admission policy:</strong> Refuse new flows or virtual circuits when resources cannot support
+                them.</li>
+            <li><strong>Traffic shaping:</strong> Regulate the rate and burstiness of traffic, for example using leaky
+                bucket or token bucket mechanisms.</li>
+        </ol>
+        <h3>Closed-loop techniques</h3>
+        <ol>
+            <li><strong>Monitor:</strong> Detect queue growth, packet loss, delay or explicit congestion signals.</li>
+            <li><strong>Feedback:</strong> Inform the source or upstream routers that congestion is occurring.</li>
+            <li><strong>Adjust:</strong> Reduce sending rate, change the sending window, reroute traffic or apply
+                another control action.</li>
+            <li><strong>Recover:</strong> Gradually increase the sending rate when congestion subsides.</li>
+        </ol>
+        <h3>DECbit</h3>
+        <p><strong>DECbit</strong> is an early explicit congestion notification approach. A router monitors its queue;
+            when the average queue exceeds a threshold, it marks a congestion indication bit in packets. The destination
+            reflects the indication in acknowledgements, allowing the sender to reduce its sending rate. The sender can
+            then cautiously increase its rate when congestion indications are absent.</p>
+        <h3>Random Early Detection (RED)</h3>
+        <p><strong>RED</strong> is an active queue management technique. Instead of waiting until a queue is full, a
+            router calculates an average queue size. When the average is below a minimum threshold, packets are normally
+            accepted. Between minimum and maximum thresholds, packets are dropped or marked with a probability that
+            increases with the average queue size. At or above the maximum threshold, packets are generally dropped or
+            marked more aggressively according to configuration.</p>
+        <div class="diagram"><svg viewBox="0 0 700 270" role="img"
+                aria-label="Conceptual RED packet drop probability curve">
+                <g fill="none" stroke="currentColor" stroke-width="1.5">
+                    <path d="M70 25V215H650" />
+                    <path d="M70 215L280 215L500 55L500 25" stroke-dasharray="5 4" />
+                    <path d="M70 215L280 215L500 55L500 25" />
+                </g>
+                <g fill="currentColor" font-size="13"><text x="12" y="25">Drop</text><text x="12"
+                        y="42">probability</text><text x="560" y="245">Average queue size</text><text x="265"
+                        y="235">Min threshold</text><text x="480" y="235">Max threshold</text><text x="80" y="205">Low /
+                        near 0</text><text x="520" y="42">High</text></g>
+            </svg>
+            <p class="caption">Conceptual RED behaviour: probabilistic marking/dropping rises between the minimum and
+                maximum average-queue thresholds. Actual curves depend on configuration.</p>
+        </div>
+        <div class="table-wrap">
+            <table>
+                <thead>
+                    <tr>
+                        <th>DECbit</th>
+                        <th>RED</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Uses an explicit congestion indication bit in packets.</td>
+                        <td>Uses average queue size to probabilistically mark or drop packets.</td>
+                    </tr>
+                    <tr>
+                        <td>Feedback is conveyed to the sender through acknowledgements in the described scheme.</td>
+                        <td>Early marking/dropping signals congestion before the queue is full.</td>
+                    </tr>
+                    <tr>
+                        <td>Sender adjusts its rate based on received congestion indications.</td>
+                        <td>Transport protocols can react to packet marks/losses according to their congestion-control
+                            behaviour.</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <h2 id="qos">13. Quality of Service (QoS)</h2>
+        <h3>Definition</h3>
+        <p><strong>Quality of Service (QoS)</strong> refers to a network's ability to provide predictable or
+            differentiated service characteristics to selected traffic. QoS mechanisms classify traffic and manage
+            resources so that applications with different requirements can receive appropriate treatment.</p>
+        <h3>Important QoS parameters</h3>
+        <div class="table-wrap">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Parameter</th>
+                        <th>Meaning</th>
+                        <th>Why it matters</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Bandwidth / throughput</td>
+                        <td>Data rate or useful data delivered per unit time.</td>
+                        <td>Important for video, file transfer and high-volume applications.</td>
+                    </tr>
+                    <tr>
+                        <td>Delay / latency</td>
+                        <td>Time taken for data to travel from source to destination.</td>
+                        <td>Low delay is important for voice, gaming and interactive applications.</td>
+                    </tr>
+                    <tr>
+                        <td>Jitter</td>
+                        <td>Variation in packet delay.</td>
+                        <td>High jitter affects real-time audio and video unless buffered.</td>
+                    </tr>
+                    <tr>
+                        <td>Packet loss</td>
+                        <td>Fraction or number of packets that fail to reach the destination.</td>
+                        <td>Loss degrades media quality and may trigger retransmissions.</td>
+                    </tr>
+                    <tr>
+                        <td>Reliability</td>
+                        <td>Consistency and dependability of network delivery.</td>
+                        <td>Important for critical services and transactions.</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <h3>QoS mechanisms</h3>
+        <ul>
+            <li><strong>Classification:</strong> Identifies traffic flows or classes using addresses, ports, protocol or
+                markings.</li>
+            <li><strong>Marking:</strong> Labels packets so network devices can apply a chosen forwarding treatment, for
+                example DSCP in IP.</li>
+            <li><strong>Queuing and scheduling:</strong> Determines the order in which packets are transmitted; examples
+                include priority queuing and weighted fair queuing.</li>
+            <li><strong>Traffic shaping:</strong> Buffers and smooths bursts to conform to a configured traffic rate.
+            </li>
+            <li><strong>Policing:</strong> Measures traffic against a profile and may drop or remark traffic that
+                exceeds it.</li>
+            <li><strong>Admission control:</strong> Accepts a new flow only when adequate resources are available.</li>
+            <li><strong>Congestion avoidance / AQM:</strong> Uses early marking or dropping to manage queue build-up.
+            </li>
+            <li><strong>Resource reservation:</strong> Reserves resources for flows where the architecture supports it.
+            </li>
+        </ul>
+        <h3>Leaky Bucket and Token Bucket</h3>
+        <div class="table-wrap">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Leaky Bucket</th>
+                        <th>Token Bucket</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Packets enter a finite queue and leave at a relatively fixed output rate.</td>
+                        <td>Tokens are generated at a configured rate and stored up to a bucket capacity.</td>
+                    </tr>
+                    <tr>
+                        <td>Excess packets may be discarded if the queue is full.</td>
+                        <td>A packet can be sent when enough tokens are available; saved tokens permit controlled
+                            bursts.</td>
+                    </tr>
+                    <tr>
+                        <td>Produces a smoothed output rate.</td>
+                        <td>Controls average rate while allowing bursts within the token capacity.</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <h2 id="worked">14. Worked Numerical Examples and Practice</h2>
+        <h3>Example A: Uploaded question-bank subnetting problem</h3>
+        <p><strong>Question:</strong> An ISP grants <code>200.192.30.0/24</code>. At least 6 subnets and 30 host
+            addresses per subnet are required. Determine the subnet mask, slash notation and broadcast address of the
+            first subnet.</p>
+        <ol>
+            <li>To create at least 6 subnets, borrow 3 bits: 2<sup>3</sup> = 8 subnets.</li>
+            <li>New prefix = /24 + 3 = <strong>/27</strong>.</li>
+            <li>Host bits remaining = 32 − 27 = 5; usable hosts = 2<sup>5</sup> − 2 = <strong>30</strong>.</li>
+            <li>Subnet mask = <strong>255.255.255.224</strong>.</li>
+            <li>Block size = 256 − 224 = <strong>32</strong>. First subnet ranges from 200.192.30.0 to 200.192.30.31.
+            </li>
+        </ol>
+        <div class="callout"><strong>Answer:</strong> Subnet mask = <code>255.255.255.224</code>; slash notation =
+            <code>/27</code>; first subnet broadcast address = <code>200.192.30.31</code>.
+        </div>
+        <h3>Example B: Dijkstra's algorithm — exam method</h3>
+        <p>The MUSA question bank asks for a shortest-path solution using a supplied graph. The graph itself must be
+            read from the actual question paper; do not substitute a different graph. Use this table format while
+            solving:</p>
+        <div class="table-wrap">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Iteration</th>
+                        <th>Selected permanent vertex</th>
+                        <th>Updated tentative distances</th>
+                        <th>Predecessor changes</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Initial</td>
+                        <td>Source S</td>
+                        <td>d(S)=0; all others = ∞</td>
+                        <td>None</td>
+                    </tr>
+                    <tr>
+                        <td>1</td>
+                        <td>Smallest tentative vertex</td>
+                        <td>Relax each adjacent unvisited edge</td>
+                        <td>Record improved predecessor</td>
+                    </tr>
+                    <tr>
+                        <td>2 onward</td>
+                        <td>Next smallest tentative vertex</td>
+                        <td>Repeat relaxation</td>
+                        <td>Update only if a shorter path is found</td>
+                    </tr>
+                    <tr>
+                        <td>Final</td>
+                        <td>All reachable vertices permanent</td>
+                        <td>Final shortest distances</td>
+                        <td>Trace predecessors for paths</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <h3>Subnetting practice checklist</h3>
+        <ul>
+            <li>Find a prefix that satisfies both required subnet count and usable hosts.</li>
+            <li>Convert a prefix length into dotted-decimal subnet mask.</li>
+            <li>Calculate block size, network ID, first and last usable address, and broadcast address.</li>
+            <li>Check whether an address belongs to a given subnet.</li>
+            <li>Aggregate contiguous networks using the correct CIDR prefix.</li>
+        </ul>
+        <h3>Routing practice checklist</h3>
+        <ul>
+            <li>Build a routing table from a given topology and metric.</li>
+            <li>Perform Dijkstra step by step and show the permanent set at every iteration.</li>
+            <li>Explain link-state routing with an example.</li>
+            <li>Compare static and dynamic routing.</li>
+            <li>Classify RIP, OSPF, IS-IS and BGP by routing domain and algorithm family.</li>
+        </ul>
+        <h2 id="qb">15. Question-Bank Coverage and Study References</h2>
+        <h3>Original uploaded CN Question Bank</h3>
+        <ul class="question-list">
+            <li><span class="tag">QB Q14</span> What is the Network Layer? Explain its functions. — Sections 1–2.</li>
+            <li><span class="tag">QB Q15</span> What is routing? Why is routing required? — Sections 3 and 10.</li>
+            <li><span class="tag">QB Q16</span> Explain IPv6 and its advantages over IPv4. — Section 5.</li>
+            <li><span class="tag">QB Q17</span> What is subnetting? Explain with an example. — Section 6.</li>
+            <li><span class="tag">QB Q18</span> What is supernetting? — Section 7.</li>
+            <li><span class="tag">QB Q19</span> Differentiate between static and dynamic routing. — Sections 8–9.</li>
+            <li><span class="tag">QB Q20</span> What are Internet routing protocols? Explain with examples. — Section
+                11.</li>
+            <li><span class="tag">QB Q21</span> What is congestion? Explain congestion control. — Section 12.</li>
+            <li><span class="tag">QB Q22</span> Subnet 200.192.30.0/24 for at least 6 subnets and 30 hosts; find mask,
+                prefix and first broadcast. — Section 14A.</li>
+            <li><span class="tag">QB Q23</span> Apply Dijkstra's algorithm to the supplied graph. — Section 10.2 and
+                14B.</li>
+        </ul>
+        <h3>MUSA Winter 2025 question bank</h3>
+        <ul class="question-list">
+            <li><span class="tag">MUSA Q6</span> Explain link-state routing algorithm with example. — Section 10.2.</li>
+            <li><span class="tag">MUSA Q11</span> Explain IPv4 header format. — Section 4.</li>
+            <li><span class="tag">MUSA Q16</span> Explain dynamic routing and algorithms used. — Sections 9–11.</li>
+            <li><span class="tag">MUSA Q24</span> Explain DECbit and RED congestion avoidance. — Section 12.</li>
+            <li><span class="tag">MUSA Q25(ii)</span> Subnetting and supernetting; compare them. — Sections 6–7.</li>
+            <li><span class="tag">MUSA Q26(iv)</span> Differentiate IPv4 and IPv6. — Section 5.</li>
+        </ul>
+        <h3>MUSA Winter 2026 Top 15</h3>
+        <p>The Top 15 page does not list a standalone Network Layer question in its first fifteen. The complete Winter
+            2025 bank and the original uploaded CN question bank still include the Network Layer topics above, so they
+            remain in scope.</p>
+        <h3>NetworkChuck playlist alignment</h3>
+        <div class="video"><strong>Primary playlist:</strong> <a
+                href="https://www.youtube.com/playlist?list=PLIhvC56v63IJVXv0GJcl9vO5Z6znCVb1P" target="_blank"
+                rel="noopener">NetworkChuck — FREE CCNA 200-301 Complete Course (2025)</a>.<p>The supplied screenshot
+                confirms the creator and the first visible episodes (network fundamentals, switch, router, OSI/TCP-IP).
+                The later playlist entries were not provided as readable titles in this conversation, so this module
+                links the playlist as a whole rather than inventing specific episode names for IPv4, subnetting,
+                routing, congestion or Dijkstra. Match the relevant later playlist lessons as you watch.</p>
+        </div>
+        <h3>Reference textbooks</h3>
+        <div class="reference"><strong>Andrew S. Tanenbaum and David J. Wetherall, Computer Networks, 5th Edition,
+                Pearson.</strong>
+            <p>Chapter 5, <em>The Network Layer</em>: network-layer design issues, routing algorithms, congestion
+                control, internetworking and network-layer protocols. Consult the relevant sections for datagram
+                forwarding, shortest-path routing and congestion approaches.</p>
+        </div>
+        <div class="reference"><strong>Behrouz A. Forouzan, Data Communications and Networking, 5th Edition,
+                McGraw-Hill.</strong>
+            <p>Use the Network Layer and IP chapters for IPv4/IPv6 addressing, subnetting, routing and congestion. The
+                uploaded University syllabus lists this as its first text book.</p>
+        </div>
+        <div class="reference"><strong>James F. Kurose and Keith W. Ross, Computer Networking: A Top-Down Approach, 7th
+                Edition.</strong>
+            <p>Supplementary reference for network-layer data plane, control plane, IP addressing, routing algorithms
+                and Internet routing.</p>
+        </div>
+        <div class="callout"><strong>Exam-writing structure:</strong> For a 7–8 mark answer, begin with a definition,
+            explain the operation in ordered steps, include a labelled header/topology/algorithm table where
+            appropriate, add a worked example or comparison, and conclude with the use or significance.</div>
+        <p class="muted">Source note: Syllabus coverage and question mapping are based on the uploaded University of
+            Mumbai Computer Network syllabus, original CN Question Bank and MUSA Winter 2025/2026 question-bank pages.
+            Explanations expand those syllabus topics for study; textbook section references are chapter-level locators
+            because page numbering can vary by printing. No unverified NetworkChuck episode title has been assigned.</p>
+        <script>
+            (function () { const btn = document.getElementById('m3-calc'); if (!btn) return; btn.addEventListener('click', function () { const ip = document.getElementById('m3-ip').value.trim(); const p = Number(document.getElementById('m3-prefix').value); const out = document.getElementById('m3-result'); const parts = ip.split('.'); if (parts.length !== 4 || parts.some(x => !/^\d+$/.test(x) || Number(x) < 0 || Number(x) > 255) || !Number.isInteger(p) || p < 0 || p > 32) { out.textContent = 'Enter a valid IPv4 address (four octets from 0 to 255) and prefix from 0 to 32.'; return; } const n = parts.reduce((a, x) => ((a * 256) + Number(x)) >>> 0, 0); const mask = p === 0 ? 0 : (0xffffffff << (32 - p)) >>> 0; const net = (n & mask) >>> 0; const broad = (net | (~mask >>> 0)) >>> 0; const fmt = v => [(v >>> 24) & 255, (v >>> 16) & 255, (v >>> 8) & 255, v & 255].join('.'); const hostbits = 32 - p; const hosts = hostbits === 32 ? '4294967294' : hostbits === 31 ? '2' : hostbits === 0 ? '1' : String(Math.pow(2, hostbits) - 2); out.innerHTML = '<strong>Network ID:</strong> ' + fmt(net) + '/' + p + '<br><strong>Subnet mask:</strong> ' + fmt(mask) + '<br><strong>Broadcast:</strong> ' + fmt(broad) + '<br><strong>First address:</strong> ' + (p >= 31 ? fmt(net) : fmt((net + 1) >>> 0)) + '<br><strong>Last address:</strong> ' + (p >= 31 ? fmt(broad) : fmt((broad - 1) >>> 0)) + '<br><strong>Traditional usable hosts:</strong> ' + hosts; }); })();
+        </script>
+    </section>
+    </section>
+</body>
+
+</html>

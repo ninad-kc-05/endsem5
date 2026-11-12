@@ -1,0 +1,1456 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Module 5 | Application Layer and Network Services</title>
+    <style>
+        #module-content {
+            --m5-line: var(--rule, #394355);
+            --m5-ink: var(--ink, #e8eaf0);
+            --m5-muted: var(--muted, #a5adbd);
+            --m5-accent: var(--accent, #8fb0ee);
+            width: 100%;
+            max-width: none;
+            color: var(--m5-ink);
+            line-height: 1.72
+        }
+
+        #module-content * {
+            box-sizing: border-box
+        }
+
+        #module-content h1 {
+            font-size: clamp(1.8rem, 3vw, 2.5rem);
+            line-height: 1.2;
+            margin: .2rem 0 .6rem
+        }
+
+        #module-content h2 {
+            font-size: clamp(1.35rem, 2.2vw, 1.8rem);
+            line-height: 1.25;
+            margin: 2.6rem 0 .8rem;
+            padding-bottom: .45rem;
+            border-bottom: 1px solid var(--m5-line)
+        }
+
+        #module-content h3 {
+            font-size: 1.12rem;
+            line-height: 1.35;
+            margin: 1.4rem 0 .45rem
+        }
+
+        #module-content h4 {
+            font-size: 1rem;
+            margin: 1.1rem 0 .35rem
+        }
+
+        #module-content p {
+            margin: .5rem 0 .9rem
+        }
+
+        #module-content li {
+            margin: .3rem 0
+        }
+
+        #module-content strong {
+            color: var(--m5-accent)
+        }
+
+        #module-content .eyebrow {
+            font: 800 .75rem system-ui, sans-serif;
+            letter-spacing: .13em;
+            color: var(--m5-accent)
+        }
+
+        #module-content .lead {
+            color: var(--m5-muted);
+            max-width: 90ch
+        }
+
+        #module-content .callout,
+        #module-content .note {
+            padding: .9rem 1rem;
+            margin: 1rem 0;
+            border-left: 3px solid var(--m5-accent);
+            background: color-mix(in srgb, var(--m5-accent) 8%, transparent)
+        }
+
+        #module-content .note {
+            border: 1px solid var(--m5-line);
+            border-left: 3px solid var(--m5-accent);
+            border-radius: 8px
+        }
+
+        #module-content .index {
+            border: 1px solid var(--m5-line);
+            border-radius: 10px;
+            padding: 1rem 1.2rem;
+            margin: 1.5rem 0
+        }
+
+        #module-content .index ol {
+            columns: 2;
+            column-gap: 2rem
+        }
+
+        #module-content .index li {
+            break-inside: avoid
+        }
+
+        #module-content a {
+            color: var(--m5-accent);
+            overflow-wrap: anywhere
+        }
+
+        #module-content .table-wrap {
+            width: 100%;
+            max-width: 100%;
+            overflow-x: auto;
+            margin: 1rem 0 1.5rem
+        }
+
+        #module-content table {
+            width: 100%;
+            min-width: 580px;
+            border-collapse: collapse;
+            font-size: .94rem
+        }
+
+        #module-content th,
+        #module-content td {
+            border: 1px solid var(--m5-line);
+            padding: .65rem .75rem;
+            text-align: left;
+            vertical-align: top
+        }
+
+        #module-content th {
+            background: color-mix(in srgb, var(--m5-accent) 12%, transparent)
+        }
+
+        #module-content .diagram {
+            width: 100%;
+            max-width: 100%;
+            overflow-x: auto;
+            border: 1px dashed var(--m5-line);
+            border-radius: 10px;
+            padding: 1rem;
+            margin: 1rem 0;
+            text-align: center
+        }
+
+        #module-content .diagram svg {
+            display: block;
+            max-width: 100%;
+            height: auto;
+            margin: auto
+        }
+
+        #module-content .caption,
+        #module-content .muted {
+            font-size: .87rem;
+            color: var(--m5-muted)
+        }
+
+        #module-content .video,
+        #module-content .reference {
+            border: 1px solid var(--m5-line);
+            border-left: 3px solid var(--m5-accent);
+            border-radius: 8px;
+            padding: .8rem 1rem;
+            margin: .8rem 0
+        }
+
+        #module-content .two-col {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 1rem
+        }
+
+        #module-content .two-col>div {
+            min-width: 0;
+            border: 1px solid var(--m5-line);
+            border-radius: 8px;
+            padding: .9rem
+        }
+
+        #module-content pre {
+            white-space: pre;
+            overflow-x: auto;
+            padding: 1rem;
+            border: 1px solid var(--m5-line);
+            border-radius: 8px;
+            background: color-mix(in srgb, var(--m5-ink) 5%, transparent)
+        }
+
+        #module-content code {
+            font-family: ui-monospace, Consolas, monospace
+        }
+
+        #module-content .tag {
+            display: inline-block;
+            border: 1px solid var(--m5-line);
+            border-radius: 20px;
+            padding: .1rem .55rem;
+            margin: .15rem;
+            font: 700 .72rem system-ui, sans-serif;
+            color: var(--m5-muted)
+        }
+
+        #module-content .question-list li {
+            margin: .55rem 0
+        }
+
+        #module-content .flow {
+            font-family: ui-monospace, Consolas, monospace;
+            text-align: center;
+            padding: .8rem;
+            border: 1px solid var(--m5-line);
+            border-radius: 8px;
+            overflow-x: auto
+        }
+
+        @media(max-width:650px) {
+            #module-content .index ol {
+                columns: 1
+            }
+
+            #module-content .two-col {
+                grid-template-columns: 1fr
+            }
+
+            #module-content table {
+                font-size: .88rem
+            }
+        }
+
+        @media print {
+            #module-content .index {
+                display: none
+            }
+
+            #module-content h2 {
+                break-after: avoid
+            }
+
+            #module-content table,
+            #module-content .diagram {
+                break-inside: avoid
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <section id="module-content">
+        <p class="eyebrow">PAPER. / COMPUTER NETWORKS / MODULE 05</p>
+        <h1>Application Layer and Network Services</h1>
+        <p class="lead">The Application Layer provides network services directly to user applications and defines how
+            application processes exchange information. This module follows Module V of the uploaded University of
+            Mumbai Computer Network syllabus: application-layer paradigms and APIs, WWW and HTTP, FTP, TELNET, SSH and
+            DNS, with SFTP, SCP, SMTP, POP3 and IMAP as self-learning topics.</p>
+
+        <div class="callout"><strong>Official syllabus scope — Module V:</strong> 5.1 Application Layer Paradigms;
+            Client-Server Paradigm; Application Programming Interface (API). 5.2 Standard Client-Server Applications:
+            World Wide Web and HTTP, FTP, TELNET, Secure Shell (SSH), Domain Name System (DNS).
+            <br><strong>Self-learning topics:</strong> SFTP, SCP, SMTP, POP3 and IMAP.
+        </div>
+
+        <div class="index"><strong>In this module</strong>
+            <ol>
+                <li><a href="#overview">Application Layer: role and services</a></li>
+                <li><a href="#paradigms">Application-layer paradigms</a></li>
+                <li><a href="#api">Application Programming Interface (API)</a></li>
+                <li><a href="#www">World Wide Web (WWW)</a></li>
+                <li><a href="#http">HTTP</a></li>
+                <li><a href="#ftp">File Transfer Protocol (FTP)</a></li>
+                <li><a href="#telnet">TELNET</a></li>
+                <li><a href="#ssh">Secure Shell (SSH)</a></li>
+                <li><a href="#dns">Domain Name System (DNS)</a></li>
+                <li><a href="#selflearning">Self-learning: SFTP, SCP, SMTP, POP3 and IMAP</a></li>
+                <li><a href="#comparison">Protocol comparison and revision</a></li>
+                <li><a href="#qb">Question-bank status and references</a></li>
+            </ol>
+        </div>
+
+        <h2 id="overview">1. Application Layer: Role and Services</h2>
+        <h3>Definition</h3>
+        <p>The <strong>Application Layer</strong> is the top layer of the TCP/IP model. It provides network services to
+            application programs and acts as the interface between user-facing software and the network. It enables
+            applications on different hosts to communicate using agreed application protocols.</p>
+        <p>In the OSI reference model, application, presentation and session functions are represented as separate
+            layers. In the TCP/IP model, these higher-level functions are commonly grouped within the Application Layer.
+        </p>
+        <h3>Major functions</h3>
+        <ol>
+            <li><strong>Providing network services:</strong> Makes services such as web access, file transfer, remote
+                login, name resolution and email available to applications.</li>
+            <li><strong>Defining communication rules:</strong> Specifies message formats, commands, responses and the
+                order in which messages are exchanged.</li>
+            <li><strong>Identifying communication partners:</strong> Uses names, addresses and service identifiers to
+                locate the required remote service.</li>
+            <li><strong>Data representation at application level:</strong> Defines how application information is
+                structured and interpreted by communicating programs.</li>
+            <li><strong>Supporting distributed applications:</strong> Enables programs running on different devices to
+                exchange information over a network.</li>
+        </ol>
+        <div class="diagram">
+            <svg viewBox="0 0 780 220" role="img"
+                aria-label="Application layer interaction between two networked application programs">
+                <g fill="none" stroke="currentColor" stroke-width="1.8">
+                    <rect x="20" y="25" width="210" height="145" rx="9" />
+                    <rect x="550" y="25" width="210" height="145" rx="9" />
+                    <rect x="55" y="52" width="140" height="45" rx="6" />
+                    <rect x="585" y="52" width="140" height="45" rx="6" />
+                    <path d="M230 105H550M535 97l15 8-15 8M245 121l-15-8 15-8" />
+                </g>
+                <g fill="currentColor" text-anchor="middle" font-size="14">
+                    <text x="125" y="43">Host A</text><text x="125" y="79">Browser / Client</text><text x="125"
+                        y="137">Application protocol</text><text x="655" y="43">Host B</text><text x="655" y="79">Web
+                        server</text><text x="655" y="137">Application protocol</text><text x="390" y="91">Request /
+                        Response</text><text x="390" y="190" font-size="12">The application protocol defines the
+                        messages exchanged by the applications.</text>
+                </g>
+            </svg>
+            <p class="caption">Conceptual view: an application protocol governs the exchange between application
+                processes.</p>
+        </div>
+
+        <h2 id="paradigms">2. Application-Layer Paradigms</h2>
+        <p>An <strong>application-layer paradigm</strong> describes the general arrangement and interaction pattern used
+            by networked applications. Two important paradigms are Client-Server and Peer-to-Peer.</p>
+        <h3>A. Client-Server Paradigm</h3>
+        <div class="note"><strong>Definition:</strong> In the Client-Server paradigm, a server is a program that
+            provides a service, and a client is a program that requests and uses that service. The client initiates
+            communication with the server, which listens for requests and sends responses.</div>
+        <h4>Working</h4>
+        <ol>
+            <li>The server program starts and waits for requests at a known network endpoint.</li>
+            <li>A client program obtains the server's address and establishes communication.</li>
+            <li>The client sends a request describing the required service or resource.</li>
+            <li>The server processes the request and sends a response.</li>
+            <li>The client receives and presents or processes the response.</li>
+        </ol>
+        <div class="diagram">
+            <svg viewBox="0 0 780 250" role="img" aria-label="Client server request response flow">
+                <defs>
+                    <marker id="m5csArrow" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto">
+                        <path d="M0 0L8 4L0 8Z" fill="currentColor" />
+                    </marker>
+                </defs>
+                <g fill="none" stroke="currentColor" stroke-width="1.8">
+                    <rect x="55" y="30" width="205" height="165" rx="9" />
+                    <rect x="520" y="30" width="205" height="165" rx="9" />
+                    <path d="M260 85H520M505 77l15 8-15 8M520 145H260M275 137l-15 8 15 8"
+                        marker-end="url(#m5csArrow)" />
+                </g>
+                <g fill="currentColor" text-anchor="middle" font-size="14"><text x="157" y="55">Client</text><text
+                        x="157" y="100">Sends request</text><text x="157" y="125">Waits for response</text><text x="622"
+                        y="55">Server</text><text x="622" y="100">Receives request</text><text x="622" y="125">Processes
+                        service</text><text x="390" y="72">Request</text><text x="390" y="165">Response</text><text
+                        x="390" y="225" font-size="12">Client initiates; server provides the requested service.</text>
+                </g>
+            </svg>
+            <p class="caption">Basic client-server request and response sequence.</p>
+        </div>
+        <h4>Characteristics</h4>
+        <ul>
+            <li><strong>Central service provider:</strong> The server provides a defined service or shared resource.
+            </li>
+            <li><strong>Request-response interaction:</strong> Clients request services and servers respond.</li>
+            <li><strong>Known server endpoint:</strong> Clients need a way to locate the server, commonly using a host
+                name or IP address and a port.</li>
+            <li><strong>Concurrent clients:</strong> A server may handle requests from multiple clients, depending on
+                its implementation and capacity.</li>
+            <li><strong>Administration:</strong> Server resources, software and access policies can be managed
+                centrally.</li>
+        </ul>
+        <h4>Advantages</h4>
+        <ul>
+            <li>Centralized management of data and services.</li>
+            <li>Consistent access control, backup and maintenance can be applied at the server.</li>
+            <li>Resources can be shared by many clients.</li>
+            <li>Clients can be relatively simple because service logic may reside on the server.</li>
+        </ul>
+        <h4>Limitations</h4>
+        <ul>
+            <li>A server failure can make the service unavailable unless redundancy is provided.</li>
+            <li>The server may become a performance bottleneck when requests increase.</li>
+            <li>Server infrastructure and administration can add cost.</li>
+            <li>Centralized services require suitable security and availability measures.</li>
+        </ul>
+        <h3>B. Peer-to-Peer (P2P) Paradigm</h3>
+        <div class="note"><strong>Definition:</strong> In a Peer-to-Peer paradigm, participating computers (peers) can
+            act as both clients and servers. A peer can request resources from other peers and also provide resources to
+            them.</div>
+        <h4>Characteristics</h4>
+        <ul>
+            <li>Resources and services may be distributed among participating peers.</li>
+            <li>Peers can communicate directly, depending on the P2P system design.</li>
+            <li>There may be no single central server responsible for all data transfer.</li>
+            <li>Peers can join or leave, so the set of available resources may change dynamically.</li>
+        </ul>
+        <h4>Advantages and limitations</h4>
+        <div class="two-col">
+            <div>
+                <h4>Advantages</h4>
+                <ul>
+                    <li>Work and resource sharing can be distributed.</li>
+                    <li>Can scale by adding participating peers.</li>
+                    <li>May avoid dependence on one central data-serving machine.</li>
+                </ul>
+            </div>
+            <div>
+                <h4>Limitations</h4>
+                <ul>
+                    <li>Security and trust management can be difficult.</li>
+                    <li>Availability depends on participating peers.</li>
+                    <li>Management, discovery and consistency can be complex.</li>
+                </ul>
+            </div>
+        </div>
+        <h3>Client-Server vs Peer-to-Peer</h3>
+        <div class="table-wrap">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Basis</th>
+                        <th>Client-Server</th>
+                        <th>Peer-to-Peer</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Architecture</td>
+                        <td>Uses designated servers to provide services to clients.</td>
+                        <td>Peers can both request and provide services.</td>
+                    </tr>
+                    <tr>
+                        <td>Control</td>
+                        <td>Often centrally administered.</td>
+                        <td>Often distributed among peers.</td>
+                    </tr>
+                    <tr>
+                        <td>Resource location</td>
+                        <td>Resources are commonly maintained on servers.</td>
+                        <td>Resources may be distributed across peers.</td>
+                    </tr>
+                    <tr>
+                        <td>Failure impact</td>
+                        <td>A critical server failure may interrupt the service.</td>
+                        <td>Failure of one peer may affect only resources or connections involving that peer, depending
+                            on design.</td>
+                    </tr>
+                    <tr>
+                        <td>Examples</td>
+                        <td>Web browsing, email service, centralized file service.</td>
+                        <td>Peer-based file sharing and distributed collaboration systems.</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <h2 id="api">3. Application Programming Interface (API)</h2>
+        <div class="note"><strong>Definition:</strong> An <strong>Application Programming Interface (API)</strong> is a
+            defined set of rules, operations and interfaces through which one software component can request services or
+            data from another software component. In network applications, APIs allow application programs to use
+            communication services without implementing every lower-level networking detail themselves.</div>
+        <h3>Role of an API in network applications</h3>
+        <ol>
+            <li>The application calls an API operation to request a service, such as opening a connection or sending
+                data.</li>
+            <li>The API provides a defined interface and accepts the required parameters.</li>
+            <li>The operating system or supporting library performs the underlying operation.</li>
+            <li>The API returns a result, status or error information to the application.</li>
+        </ol>
+        <h3>Common characteristics</h3>
+        <ul>
+            <li><strong>Abstraction:</strong> Hides many implementation details behind a simpler interface.</li>
+            <li><strong>Defined operations:</strong> Specifies available functions, parameters, return values and error
+                behaviour.</li>
+            <li><strong>Reusability:</strong> Allows multiple programs to use the same service interface.</li>
+            <li><strong>Interoperability:</strong> A documented API enables independently developed components to work
+                together when they follow the same contract.</li>
+        </ul>
+        <h3>API and application protocol are not the same</h3>
+        <div class="table-wrap">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Application Programming Interface (API)</th>
+                        <th>Application Protocol</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Interface used by software components or a program to request operations.</td>
+                        <td>Rules used by communicating applications to exchange messages over a network.</td>
+                    </tr>
+                    <tr>
+                        <td>Defines callable operations, parameters and return values.</td>
+                        <td>Defines message formats, commands, responses and communication sequence.</td>
+                    </tr>
+                    <tr>
+                        <td>Example: a socket API used by a program.</td>
+                        <td>Examples: HTTP, FTP and DNS.</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="callout">A socket API is one way for an application to access transport-layer communication. HTTP,
+            FTP and DNS are application-layer protocols that define communication between applications.</div>
+
+        <h2 id="www">4. World Wide Web (WWW)</h2>
+        <div class="note"><strong>Definition:</strong> The <strong>World Wide Web (WWW)</strong> is a distributed
+            information system in which resources such as web pages and other content are identified by Uniform Resource
+            Locators (URLs) and accessed using web protocols, principally HTTP or HTTPS.</div>
+        <h3>Main components</h3>
+        <ul>
+            <li><strong>Web browser:</strong> Client software used to request, receive and display web resources.</li>
+            <li><strong>Web server:</strong> Software that receives web requests and returns requested resources or
+                generated responses.</li>
+            <li><strong>Web resources:</strong> Documents, images, scripts, media and other content made available over
+                the web.</li>
+            <li><strong>URL (Uniform Resource Locator):</strong> Identifies the location and access method for a
+                resource.</li>
+            <li><strong>HTTP/HTTPS:</strong> Application protocols used for web communication. HTTPS is HTTP protected
+                by TLS.</li>
+            <li><strong>DNS:</strong> Commonly resolves the domain name in a URL to an IP address needed to contact the
+                destination host.</li>
+        </ul>
+        <h3>Working of the WWW</h3>
+        <ol>
+            <li>The user enters a URL or selects a link in the browser.</li>
+            <li>The browser determines the destination host name and uses DNS resolution when necessary.</li>
+            <li>The browser establishes a connection to the web server (with TLS for HTTPS).</li>
+            <li>The browser sends an HTTP request for the required resource.</li>
+            <li>The web server processes the request and returns an HTTP response.</li>
+            <li>The browser interprets the response and displays the content. It may request additional resources such
+                as images, stylesheets and scripts.</li>
+        </ol>
+        <div class="diagram"><svg viewBox="0 0 850 260" role="img"
+                aria-label="World Wide Web communication showing DNS resolution followed by HTTP request and response">
+
+                <defs>
+                    <marker id="m5wwwArrow" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto">
+                        <path d="M0 0L8 4L0 8Z" fill="currentColor" />
+                    </marker>
+                </defs>
+
+                <g fill="none" stroke="currentColor" stroke-width="1.7">
+
+                    <!-- Components -->
+                    <rect x="20" y="35" width="180" height="75" rx="8" />
+                    <rect x="335" y="35" width="180" height="75" rx="8" />
+                    <rect x="650" y="35" width="180" height="75" rx="8" />
+
+                    <!-- DNS query -->
+                    <path d="M200 55H335" marker-end="url(#m5wwwArrow)" />
+
+                    <!-- DNS response -->
+                    <path d="M335 90H200" stroke-dasharray="5 4" marker-end="url(#m5wwwArrow)" />
+
+                    <!-- HTTP request -->
+                    <path d="M200 165H650" marker-end="url(#m5wwwArrow)" />
+
+                    <!-- HTTP response -->
+                    <path d="M650 195H200" stroke-dasharray="5 4" marker-end="url(#m5wwwArrow)" />
+
+                </g>
+
+                <g fill="currentColor" text-anchor="middle" dominant-baseline="middle" font-size="14">
+
+                    <text x="110" y="65">Browser</text>
+                    <text x="110" y="87">HTTP Client</text>
+
+                    <text x="425" y="65">DNS Resolver</text>
+                    <text x="425" y="87">Name Resolution</text>
+
+                    <text x="740" y="65">Web Server</text>
+                    <text x="740" y="87">HTTP Service</text>
+
+                    <text x="267" y="43" font-size="11">DNS Query</text>
+                    <text x="267" y="105" font-size="11">DNS Response</text>
+
+                    <text x="425" y="150" font-size="12">
+                        HTTP Request (using resolved IP address)
+                    </text>
+
+                    <text x="425" y="220" font-size="12">
+                        HTTP Response
+                    </text>
+
+                </g>
+
+                <text x="425" y="250" fill="currentColor" text-anchor="middle" font-size="11">
+                    DNS resolution precedes HTTP communication; DNS may be cached.
+                </text>
+            </svg>
+            <p class="caption">A browser commonly resolves a host name before exchanging HTTP messages with the web
+                server.</p>
+        </div>
+
+        <h2 id="http">5. Hypertext Transfer Protocol (HTTP)</h2>
+        <div class="note"><strong>Definition:</strong> <strong>HTTP</strong> is an application-layer protocol used for
+            transferring web resources between clients and servers. It follows a request-response model: a client sends
+            an HTTP request and the server returns an HTTP response.</div>
+        <h3>Characteristics of HTTP</h3>
+        <ul>
+            <li><strong>Client-server protocol:</strong> A client (such as a browser) sends requests to a server.</li>
+            <li><strong>Request-response:</strong> The server responds to each request with a status and, where
+                appropriate, representation data.</li>
+            <li><strong>Stateless semantics:</strong> Each request is understood independently at the protocol level.
+                Applications can maintain state using mechanisms such as cookies and server-side sessions.</li>
+            <li><strong>Media independent:</strong> HTTP can transfer different kinds of content, identified using media
+                types such as <code>text/html</code> or <code>image/png</code>.</li>
+            <li><strong>Extensible:</strong> Headers allow clients and servers to exchange additional information.</li>
+            <li><strong>Persistent connections:</strong> Modern HTTP versions can reuse connections to reduce connection
+                overhead; exact connection handling depends on the HTTP version and transport.</li>
+        </ul>
+        <h3>HTTP request message</h3>
+        <p>An HTTP/1.1 request has a request line, header fields, a blank line and an optional message body.</p>
+        <pre><code>GET /index.html HTTP/1.1
+Host: www.example.com
+Accept: text/html
+User-Agent: ExampleBrowser/1.0
+
+</code></pre>
+        <div class="table-wrap">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Part</th>
+                        <th>Meaning</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Request method</td>
+                        <td>Indicates the requested operation, such as GET or POST.</td>
+                    </tr>
+                    <tr>
+                        <td>Request target</td>
+                        <td>Identifies the resource or target of the request.</td>
+                    </tr>
+                    <tr>
+                        <td>HTTP version</td>
+                        <td>Indicates the HTTP version used in the message.</td>
+                    </tr>
+                    <tr>
+                        <td>Headers</td>
+                        <td>Provide metadata such as host, accepted media types and authentication information.</td>
+                    </tr>
+                    <tr>
+                        <td>Message body</td>
+                        <td>Optional data sent with methods such as POST or PUT.</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <h3>Common HTTP methods</h3>
+        <div class="table-wrap">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Method</th>
+                        <th>Purpose</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>GET</strong></td>
+                        <td>Requests a representation of a resource.</td>
+                    </tr>
+                    <tr>
+                        <td><strong>HEAD</strong></td>
+                        <td>Requests response headers corresponding to GET, without the response content.</td>
+                    </tr>
+                    <tr>
+                        <td><strong>POST</strong></td>
+                        <td>Submits data for processing or resource-specific handling.</td>
+                    </tr>
+                    <tr>
+                        <td><strong>PUT</strong></td>
+                        <td>Creates or replaces the state of the target resource with the supplied representation,
+                            according to server semantics.</td>
+                    </tr>
+                    <tr>
+                        <td><strong>DELETE</strong></td>
+                        <td>Requests removal of the target resource's association or state.</td>
+                    </tr>
+                    <tr>
+                        <td><strong>OPTIONS</strong></td>
+                        <td>Requests communication options for the target resource or server.</td>
+                    </tr>
+                    <tr>
+                        <td><strong>PATCH</strong></td>
+                        <td>Requests a partial modification of a resource.</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <h3>HTTP response message</h3>
+        <p>An HTTP/1.1 response contains a status line, header fields, a blank line and an optional message body.</p>
+        <pre><code>HTTP/1.1 200 OK
+Content-Type: text/html
+Content-Length: 125
+
+&lt;html&gt;...response content...&lt;/html&gt;</code></pre>
+        <h3>Common HTTP status-code classes</h3>
+        <div class="table-wrap">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Class</th>
+                        <th>Meaning</th>
+                        <th>Examples</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>1xx</td>
+                        <td>Informational: request received, continuing process.</td>
+                        <td>100 Continue</td>
+                    </tr>
+                    <tr>
+                        <td>2xx</td>
+                        <td>Success: request was successfully received, understood and accepted.</td>
+                        <td>200 OK, 201 Created, 204 No Content</td>
+                    </tr>
+                    <tr>
+                        <td>3xx</td>
+                        <td>Redirection: further action is needed to complete the request.</td>
+                        <td>301 Moved Permanently, 302 Found, 304 Not Modified</td>
+                    </tr>
+                    <tr>
+                        <td>4xx</td>
+                        <td>Client error: request appears to be incorrect or cannot be fulfilled as sent.</td>
+                        <td>400 Bad Request, 401 Unauthorized, 403 Forbidden, 404 Not Found</td>
+                    </tr>
+                    <tr>
+                        <td>5xx</td>
+                        <td>Server error: server failed to fulfil an apparently valid request.</td>
+                        <td>500 Internal Server Error, 502 Bad Gateway, 503 Service Unavailable</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <h3>HTTP and HTTPS</h3>
+        <div class="table-wrap">
+            <table>
+                <thead>
+                    <tr>
+                        <th>HTTP</th>
+                        <th>HTTPS</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>HTTP messages are not protected by TLS by default.</td>
+                        <td>HTTP is carried over a TLS-protected connection.</td>
+                    </tr>
+                    <tr>
+                        <td>Does not itself provide confidentiality or server authentication.</td>
+                        <td>TLS can provide confidentiality, integrity and server authentication when correctly
+                            configured.</td>
+                    </tr>
+                    <tr>
+                        <td>Common default port: TCP 80.</td>
+                        <td>Common default port: TCP 443.</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="callout">HTTP is stateless at the protocol level; this does not mean that websites cannot remember
+            users. Cookies, tokens and server-side sessions can maintain application state.</div>
+
+        <h2 id="ftp">6. File Transfer Protocol (FTP)</h2>
+        <div class="note"><strong>Definition:</strong> <strong>FTP</strong> is an application-layer protocol used to
+            transfer files between a client and a server over a TCP/IP network. It supports operations such as listing
+            directories, uploading files and downloading files.</div>
+        <h3>Characteristics</h3>
+        <ul>
+            <li>FTP uses a client-server architecture.</li>
+            <li>It uses TCP to provide reliable transport.</li>
+            <li>Traditional FTP uses a separate control connection and data connection.</li>
+            <li>The control connection carries commands and replies; the data connection carries file data or directory
+                listings.</li>
+            <li>FTP supports user authentication and file/directory operations, subject to server permissions.</li>
+        </ul>
+        <h3>FTP connections and ports</h3>
+        <div class="table-wrap">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Connection</th>
+                        <th>Typical port</th>
+                        <th>Purpose</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Control connection</td>
+                        <td>TCP 21</td>
+                        <td>Commands and server replies; normally remains established during the FTP session.</td>
+                    </tr>
+                    <tr>
+                        <td>Data connection — active mode</td>
+                        <td>Server initiates from TCP 20 in the traditional active-mode arrangement</td>
+                        <td>Transfers file or directory data to/from the client.</td>
+                    </tr>
+                    <tr>
+                        <td>Data connection — passive mode</td>
+                        <td>Server advertises a negotiated server-side port</td>
+                        <td>Client initiates the data connection, often making operation easier through NAT/firewalls.
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <h3>Working of FTP</h3>
+        <ol>
+            <li>The FTP client connects to the server's control port.</li>
+            <li>The client may authenticate using a username and password, or use an allowed anonymous login.</li>
+            <li>The client sends commands such as listing a directory, retrieving a file or storing a file.</li>
+            <li>For data transfer, a separate data connection is established using active or passive mode.</li>
+            <li>The file or directory data is transferred and the data connection is closed as appropriate.</li>
+            <li>The client ends the session by closing the control connection.</li>
+        </ol>
+        <div class="diagram"><svg viewBox="0 0 800 230" role="img"
+                aria-label="FTP client and server with separate control and data connections">
+                <g fill="none" stroke="currentColor" stroke-width="1.8">
+                    <rect x="35" y="45" width="190" height="130" rx="9" />
+                    <rect x="575" y="45" width="190" height="130" rx="9" />
+                    <path d="M225 85H575M225 140H575" stroke-dasharray="7 4" />
+                </g>
+                <g fill="currentColor" text-anchor="middle" font-size="14"><text x="130" y="72">FTP Client</text><text
+                        x="670" y="72">FTP Server</text><text x="400" y="75">Control connection (TCP 21)</text><text
+                        x="400" y="130">Separate data connection</text><text x="130" y="108">Commands</text><text
+                        x="130" y="128">and files</text><text x="670" y="108">Command</text><text x="670"
+                        y="128">processing</text><text x="400" y="205" font-size="12">Traditional FTP separates control
+                        traffic from file/directory data.</text></g>
+            </svg></div>
+        <h3>Advantages and limitations</h3>
+        <div class="two-col">
+            <div>
+                <h4>Advantages</h4>
+                <ul>
+                    <li>Designed specifically for file transfer.</li>
+                    <li>Supports directory listing and file management commands.</li>
+                    <li>Reliable delivery is provided by TCP.</li>
+                </ul>
+            </div>
+            <div>
+                <h4>Limitations</h4>
+                <ul>
+                    <li>Traditional FTP does not encrypt credentials or file contents.</li>
+                    <li>Separate data connections can complicate firewall and NAT configuration.</li>
+                    <li>Secure alternatives such as SFTP or FTPS are preferred when confidentiality is required.</li>
+                </ul>
+            </div>
+        </div>
+        <div class="callout"><strong>Security note:</strong> FTP and FTPS are not the same. FTPS is FTP protected with
+            TLS. SFTP is a different file-transfer protocol that operates over SSH.</div>
+
+        <h2 id="telnet">7. TELNET</h2>
+        <div class="note"><strong>Definition:</strong> <strong>TELNET</strong> is an application-layer protocol that
+            provides a text-oriented remote terminal or command-line session between a client and a remote host.</div>
+        <h3>Characteristics</h3>
+        <ul>
+            <li>Uses a client-server model for remote terminal access.</li>
+            <li>Traditionally uses TCP port <strong>23</strong>.</li>
+            <li>Allows a user to interact with a remote system as though using a terminal connected to that system.</li>
+            <li>Uses Network Virtual Terminal (NVT) concepts to provide a common representation of terminal data and
+                control functions.</li>
+            <li>Negotiates certain terminal options between client and server.</li>
+        </ul>
+        <h3>Working</h3>
+        <ol>
+            <li>The TELNET client establishes a TCP connection to the remote host.</li>
+            <li>The client and server may negotiate terminal options.</li>
+            <li>The user enters commands in the client terminal.</li>
+            <li>Input is transmitted to the remote host, where the remote system processes it.</li>
+            <li>Output from the remote system is sent back and displayed by the client.</li>
+        </ol>
+        <h3>Limitation and security</h3>
+        <p>Traditional TELNET sends data, including login credentials, without encryption. A person able to observe the
+            traffic may read the transmitted information. Therefore, TELNET is unsuitable for secure remote
+            administration over untrusted networks. SSH is the secure alternative for remote login.</p>
+
+        <h2 id="ssh">8. Secure Shell (SSH)</h2>
+        <div class="note"><strong>Definition:</strong> <strong>Secure Shell (SSH)</strong> is a protocol used to
+            establish a secure remote login and command-execution session over an insecure network. It provides
+            encrypted communication and supports server authentication and user authentication.</div>
+        <h3>Characteristics</h3>
+        <ul>
+            <li><strong>Encryption:</strong> Protects session data against passive reading while in transit.</li>
+            <li><strong>Authentication:</strong> Verifies the server and authenticates the user, commonly using
+                passwords or public-key authentication.</li>
+            <li><strong>Integrity:</strong> Protects data against undetected modification in transit.</li>
+            <li><strong>Remote command execution:</strong> Allows commands to be executed on a remote machine.</li>
+            <li><strong>Tunnelling and forwarding:</strong> Can securely forward selected network connections.</li>
+            <li><strong>File transfer support:</strong> SFTP and SCP provide file-transfer facilities associated with
+                SSH.</li>
+        </ul>
+        <h3>Working of SSH (high-level)</h3>
+        <ol>
+            <li>The SSH client connects to the SSH server, normally on TCP port <strong>22</strong>.</li>
+            <li>The client and server negotiate protocol parameters and establish shared cryptographic keys.</li>
+            <li>The client verifies the server's host identity using the host key and its trust information.</li>
+            <li>The user authenticates to the server, for example with a password or public key.</li>
+            <li>An encrypted session is established for terminal interaction, commands or supported forwarding.</li>
+        </ol>
+        <h3>Advantages</h3>
+        <ul>
+            <li>Protects remote-login credentials and session content through encryption.</li>
+            <li>Provides mechanisms for server and user authentication.</li>
+            <li>Supports secure remote administration over untrusted networks.</li>
+            <li>Can support secure tunnelling and file transfer.</li>
+        </ul>
+        <h3>TELNET vs SSH</h3>
+        <div class="table-wrap">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Basis</th>
+                        <th>TELNET</th>
+                        <th>SSH</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Purpose</td>
+                        <td>Remote terminal access.</td>
+                        <td>Secure remote login, command execution and tunnelling.</td>
+                    </tr>
+                    <tr>
+                        <td>Default TCP port</td>
+                        <td>23</td>
+                        <td>22</td>
+                    </tr>
+                    <tr>
+                        <td>Encryption</td>
+                        <td>Traditional TELNET does not encrypt session data.</td>
+                        <td>Encrypts the session after secure connection setup.</td>
+                    </tr>
+                    <tr>
+                        <td>Authentication protection</td>
+                        <td>Credentials can be exposed on the network.</td>
+                        <td>Supports protected authentication methods.</td>
+                    </tr>
+                    <tr>
+                        <td>Use today</td>
+                        <td>Limited to controlled labs or legacy environments.</td>
+                        <td>Commonly used for secure remote administration.</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <h2 id="dns">9. Domain Name System (DNS)</h2>
+        <div class="note"><strong>Definition:</strong> The <strong>Domain Name System (DNS)</strong> is a distributed,
+            hierarchical naming system that translates human-readable domain names into information such as IP
+            addresses. It allows users and applications to use names instead of remembering numerical IP addresses.
+        </div>
+        <h3>Why DNS is required</h3>
+        <p>Network communication uses IP addresses to identify hosts, but names such as <code>www.example.com</code> are
+            easier for people to remember and use. DNS provides a scalable mechanism for mapping domain names to
+            resource records, including address records.</p>
+        <h3>DNS hierarchy</h3>
+        <ul>
+            <li><strong>Root domain:</strong> The top of the DNS hierarchy, represented by a dot.</li>
+            <li><strong>Top-Level Domain (TLD):</strong> The next level, such as <code>.com</code>, <code>.org</code>,
+                <code>.in</code> or <code>.edu</code>.
+            </li>
+            <li><strong>Second-level domain:</strong> The registered name under a TLD, such as <code>example</code> in
+                <code>example.com</code>.
+            </li>
+            <li><strong>Subdomain/host label:</strong> A label to the left of the domain, such as <code>www</code> in
+                <code>www.example.com</code>.
+            </li>
+        </ul>
+        <div class="diagram"><svg viewBox="0 0 760 330" role="img"
+                aria-label="DNS hierarchy showing root, top-level domains, second-level domains, and hostnames">
+
+                <g fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+
+                    <!-- Root to TLD -->
+                    <path d="M380 60V85H190V110
+                 M380 85H570V110" />
+
+                    <!-- TLD to second-level domains -->
+                    <path d="M190 160V185
+                 M570 160V185" />
+
+                    <!-- Second-level domain to hostnames -->
+                    <path d="M570 235V255H470V275
+                 M570 255H670V275" />
+                </g>
+
+                <g fill="none" stroke="currentColor" stroke-width="1.5">
+                    <rect x="315" y="20" width="130" height="40" rx="7" />
+
+                    <rect x="125" y="110" width="130" height="50" rx="7" />
+                    <rect x="505" y="110" width="130" height="50" rx="7" />
+
+                    <rect x="125" y="185" width="130" height="50" rx="7" />
+                    <rect x="505" y="185" width="130" height="50" rx="7" />
+
+                    <rect x="405" y="275" width="130" height="40" rx="7" />
+                    <rect x="605" y="275" width="130" height="40" rx="7" />
+                </g>
+
+                <g fill="currentColor" text-anchor="middle" dominant-baseline="middle" font-size="14">
+
+                    <text x="380" y="40">Root (.)</text>
+
+                    <text x="190" y="135">.com</text>
+                    <text x="570" y="135">.in</text>
+
+                    <text x="190" y="210">example</text>
+                    <text x="570" y="210">university</text>
+
+                    <text x="470" y="295">www</text>
+                    <text x="670" y="295">mail</text>
+                </g>
+
+                <text x="380" y="326" fill="currentColor" text-anchor="middle" font-size="12">
+                    Simplified DNS hierarchy example
+                </text>
+            </svg></div>
+        <h3>DNS components</h3>
+        <div class="table-wrap">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Component</th>
+                        <th>Function</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Stub resolver</td>
+                        <td>Client-side component that sends a DNS query on behalf of an application.</td>
+                    </tr>
+                    <tr>
+                        <td>Recursive resolver</td>
+                        <td>Finds the requested DNS information on behalf of the client, using cache and queries to
+                            other DNS servers as needed.</td>
+                    </tr>
+                    <tr>
+                        <td>Root name server</td>
+                        <td>Directs the resolver toward the appropriate TLD name servers.</td>
+                    </tr>
+                    <tr>
+                        <td>TLD name server</td>
+                        <td>Directs the resolver toward authoritative servers for a domain under that TLD.</td>
+                    </tr>
+                    <tr>
+                        <td>Authoritative name server</td>
+                        <td>Provides DNS records for the domain zone for which it is authoritative.</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <h3>DNS name-resolution process</h3>
+        <ol>
+            <li>An application asks the local resolver to resolve a domain name.</li>
+            <li>The resolver checks its cache. If a valid cached answer exists, it can return it.</li>
+            <li>If required, the recursive resolver queries DNS hierarchy servers, beginning with a root server.</li>
+            <li>The root server refers the resolver to the relevant TLD name servers.</li>
+            <li>The TLD server refers the resolver to the domain's authoritative name server.</li>
+            <li>The authoritative server returns the requested record, such as an IPv4 or IPv6 address.</li>
+            <li>The resolver returns the answer to the client and may cache it for the record's Time to Live (TTL).</li>
+        </ol>
+        <div class="diagram"><svg viewBox="0 0 760 430" role="img"
+    aria-label="Simplified DNS resolution process from browser to authoritative DNS server">
+
+    <defs>
+        <marker id="dnsArrowCompact" markerWidth="7" markerHeight="7"
+            refX="6" refY="3.5" orient="auto">
+            <path d="M0 0L7 3.5L0 7Z" fill="currentColor" />
+        </marker>
+    </defs>
+
+    <!-- Connections -->
+    <g fill="none" stroke="currentColor" stroke-width="1.3" opacity=".65">
+
+        <!-- Client-side flow -->
+        <path d="M115 75V100 M115 160V185 M115 245V270"
+            marker-end="url(#dnsArrowCompact)" />
+
+        <!-- Resolver to DNS hierarchy -->
+        <path d="M225 310H365V65H480"
+            marker-end="url(#dnsArrowCompact)" />
+
+        <!-- DNS referrals -->
+        <path d="M550 95V130 M550 190V225"
+            marker-end="url(#dnsArrowCompact)" />
+
+        <!-- DNS answer -->
+        <path d="M480 260H400V335H225"
+            stroke-dasharray="5 4"
+            marker-end="url(#dnsArrowCompact)" />
+
+    </g>
+
+    <!-- Left: Client -->
+    <g fill="currentColor">
+
+        <rect x="15" y="15" width="210" height="60" rx="9" opacity=".09"/>
+        <rect x="15" y="100" width="210" height="60" rx="9" opacity=".09"/>
+        <rect x="15" y="185" width="210" height="60" rx="9" opacity=".09"/>
+
+        <!-- Resolver highlight -->
+        <rect x="15" y="270" width="210" height="85" rx="9"
+            fill="none" stroke="#f5a34b" stroke-width="1.7"
+            stroke-dasharray="5 3"/>
+
+        <g text-anchor="middle">
+            <text x="120" y="40" font-size="15" font-weight="bold">BROWSER</text>
+            <text x="120" y="58" font-size="11">google.com</text>
+
+            <text x="120" y="125" font-size="15" font-weight="bold">OPERATING SYSTEM</text>
+            <text x="120" y="143" font-size="11">Checks DNS cache</text>
+
+            <text x="120" y="210" font-size="15" font-weight="bold">WI-FI ROUTER</text>
+            <text x="120" y="228" font-size="11">Forwards DNS query</text>
+
+            <text x="120" y="298" font-size="15" fill="#f5a34b"
+                font-weight="bold">DNS RESOLVER</text>
+            <text x="120" y="317" font-size="11">203.0.113.53</text>
+            <text x="120" y="337" font-size="10">ISP / Public DNS</text>
+        </g>
+    </g>
+
+    <!-- Right: DNS hierarchy -->
+    <g fill="currentColor">
+
+        <rect x="480" y="35" width="260" height="60" rx="9" opacity=".09"/>
+        <rect x="480" y="130" width="260" height="60" rx="9" opacity=".09"/>
+        <rect x="480" y="225" width="260" height="70" rx="9" opacity=".09"/>
+
+        <g text-anchor="middle">
+            <text x="610" y="60" font-size="15" font-weight="bold"
+                fill="#f5a34b">ROOT SERVER</text>
+            <text x="610" y="79" font-size="11">Refers to .com servers</text>
+
+            <text x="610" y="155" font-size="15" font-weight="bold"
+                fill="#f5a34b">.COM TLD SERVER</text>
+            <text x="610" y="174" font-size="11">Provides nameserver details</text>
+
+            <text x="610" y="250" font-size="15" font-weight="bold"
+                fill="#55d99a">AUTHORITATIVE DNS</text>
+            <text x="610" y="270" font-size="11">ns1.google.com</text>
+            <text x="610" y="285" font-size="10">Returns IP address</text>
+        </g>
+    </g>
+
+    <!-- Result -->
+    <g>
+        <rect x="270" y="375" width="220" height="43" rx="8"
+            fill="#55d99a" opacity=".15"
+            stroke="#55d99a" stroke-width="1.2"/>
+
+        <text x="380" y="393" text-anchor="middle"
+            fill="currentColor" font-size="12">DNS RESPONSE</text>
+
+        <text x="380" y="409" text-anchor="middle"
+            fill="#55d99a" font-size="13" font-weight="bold">
+            142.250.183.238
+        </text>
+    </g>
+
+    <!-- Small annotations -->
+    <g fill="currentColor" font-size="10" opacity=".8">
+        <text x="130" y="91">Cache lookup</text>
+        <text x="240" y="298">Query</text>
+        <text x="565" y="117">Referral</text>
+        <text x="565" y="212">Referral</text>
+        <text x="330" y="327">DNS answer</text>
+    </g>
+
+</svg></div>
+        <h3>Common DNS resource-record types</h3>
+        <div class="table-wrap">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Record</th>
+                        <th>Purpose</th>
+                        <th>Example / description</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>A</strong></td>
+                        <td>Maps a host name to an IPv4 address.</td>
+                        <td><code>www.example.com → 192.0.2.10</code></td>
+                    </tr>
+                    <tr>
+                        <td><strong>AAAA</strong></td>
+                        <td>Maps a host name to an IPv6 address.</td>
+                        <td>Stores a 128-bit IPv6 address.</td>
+                    </tr>
+                    <tr>
+                        <td><strong>CNAME</strong></td>
+                        <td>Creates an alias from one name to another canonical name.</td>
+                        <td><code>www → webserver.example.com</code></td>
+                    </tr>
+                    <tr>
+                        <td><strong>MX</strong></td>
+                        <td>Identifies mail-exchange servers for a domain.</td>
+                        <td>Used to route email for a domain.</td>
+                    </tr>
+                    <tr>
+                        <td><strong>NS</strong></td>
+                        <td>Identifies authoritative name servers for a zone.</td>
+                        <td>Lists the zone's name servers.</td>
+                    </tr>
+                    <tr>
+                        <td><strong>PTR</strong></td>
+                        <td>Used for reverse DNS lookup from an address to a name.</td>
+                        <td>Commonly used in reverse-mapping zones.</td>
+                    </tr>
+                    <tr>
+                        <td><strong>TXT</strong></td>
+                        <td>Stores text associated with a domain.</td>
+                        <td>Often used for domain verification and email policy data.</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <h3>DNS transport and port</h3>
+        <ul>
+            <li>DNS commonly uses <strong>UDP port 53</strong> for ordinary queries and responses.</li>
+            <li>DNS also uses <strong>TCP port 53</strong>, including for zone transfers and cases where TCP is
+                required.</li>
+            <li>DNS caching reduces lookup delay and traffic. Cached records are normally retained according to their
+                TTL.</li>
+        </ul>
+        <h3>Advantages of DNS</h3>
+        <ul>
+            <li>Users can access network services using memorable names.</li>
+            <li>Its hierarchical and distributed structure supports large-scale naming.</li>
+            <li>Caching improves response time and reduces repeated queries.</li>
+            <li>Multiple record types support different services, not only address mapping.</li>
+        </ul>
+
+        <h2 id="selflearning">10. Self-Learning Topics</h2>
+        <p>The following topics are explicitly listed as self-learning topics in the official syllabus. They are
+            included here as supporting study notes, not as replacements for the main Module V syllabus.</p>
+        <h3>A. Secure File Transfer Protocol (SFTP)</h3>
+        <div class="note"><strong>SFTP</strong> is the SSH File Transfer Protocol. It provides file access, transfer and
+            management operations over an SSH connection. It is not simply FTP with encryption; it is a separate
+            protocol with its own message operations.</div>
+        <ul>
+            <li>Uses SSH for a protected communication channel.</li>
+            <li>Commonly uses TCP port 22 through the SSH service.</li>
+            <li>Supports file upload, download, directory listing and file operations, depending on server permissions.
+            </li>
+            <li>Protects transferred data and authentication exchanges through the SSH connection.</li>
+        </ul>
+        <h3>B. Secure Copy Protocol (SCP)</h3>
+        <div class="note"><strong>SCP</strong> is a command-line method historically used to copy files between hosts
+            over SSH. It uses SSH to protect the connection and authenticate the remote endpoint.</div>
+        <ul>
+            <li>Used to copy files to or from a remote system.</li>
+            <li>Typically uses the SSH service on TCP port 22.</li>
+            <li>Provides encrypted transfer through SSH.</li>
+            <li>Modern implementations may use SFTP internally for compatibility; exact behaviour depends on the SSH
+                implementation.</li>
+        </ul>
+        <h3>C. Simple Mail Transfer Protocol (SMTP)</h3>
+        <div class="note"><strong>SMTP</strong> is an application-layer protocol used to send and relay email between
+            mail clients and mail servers, and between mail servers.</div>
+        <ul>
+            <li>Follows a client-server command and response model.</li>
+            <li>Used for outgoing email submission and server-to-server mail transfer.</li>
+            <li>Common ports: TCP 25 for server-to-server transfer; TCP 587 for message submission; TCP 465 is commonly
+                used for message submission with implicit TLS.</li>
+            <li>SMTP sends email; it is not the usual protocol used by a recipient to retrieve stored mail.</li>
+        </ul>
+        <h3>D. Post Office Protocol version 3 (POP3)</h3>
+        <div class="note"><strong>POP3</strong> is an application-layer protocol that allows an email client to retrieve
+            messages from a mail server. Its traditional model downloads messages to the client, with server-copy
+            behaviour depending on client settings.</div>
+        <ul>
+            <li>Designed primarily for retrieving email from a mailbox.</li>
+            <li>Commonly uses TCP port 110; POP3 over implicit TLS commonly uses TCP port 995.</li>
+            <li>Offers a relatively simple mail-retrieval model.</li>
+            <li>Traditional POP3 is less suited than IMAP to synchronizing folders and message state across multiple
+                devices.</li>
+        </ul>
+        <h3>E. Internet Message Access Protocol (IMAP)</h3>
+        <div class="note"><strong>IMAP</strong> is an application-layer protocol that allows an email client to access
+            and manage messages stored on a mail server.</div>
+        <ul>
+            <li>Messages are generally maintained on the server and synchronized with clients.</li>
+            <li>Supports server-side folders and message flags.</li>
+            <li>Allows users to access the same mailbox from multiple devices with synchronized state.</li>
+            <li>Commonly uses TCP port 143; IMAP over implicit TLS commonly uses TCP port 993.</li>
+        </ul>
+        <h3>SMTP vs POP3 vs IMAP</h3>
+        <div class="table-wrap">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Protocol</th>
+                        <th>Main purpose</th>
+                        <th>Common ports</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>SMTP</td>
+                        <td>Sending and relaying outgoing email.</td>
+                        <td>25, 587, 465 (submission/TLS usage varies)</td>
+                    </tr>
+                    <tr>
+                        <td>POP3</td>
+                        <td>Retrieving email from a server, commonly by downloading messages.</td>
+                        <td>110, 995 (TLS)</td>
+                    </tr>
+                    <tr>
+                        <td>IMAP</td>
+                        <td>Accessing and managing server-stored email with synchronization.</td>
+                        <td>143, 993 (TLS)</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <h2 id="comparison">11. Protocol Comparison and Quick Revision</h2>
+        <div class="table-wrap">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Protocol / service</th>
+                        <th>Main purpose</th>
+                        <th>Common port(s)</th>
+                        <th>Transport / security note</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>HTTP</td>
+                        <td>Web resource transfer</td>
+                        <td>TCP 80 (HTTP); TCP 443 (HTTPS)</td>
+                        <td>HTTPS protects HTTP using TLS.</td>
+                    </tr>
+                    <tr>
+                        <td>FTP</td>
+                        <td>File transfer</td>
+                        <td>TCP 21 control; data connection varies</td>
+                        <td>Traditional FTP is not encrypted.</td>
+                    </tr>
+                    <tr>
+                        <td>TELNET</td>
+                        <td>Remote terminal access</td>
+                        <td>TCP 23</td>
+                        <td>Traditional TELNET sends data without encryption.</td>
+                    </tr>
+                    <tr>
+                        <td>SSH</td>
+                        <td>Secure remote login and command execution</td>
+                        <td>TCP 22</td>
+                        <td>Encrypted and authenticated session.</td>
+                    </tr>
+                    <tr>
+                        <td>DNS</td>
+                        <td>Name resolution and other domain records</td>
+                        <td>UDP/TCP 53</td>
+                        <td>UDP common for queries; TCP also used.</td>
+                    </tr>
+                    <tr>
+                        <td>SFTP</td>
+                        <td>Secure file access and transfer over SSH</td>
+                        <td>Typically TCP 22</td>
+                        <td>Separate protocol from FTP.</td>
+                    </tr>
+                    <tr>
+                        <td>SCP</td>
+                        <td>Secure file copying over SSH</td>
+                        <td>Typically TCP 22</td>
+                        <td>Uses SSH protection.</td>
+                    </tr>
+                    <tr>
+                        <td>SMTP</td>
+                        <td>Email sending and relay</td>
+                        <td>TCP 25, 587, 465</td>
+                        <td>Outgoing mail protocol.</td>
+                    </tr>
+                    <tr>
+                        <td>POP3</td>
+                        <td>Email retrieval</td>
+                        <td>TCP 110, 995</td>
+                        <td>Download-oriented retrieval model.</td>
+                    </tr>
+                    <tr>
+                        <td>IMAP</td>
+                        <td>Server-based email access and synchronization</td>
+                        <td>TCP 143, 993</td>
+                        <td>Supports folders and synchronized message state.</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <h3>Key points to remember</h3>
+        <ul>
+            <li>Application-layer paradigms describe how networked applications are organized and interact.</li>
+            <li>In Client-Server, the client requests a service and the server provides it. In P2P, peers can act as
+                both clients and servers.</li>
+            <li>An API is a software interface; an application protocol defines network message exchange.</li>
+            <li>WWW uses URLs and web protocols such as HTTP/HTTPS.</li>
+            <li>HTTP follows a request-response model and is stateless at the protocol level.</li>
+            <li>FTP uses separate control and data connections in its traditional design.</li>
+            <li>TELNET is unencrypted; SSH provides secure remote access.</li>
+            <li>DNS is hierarchical and distributed; it resolves names and stores different resource-record types.</li>
+            <li>SMTP sends email; POP3 and IMAP retrieve/access email.</li>
+            <li>SFTP and SCP use SSH and should not be confused with traditional FTP.</li>
+        </ul>
+
+        <h2 id="qb">12. Question-Bank Status and References</h2>
+        <div class="callout"><strong>Question-bank check:</strong> The uploaded file <em>QUESTION BANK new.pdf</em>
+            contains questions Q1–Q23 covering the material mapped to Modules I–III (network fundamentals, Data Link
+            Layer and Network Layer/routing). It does not contain dedicated Module V questions on HTTP, FTP, TELNET, SSH
+            or DNS. No question-bank questions have therefore been invented or labelled as official QB questions for
+            this module.</div>
+        <h3>Module V exam-practice prompts (syllabus-derived, not official QB entries)</h3>
+        <ol class="question-list">
+            <li>Explain the Client-Server paradigm with its working, characteristics, advantages and limitations.</li>
+            <li>Explain the Peer-to-Peer paradigm and compare it with Client-Server architecture.</li>
+            <li>Define API and explain its role in network applications. Differentiate an API from an application
+                protocol.</li>
+            <li>Explain the World Wide Web and describe the steps involved when a browser accesses a web page.</li>
+            <li>Explain HTTP request and response messages, common methods and status-code classes.</li>
+            <li>Explain FTP architecture, its control and data connections, and active and passive modes.</li>
+            <li>Explain TELNET and its working. Why is SSH preferred for secure remote login?</li>
+            <li>Explain SSH characteristics and its high-level connection establishment process.</li>
+            <li>Explain DNS hierarchy, components and name-resolution process with a diagram.</li>
+            <li>Explain common DNS resource records: A, AAAA, CNAME, MX, NS, PTR and TXT.</li>
+            <li>Differentiate SMTP, POP3 and IMAP. Explain SFTP and SCP as self-learning topics.</li>
+        </ol>
+        <h3>References</h3>
+        <div class="reference"><strong>Primary syllabus:</strong> University of Mumbai, Computer Network (Course Code
+            2115112), Module V — Application Layer and Network Services, plus the listed self-learning topics.</div>
+        <div class="reference"><strong>Textbook:</strong> Andrew S. Tanenbaum, <em>Computer Networks</em>, 5th Edition,
+            Pearson India, 2012. Application-layer coverage.</div>
+        <div class="reference"><strong>Textbook:</strong> Behrouz A. Forouzan, <em>Data Communications and
+                Networking</em>, 5th Edition, Tata McGraw-Hill. Application-layer protocols and network services.</div>
+        <div class="reference"><strong>Reference:</strong> James F. Kurose and Keith W. Ross, <em>Computer Networking: A
+                Top-Down Approach</em>, 7th Edition. Application-layer principles and protocols.</div>
+        <div class="video"><strong>NetworkChuck playlist:</strong> The provided 24-video playlist includes <em>“how the
+                OSI model works on YouTube (Application and Transport Layers) // FREE CCNA // EP 5”</em>. This is useful
+            as a conceptual overview of the application layer and its interaction with the transport layer. The playlist
+            does not provide dedicated coverage of every Module V protocol (HTTP, FTP, TELNET, SSH and DNS), so use the
+            written notes and textbooks for those detailed exam answers.</div>
+        <p class="muted">Academic boundary: the official syllabus determines the module scope. Explanations and protocol
+            details above are study notes organized around that scope; the practice prompts are syllabus-derived and are
+            not represented as questions from the uploaded question bank.</p>
+    </section>
+</body>
+
+</html>
